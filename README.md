@@ -1,14 +1,16 @@
 # Automated Bus Alley Management System using RFID
----
 
-> Components:
+
+> COMPONENTS:
   * ESP32 WROOM 32 (NODE MCU)
-  * MFRC522 RFID READ
+  * MFRC522 RFID READER
   * MIFARE 1KB CLASSIC RFID CARD
   * SERVO MOTOR
   * 16X2 LCD SCREEN
   * THERMAL PRINTER
-  
+
+---
+
 > CONFIGURATION:
 
 | PIN NO.      | LABEL       |
