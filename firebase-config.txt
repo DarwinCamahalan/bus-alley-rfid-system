@@ -1,0 +1,2 @@
+REFERENCE = https://rfid-database-abd32-default-rtdb.asia-southeast1.firebasedatabase.app/
+API_KEY = AIzaSyAqRt-Q3UQTtvnhi6wvTznXSbHF36sNWGo
