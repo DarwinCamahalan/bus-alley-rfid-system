@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Login</title>
+</head>
+
+<body>
+
+    <div>
+
+        <nav class="nav">
+            <h1>West Bound Terminal Management System <span>(Beta version 0.0.1)</span>
+        </nav>
+
+        <div class="container">
+            <div class="form-container">
+                <p>Login</p>
+
+                <form action="">
+                    <p class="msg"></p>
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+
+                    <div class="password-container">
+                        <label for="password">Password</label>
+                        <input type="password" id="password">
+                        <div class="reveal-pass" onclick="revealPass()">Show</div>
+                    </div>
+
+
+
+                    <input class="btn" type="button" value="Login" onclick="login()">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="./login.js"></script>
+</body>
+
+</html>

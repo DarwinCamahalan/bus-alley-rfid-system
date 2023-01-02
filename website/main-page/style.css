@@ -1,0 +1,184 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(226, 226, 226);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12;
+}
+
+
+.nav{
+    display: flex;
+    align-items: center;
+    background-color: #0A0908;
+    color: white;
+    width: 100%;
+    height: 10vh;
+    padding: 1em;
+    position: relative;
+}
+
+#time{
+    position: absolute;
+    right: 1%;
+}
+.nav span{
+    font-weight: 100;
+    font-size: 0.8em;
+}
+
+.nav .menu:hover{
+    cursor: pointer;
+}
+
+
+.body{
+    display: flex;
+    width: 100%;
+    height: 90vh;
+}
+
+.body .sidebar{
+    background-color: #121420;
+    flex: 1;
+}
+
+.sidebar li, ul{
+    list-style: none;
+    color: white;
+}
+
+.sidebar ul li{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px white solid;
+    padding: 1em;
+}
+
+.sidebar ul li i, .nav i{
+    font-size: 1.5em !important;
+    margin-right: 1em;
+}
+
+.sidebar li:hover{
+    background-color: #0A0908;
+    cursor: pointer;
+}
+
+.body .main-content{
+    width: 100%;
+    flex: 4;
+}
+
+.exit{
+    padding: 0.2em 0.5em 0.5em 0.5em;
+    position: absolute;
+    top: 0;
+    right: 0.5%;
+}
+
+.exit i{
+    font-size: 2em ;
+   
+}
+.exit i:hover{
+   cursor: pointer;
+   color: rgb(255, 0, 0);
+}
+
+.modal-container{
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+}
+.modal-container .modal-background{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.573);
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+}
+
+
+.modal-container .modal-background .modal{
+    background-color: white;
+    width: 35em;
+    height: 30em;
+    padding: 2.5em;
+    position: relative;
+}
+
+.msg{
+    display: none;
+}
+
+.errorMsg{
+    background-color: rgb(253, 197, 197);
+    color: red;
+    padding: 0.5em;
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+.modal label{
+    display: block;
+}
+
+.modal form{
+    margin-top: 1em;
+}
+
+@keyframes notify {
+    from {background-color: rgb(150, 249, 153);}
+    to {background-color: rgb(255, 255, 255);}
+  }
+
+#card-id{
+    background-color: rgb(251, 181, 181);
+    animation-name: notify;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    color: green;
+    font-weight: normal;
+}
+
+.modal input, select, option{
+    font-size: 0.9em;
+    padding: 0.5em;
+    border: 1px solid rgb(23, 23, 23);
+    border-radius: 0;
+    margin: 0.5em 0;
+    width: 100%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.modal .btn{
+    background-color: rgb(4, 139, 4);
+    color: white;
+    border: 0;
+    font-size: 0.9em !important;
+   position: absolute;
+   width: auto;
+   padding: 1.2em 2.5em;
+   bottom: 3%;
+   right: 7%;
+}
+
+.modal .btn:hover{
+    cursor: pointer;
+    background-color: #0A0908;
+}
+
+
+
+
