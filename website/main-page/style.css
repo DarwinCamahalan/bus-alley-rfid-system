@@ -115,6 +115,7 @@ body{
     height: 30em;
     padding: 2.5em;
     position: relative;
+    box-shadow: 7px 6px 17px -10px rgba(0,0,0,0.27);
 }
 
 .msg{
@@ -124,9 +125,10 @@ body{
 .errorMsg{
     background-color: rgb(253, 197, 197);
     color: red;
-    padding: 0.5em;
+    padding: 0.7em 0.5em;
     font-size: 1em;
     margin-top: 1em;
+    border-left: 0.3em red solid;
 }
 
 .modal label{
@@ -138,8 +140,8 @@ body{
 }
 
 @keyframes notify {
-    from {background-color: rgb(150, 249, 153);}
-    to {background-color: rgb(255, 255, 255);}
+    from {background-color: rgb(150, 249, 153);  border-left: 0.3em green solid;}
+    to {background-color: rgb(255, 255, 255); border-left: 0.3em green solid;}
   }
 
 #card-id{
@@ -150,6 +152,7 @@ body{
     color: green;
     font-weight: normal;
 }
+
 
 .modal input, select, option{
     font-size: 0.9em;
@@ -177,6 +180,21 @@ body{
 .modal .btn:hover{
     cursor: pointer;
     background-color: #0A0908;
+}
+
+.successMsg{
+    display: none;
+    position: absolute;
+    top: 8%;
+    left: 42%;
+    background-color: white;
+    width: auto;
+    padding: 1.5em 1em;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: green;
+    box-shadow: 7px 6px 17px -10px rgba(0,0,0,0.27);
+    border-left: 0.3em green solid;
 }
 
 

@@ -96,7 +96,7 @@ void loop(){
   
 
  if (Firebase.ready() && signupOK){
-    Firebase.RTDB.setString(&fbdo, "card/uid", uidString);
+    Firebase.RTDB.setString(&fbdo, "card/id", uidString);
   }
 
 }

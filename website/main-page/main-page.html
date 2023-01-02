@@ -58,18 +58,24 @@
                             <label for="card-id">Fee:</label>
                             <input type="number" name="fee" id="fee" value="50" disabled>
 
-                            <input type="button" value="Create" class="btn" onclick="addCard()">
+                            <input type="button" value="Add Card" class="btn" onclick="addCard()">
+
                         </form>
                     </div>
 
                 </div>
             </div>
 
-
+            <div class="successMsg">
+                <p><i class="fa-regular fa-circle-check"></i> Card Added Successfully</p>
+            </div>
         </div>
     </div>
 
+
+
     <script src="./mainPage.js"></script>
+    <script src="firebase.js" type="module"></script>
 </body>
 
 </html>

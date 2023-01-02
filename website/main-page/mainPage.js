@@ -3,17 +3,15 @@ const menuIcon = document.querySelector('.menu')
 const modal = document.querySelector('.modal-container')
 
 const timeDisplay = document.getElementById('time')
+const errorMsg = document.querySelector('.msg')
+const success = document.querySelector('.successMsg')
 
 const cardID = document.querySelector('#card-id')
 const companyName = document.querySelector('#company')
-
 const plateNumber = document.querySelector('#plate-number')
 
-const errorMsg = document.querySelector('.msg')
-
 const addCard = () => {
-  if (cardID.value === '') {
-    // CHANGE ME
+  if (cardID.value === 'SCAN CARD') {
     errorMsg.innerHTML = 'Place RFID Card to Scanner'
     errorMsg.className = 'errorMsg'
   } else if (companyName.value === '-' || plateNumber.value === '') {
@@ -24,8 +22,16 @@ const addCard = () => {
     errorMsg.className = 'msg'
     companyName.value = '-'
     plateNumber.value = ''
+    success.style.display = 'block'
     hideModal()
+    setTimeout(() => {
+      success.style.display = 'none'
+    }, 3000)
   }
+  setTimeout(() => {
+    errorMsg.innerHTML = ''
+    errorMsg.className = 'msg'
+  }, 3000)
 }
 
 const refreshTime = () => {
@@ -49,6 +55,8 @@ const toggle = () => {
 const displayModal = () => {
   if (modal.style.display === 'none') {
     modal.style.display = 'block'
+    cardID.value = 'SCAN CARD'
+    cardID.style = 'animation-name: notify;'
   } else {
     modal.style.display = 'none'
   }

@@ -39,6 +39,7 @@ body{
     height: 25em;
     background-color: rgb(255, 255, 255);
     padding: 3em;
+    box-shadow: 7px 6px 17px -10px rgba(0,0,0,0.27);
 }
 
 .form-container p{
@@ -51,6 +52,7 @@ body{
     font-size: 1em;
     margin-bottom: 1em;
     color: red;
+    border-left: 0.3em red solid;
 }
 
 .form-container label{
