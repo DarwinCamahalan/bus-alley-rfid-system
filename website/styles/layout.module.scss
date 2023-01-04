@@ -1,0 +1,12 @@
+.layoutBody{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    .content{
+        width: 100%;
+        .tableBody{
+            padding: 2em;
+            background-color: #03002704;
+        }
+    }
+}

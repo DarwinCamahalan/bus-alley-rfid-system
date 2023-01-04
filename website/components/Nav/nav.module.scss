@@ -1,0 +1,46 @@
+@import '../../styles/variables.scss';
+
+.navBg{
+    width: 100%;
+    height: 8vh;
+    background-color: white;
+    box-shadow: $shadow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em;
+
+    .logo{
+        display: flex;
+        align-items: center;
+        font-size: 2em;
+        .logoName{
+            margin-left: 0.17em;
+            font-size: 0.62em !important;
+            font-weight: 500;
+            font-weight: bolder;
+            span{
+                font-weight: normal;
+                font-size: 0.85em;
+                color: rgb(86, 86, 86);
+            }
+        }
+    }
+
+    .status{
+        display: flex;
+        align-items: center;
+       
+        .dateTime{
+            font-size: 1em;
+            margin-right: 1.2em;
+        }
+
+        a{
+            font-size: 1.4em;
+            color: black;
+            display: flex;
+            align-items: center;
+        }
+    }
+}

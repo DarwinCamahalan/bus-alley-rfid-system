@@ -1,0 +1,11 @@
+.errorBg{
+    width: 100%;
+    background-color: rgb(255, 213, 213);
+    color: rgb(255, 0, 0);
+    padding: 0.6em 0.7em;
+    border-left: 2px solid red;
+    span{
+        font-size: 0.9em;
+        font-weight: 400;
+    }
+}
