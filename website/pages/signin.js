@@ -2,7 +2,7 @@ import { MdAdminPanelSettings } from 'react-icons/md'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx'
 import { useState } from 'react'
 import { router } from 'next/router'
-import styles from '../styles/login.module.scss'
+import styles from '../styles/signin.module.scss'
 import Link from 'next/link'
 import Head from 'next/head'
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage'
@@ -19,7 +19,6 @@ const Signin = () => {
     if (username !== 'admin' || password !== '123') {
       setError(!error)
     } else {
-      setError(!error)
       router.push({
         pathname: '/',
       })

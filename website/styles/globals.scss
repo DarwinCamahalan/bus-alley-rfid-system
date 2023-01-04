@@ -5,12 +5,13 @@
   box-sizing: border-box;
   text-decoration: none;
   list-style-type: none;
+ 
 }
 h1, p, li{
   letter-spacing: 1px;
 }
 
 body{
- background-color: white;
+  background-image: url( '../public/images/bg-main.svg');
 }
 
