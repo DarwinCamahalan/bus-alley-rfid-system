@@ -8,7 +8,8 @@ const MainPage = () => {
   return (
     <>
       <Head>
-        <title>Management System</title>
+        <title>RFID Management System</title>
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
       <div className={styles.layoutBody}>
         <Sidebar />

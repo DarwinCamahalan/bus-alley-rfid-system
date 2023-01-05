@@ -36,6 +36,7 @@ const Signin = () => {
     <>
       <Head>
         <title>Sign in</title>
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
       <div className={styles.body}>
         <div className={styles.signinBox}>

@@ -11,6 +11,7 @@ import {
 import { IoInformationOutline } from 'react-icons/io5'
 import { RiEdit2Line } from 'react-icons/ri'
 import { useState } from 'react'
+import Form from '../Form/Form'
 
 const Sidebar = () => {
   const [menu, setMenu] = useState(false)
@@ -74,12 +75,7 @@ const Sidebar = () => {
             showModal(false)
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-          voluptate, a dolorum obcaecati nesciunt tempora aliquid alias nam,
-          culpa neque vel laborum aperiam. Itaque commodi doloribus illo
-          perferendis possimus accusamus velit sed totam iusto eos, dignissimos
-          nesciunt, quaerat asperiores esse obcaecati facere odio molestias
-          dolorum quis modi corrupti eligendi soluta?
+          <Form title="Add Card" />
         </Modal>
       </div>
     </>
