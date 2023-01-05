@@ -10,12 +10,12 @@
     flex-direction: column;
 
     .menuIcon{
-        margin-bottom: 1.7em;
+        margin-bottom: 1.2em;
         
         .icons{
-            font-size: 2em;
+            font-size: 1.5em;
            margin-left: 0.5em;
-           margin-top: 0.45em;
+           margin-top: 0.8em;
            &:hover{
             cursor: pointer;
            
@@ -27,7 +27,7 @@
         li{
             padding:  0 2em;
             border-bottom: 1px solid #3d3d4a;
-            font-size: 1em;
+            font-size: 0.85em;
             font-weight: 600;
             padding: 1.3em 0;
             display: flex;
@@ -40,7 +40,16 @@
                 font-size: 1.8em !important;
                 margin: 0 0.5em;
             }
+
+            
+            
         }
-        
+        .choices{
+            padding-left: 2.3em;
+            border-bottom: 1px solid #3d3d4a;
+            ul, li{
+                border: 0;
+            }
+        }
     }
 }

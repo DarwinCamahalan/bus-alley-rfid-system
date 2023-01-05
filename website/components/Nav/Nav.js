@@ -2,7 +2,6 @@ import styles from './nav.module.scss'
 import Link from 'next/link'
 import { MdAdminPanelSettings } from 'react-icons/md'
 import { IoMdPower } from 'react-icons/io'
-import DateTime from '../DateTime/DateTime'
 
 const Nav = () => {
   return (
@@ -14,9 +13,7 @@ const Nav = () => {
         </div>
       </div>
       <div className={styles.status}>
-        <div className={styles.dateTime}>
-          <DateTime />
-        </div>
+        <div className={styles.dateTime}>TIME</div>
         <Link href={'/signin'}>
           <IoMdPower />
         </Link>

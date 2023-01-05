@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.modalBg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.725);
+    .modal{
+        position: relative;
+        background-color: white;
+        box-shadow: $shadow;
+        width: 30em;
+        height: auto;
+        padding: 1.8em;
+        .exit{
+            position: absolute;
+            right: 1%;
+            top: 2.5%;
+            font-weight: bolder !important;
+            font-size: 2em;
+            &:hover{
+                cursor: pointer;
+                background-color: red;
+                color: white;
+            }
+        }
+    }
+}
