@@ -72,7 +72,12 @@ const Sidebar = () => {
             showModal(false)
           }}
         >
-          <Form title="Add Card" />
+          <Form
+            title="Add Card"
+            closeModal={() => {
+              showModal(false)
+            }}
+          />
         </Modal>
       </div>
     </>
