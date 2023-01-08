@@ -52,6 +52,8 @@
         width: auto;
      
         .btn{
+            text-transform: initial;
+            width: 6.5em !important;
             border: 0;
             background-color: $blue;
             color: white;
