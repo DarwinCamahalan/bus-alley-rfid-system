@@ -3,12 +3,9 @@ import Modal from '../Modal/Modal'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
-import {
-  AiOutlineBorderlessTable,
-  AiOutlinePrinter,
-  AiOutlineDelete,
-} from 'react-icons/ai'
+import { AiOutlinePrinter, AiOutlineDelete } from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
+import { BiListUl } from 'react-icons/bi'
 import { RiEdit2Line } from 'react-icons/ri'
 import { useState } from 'react'
 import Form from '../Form/Form'
@@ -53,7 +50,7 @@ const Sidebar = () => {
               View Information
             </li>
             <li>
-              <AiOutlineBorderlessTable className={styles.icons} />
+              <BiListUl className={styles.icons} />
               Recorded Logs
             </li>
             <li>

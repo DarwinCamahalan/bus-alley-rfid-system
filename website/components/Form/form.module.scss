@@ -1,6 +1,70 @@
+@import '../../styles/variables.scss';
+
 .formBox{
     width: 100%;
+    h1{
+        margin-bottom: 0.8em;
+        font-size: 1.8em;
+    }
+    label{
+        display: block;
+    }
     input{
+            text-transform: uppercase;
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid black;
+            outline: none;
+            padding: 0.6em 0;
+            margin: 1em 0;
+            font-size: 0.85em;
+            font-weight: bold;
+            &::placeholder{
+                font-size: 1.1em;
+                font-weight: 400;
+            }
+            &:focus{
+                background-color: #E8F0FE;
+                border-bottom: 1px solid #115de0;
+                &::placeholder{
+                    color: black;
+                }
+            }
+    }
+
+    select{
+        text-transform: uppercase;
+        font-weight: bold;
+        width: 60%;
+        font-size: 0.85em;
+        margin: 1em 0;
+        padding: 0.7em;
+        background-color: white;
+        option{
+            font-weight: bold;
+        }
+    }
+
+    .btnContainer{
         width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        width: auto;
+     
+        .btn{
+            border: 0;
+            background-color: $blue;
+            color: white;
+            width: auto;
+            padding: 0.7em 2.2em;
+            font-size: 0.93em;
+            font-weight: 500;
+            margin: 0;
+            margin-top: 1em;
+            &:hover{
+                cursor: pointer;
+                background-color: $blue-blacker;
+            }
+        }
     }
 }
