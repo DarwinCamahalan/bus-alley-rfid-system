@@ -16,6 +16,7 @@ const AddedCards = () => {
       }
     })
   }, [])
+  let i = 0
   return (
     <div className={styles.tableBg}>
       <table>
@@ -28,18 +29,20 @@ const AddedCards = () => {
             <th>Date Created</th>
             <th>Time Created</th>
           </tr>
-          {cardsData.map((cardData, index) => (
-            <tr className={styles.data} key={index}>
-              <>
-                <td>{index + 1}</td>
-                <td>{cardData.cardID}</td>
-                <td>{cardData.busCompany}</td>
-                <td>{cardData.plateNumber}</td>
-                <td>{cardData.date}</td>
-                <td>{cardData.time}</td>
-              </>
-            </tr>
-          ))}
+          {cardsData
+            .sort((a, b) => a.id - b.id)
+            .map((cardData) => (
+              <tr className={styles.data} key={cardData.id}>
+                <>
+                  <td>{cardData.id + 1}</td>
+                  <td>{cardData.cardID}</td>
+                  <td>{cardData.busCompany}</td>
+                  <td>{cardData.plateNumber}</td>
+                  <td>{cardData.date}</td>
+                  <td>{cardData.time}</td>
+                </>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

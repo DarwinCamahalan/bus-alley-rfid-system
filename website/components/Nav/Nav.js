@@ -1,15 +1,15 @@
 import styles from './nav.module.scss'
 import Link from 'next/link'
-import { MdAdminPanelSettings } from 'react-icons/md'
+import { BiShieldQuarter } from 'react-icons/bi'
 import { IoMdPower } from 'react-icons/io'
 
 const Nav = () => {
   return (
     <nav className={styles.navBg}>
       <div className={styles.logo}>
-        <MdAdminPanelSettings />{' '}
+        <BiShieldQuarter />{' '}
         <div className={styles.logoName}>
-          RFID Management System <span>(Beta version 0.2.8)</span>
+          RFID Management System <span>(Beta version 0.6.9)</span>
         </div>
       </div>
       <div className={styles.status}>

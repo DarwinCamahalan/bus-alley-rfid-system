@@ -1,4 +1,4 @@
-import { MdAdminPanelSettings } from 'react-icons/md'
+import { BiShieldQuarter } from 'react-icons/bi'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx'
 import { useState } from 'react'
 import { router } from 'next/router'
@@ -42,7 +42,7 @@ const Signin = () => {
         <div className={styles.signinBox}>
           <form onSubmit={submitHandler}>
             <div className={styles.logo}>
-              <MdAdminPanelSettings /> <span>RFID Management System</span>
+              <BiShieldQuarter /> <span>RFID Management System</span>
             </div>
             <p>Sign in</p>
             {error ? (
