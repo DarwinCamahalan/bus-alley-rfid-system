@@ -1,5 +1,8 @@
 @import '../../styles/variables.scss';
 
+.hide{
+    display: none !important;
+}
 .tableBg{
     width: 100%;
     height: 87.5vh;
@@ -29,6 +32,7 @@
         }
 
         tr{
+            position: relative;
             &:hover{
                 cursor: pointer;
                 background-color: #E8F0FE;
@@ -41,6 +45,7 @@
             td, th{
                 width: 100%;
                 text-align: center;
+               
             }
 
             td{
@@ -52,4 +57,62 @@
        }
     }
    
+}
+
+
+
+.deleteBtn{
+    width: 100%;
+    height: 2em;
+    position: absolute;
+    right: 0;
+}
+
+.promptBg{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    .prompt{
+        background-color: white;
+        box-shadow: $shadow;
+        padding: 1em;
+        font-weight: 600;
+        h1{
+            font-size: 1.15em;
+           margin-right: 0.6em;
+        }
+       h5{
+        font-size: 1em;
+        font-weight: 400;
+        margin: 1.3em 8em 0 1.5em;
+       }
+        .btnContainer{
+            display: flex;
+            justify-content: flex-end;
+            p{
+                font-weight: 600;
+                padding: 0.5em 1.5em;
+                margin-top: 1.5em;
+                cursor: pointer;
+                &:last-child:hover{
+                    background-color: $blue;
+                    color: white;
+                }
+
+                &:first-child:hover{
+                    background-color: red;
+                    margin-right: 0.3em;
+                    color: white;
+                   
+                }
+              
+            }
+        }
+    }
 }

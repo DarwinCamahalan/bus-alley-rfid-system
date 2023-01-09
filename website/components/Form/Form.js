@@ -48,12 +48,12 @@ const Form = ({ title, closeModal, success }) => {
   }, [])
   const sendData = () => {
     // CARD VALIDATION
-    Object.values(cardsData).map((cardData) => {
-      if (cardID === cardData.cardID) {
-        exist = true
-      }
-    })
-    let id = cardsData.length
+    // Object.values(cardsData).map((cardData) => {
+    //   if (cardID === cardData.cardID) {
+    //     exist = true
+    //   }
+    // })
+
     if (plateNumber === '' || busCompany === '-') {
       setError(!error)
       setErrorMsg('Enter Bus Company or Plate Number.')
@@ -65,9 +65,8 @@ const Form = ({ title, closeModal, success }) => {
       setErrorMsg('Card ID Already exist.')
     } else {
       const uuid = uid()
-
       set(ref(db, `/addedCards/${uuid}`), {
-        id,
+        uuid,
         cardID,
         plateNumber,
         busCompany,
