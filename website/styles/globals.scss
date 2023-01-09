@@ -13,6 +13,8 @@ h1, p, li{
 
 body{
   background-image: url( '../public/images/bg-main.svg');
-  
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 

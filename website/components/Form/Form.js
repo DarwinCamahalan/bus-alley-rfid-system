@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 const Form = ({ title, closeModal }) => {
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  const [cardID, setCardID] = useState('')
+  const [cardID, setCardID] = useState('SCAN CARD')
   const [plateNumber, setPlatenumber] = useState('')
   const [busCompany, setBusCompany] = useState('-')
   const date = new Date().toLocaleDateString() + ''
@@ -28,6 +28,7 @@ const Form = ({ title, closeModal }) => {
 
   useEffect(() => {
     onValue(ref(db, `card/id`), (snapshot) => {
+      setCardID('SCAN CARD')
       const ID = snapshot.val()
       if (ID !== null) {
         setCardID(ID)
@@ -84,7 +85,7 @@ const Form = ({ title, closeModal }) => {
         onChange={handleBusCompanyChange}
       >
         <option value="-">-</option>
-        <option value="Rural-RTMI">Rural - RTMI</option>
+        <option value="Rural">Rural</option>
         <option value="Superfive">Superfive</option>
       </select>
 

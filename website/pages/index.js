@@ -3,8 +3,9 @@ import Nav from '../components/Nav/Nav'
 import Sidebar from '../components/Sidebar/Sidebar'
 import AddedCards from '../components/AddedCards/AddedCards'
 import styles from '../styles/layout.module.scss'
-
+import { useState } from 'react'
 const MainPage = () => {
+  const [openSideBar, showSideBar] = useState(true)
   return (
     <>
       <Head>
@@ -12,7 +13,12 @@ const MainPage = () => {
         <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
       <div className={styles.layoutBody}>
-        <Sidebar />
+        <Sidebar
+          openSideBar={openSideBar}
+          closeSideBar={() => {
+            showSideBar(!openSideBar)
+          }}
+        />
         <div className={styles.content}>
           <Nav />
           <div className={styles.tableBody}>

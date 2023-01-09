@@ -7,17 +7,27 @@ import { AiOutlinePrinter, AiOutlineDelete } from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
 import { BiListUl } from 'react-icons/bi'
 import { RiEdit2Line } from 'react-icons/ri'
+import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { useState } from 'react'
 import Form from '../Form/Form'
 
-const Sidebar = () => {
+const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
+  if (!openSideBar)
+    return (
+      <div className={styles.showSideBar} onClick={() => closeSideBar()}>
+        <MdOutlineArrowForwardIos />
+      </div>
+    )
   return (
     <>
       <div className={styles.sideBarContainer}>
         <div className={styles.menuIcon}>
-          <GiHamburgerMenu className={styles.icons} />
+          <GiHamburgerMenu
+            className={styles.icons}
+            onClick={() => closeSideBar()}
+          />
         </div>
         <div className={styles.menuContainer}>
           <ul>
