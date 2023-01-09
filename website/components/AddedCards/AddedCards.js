@@ -25,13 +25,13 @@ const AddedCards = () => {
             <th>Card ID</th>
             <th>Company Name</th>
             <th>Plate Number</th>
-            <th>Date Added</th>
-            <th>Time Added</th>
+            <th>Date Created</th>
+            <th>Time Created</th>
           </tr>
-          {cardsData.map((cardData, key) => (
-            <tr className={styles.data} key={key}>
+          {cardsData.map((cardData, index) => (
+            <tr className={styles.data} key={index}>
               <>
-                <td>{key + 1}</td>
+                <td>{index + 1}</td>
                 <td>{cardData.cardID}</td>
                 <td>{cardData.busCompany}</td>
                 <td>{cardData.plateNumber}</td>

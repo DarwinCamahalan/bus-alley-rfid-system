@@ -9,7 +9,7 @@ const Nav = () => {
       <div className={styles.logo}>
         <MdAdminPanelSettings />{' '}
         <div className={styles.logoName}>
-          RFID Management System <span>(Beta version 0.0.1)</span>
+          RFID Management System <span>(Beta version 0.2.8)</span>
         </div>
       </div>
       <div className={styles.status}>

@@ -10,10 +10,12 @@ import { RiEdit2Line } from 'react-icons/ri'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { useState } from 'react'
 import Form from '../Form/Form'
+import SuccessMessage from '../SuccessMessage/SuccessMessage'
 
 const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
+  const [successMsg, setSuccessMsg] = useState(false)
   if (!openSideBar)
     return (
       <div className={styles.showSideBar} onClick={() => closeSideBar()}>
@@ -87,8 +89,22 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             closeModal={() => {
               showModal(false)
             }}
+            success={() => {
+              setSuccessMsg(true)
+              setTimeout(() => {
+                setSuccessMsg(false)
+              }, 2500)
+            }}
           />
         </Modal>
+      </div>
+
+      <div>
+        {successMsg ? (
+          <SuccessMessage>Card Added Successfully</SuccessMessage>
+        ) : (
+          <div> </div>
+        )}
       </div>
     </>
   )
