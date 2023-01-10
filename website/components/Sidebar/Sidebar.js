@@ -8,6 +8,8 @@ import { IoInformationOutline } from 'react-icons/io5'
 import { BiListUl } from 'react-icons/bi'
 import { RiEdit2Line } from 'react-icons/ri'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
+import { db } from '../firebaseConfig'
+import { set, ref } from 'firebase/database'
 import { useState } from 'react'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
@@ -16,12 +18,20 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const id = 'SCAN CARD'
   if (!openSideBar)
     return (
       <div className={styles.showSideBar} onClick={() => closeSideBar()}>
         <MdOutlineArrowForwardIos />
       </div>
     )
+
+  const sendData = () => {
+    set(ref(db, `/card`), {
+      id,
+    })
+  }
+
   return (
     <>
       <div className={styles.sideBarContainer}>
@@ -40,7 +50,12 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             {menu ? (
               <div className={styles.choices}>
                 <ul>
-                  <li onClick={() => showModal(!open)}>
+                  <li
+                    onClick={() => {
+                      sendData()
+                      showModal(!open)
+                    }}
+                  >
                     <IoMdAdd className={styles.icons} />
                     Add Card
                   </li>

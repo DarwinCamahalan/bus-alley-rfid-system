@@ -10,8 +10,6 @@ const AddedCards = () => {
   const [cardsData, setCardsData] = useState([])
   const [prompt, setPrompt] = useState(false)
 
-  const [choice, setChoice] = useState('')
-
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
       setCardsData([])
@@ -36,7 +34,7 @@ const AddedCards = () => {
       setDeleted(false)
     }, 2500)
   }
-
+  let i = 0
   return (
     <>
       <div className={styles.tableBg}>
@@ -50,26 +48,27 @@ const AddedCards = () => {
               <th>Date Created</th>
               <th>Time Created</th>
             </tr>
-            {/* SORT ME */}
-            {cardsData.map((cardData) => (
-              <>
-                {/* WARNING ON KEY */}
-                <tr className={styles.data}>
-                  <>
-                    <td></td>
-                    <td>{cardData.cardID}</td>
-                    <td>{cardData.busCompany}</td>
-                    <td>{cardData.plateNumber}</td>
-                    <td>{cardData.date}</td>
-                    <td>{cardData.time}</td>
-                  </>
-                  <td
-                    className={styles.deleteBtn}
-                    onClick={() => handleDelete(cardData)}
-                  ></td>
-                </tr>
-              </>
-            ))}
+            {cardsData
+              .sort((a, b) => a.id - b.id)
+              .map((cardData) => (
+                <>
+                  {/* WARNING ON KEY */}
+                  <tr className={styles.data} key={cardData.id}>
+                    <>
+                      <td> {(i = i + 1)}</td>
+                      <td>{cardData.cardID}</td>
+                      <td>{cardData.busCompany}</td>
+                      <td>{cardData.plateNumber}</td>
+                      <td>{cardData.date}</td>
+                      <td>{cardData.time}</td>
+                    </>
+                    <td
+                      className={styles.deleteBtn}
+                      onClick={() => handleDelete(cardData)}
+                    ></td>
+                  </tr>
+                </>
+              ))}
           </tbody>
         </table>
       </div>

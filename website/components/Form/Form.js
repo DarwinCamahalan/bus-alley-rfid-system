@@ -10,7 +10,7 @@ const Form = ({ title, closeModal, success }) => {
   const [cardsData, setCardsData] = useState([])
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  const [cardID, setCardID] = useState('')
+  const [cardID, setCardID] = useState('SCAN CARD')
   const [plateNumber, setPlatenumber] = useState('')
   const [busCompany, setBusCompany] = useState('-')
   const date = new Date().toLocaleDateString() + ''
@@ -65,7 +65,9 @@ const Form = ({ title, closeModal, success }) => {
       setErrorMsg('Card ID Already exist.')
     } else {
       const uuid = uid()
+      const id = cardsData.length
       set(ref(db, `/addedCards/${uuid}`), {
+        id,
         uuid,
         cardID,
         plateNumber,
