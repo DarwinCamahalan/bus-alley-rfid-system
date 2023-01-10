@@ -10,6 +10,7 @@
     background-color: white;
     overflow: auto;
     padding: 0 1em;
+    border-radius: 0.3em;
     &::-webkit-scrollbar {
         display: none;
       }
@@ -83,6 +84,7 @@
         box-shadow: $shadow;
         padding: 1em;
         font-weight: 600;
+        border-radius: 0.3em;
         h1{
             font-size: 1.15em;
            margin-right: 0.6em;

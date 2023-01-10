@@ -18,7 +18,7 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
-  const id = 'SCAN CARD'
+  const id = 'NO CARD DETECTED'
   if (!openSideBar)
     return (
       <div className={styles.showSideBar} onClick={() => closeSideBar()}>

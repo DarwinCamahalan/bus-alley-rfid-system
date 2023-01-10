@@ -7,10 +7,11 @@ import { useState, useEffect } from 'react'
 
 const Form = ({ title, closeModal, success }) => {
   let exist = false
+  const [scanned, setScanned] = useState(false)
   const [cardsData, setCardsData] = useState([])
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  const [cardID, setCardID] = useState('SCAN CARD')
+  const [cardID, setCardID] = useState('NO CARD DETECTED')
   const [plateNumber, setPlatenumber] = useState('')
   const [busCompany, setBusCompany] = useState('-')
   const date = new Date().toLocaleDateString() + ''
@@ -33,6 +34,9 @@ const Form = ({ title, closeModal, success }) => {
       const ID = snapshot.val()
       if (ID !== null) {
         setCardID(ID)
+        if (ID !== 'NO CARD DETECTED') {
+          setScanned(true)
+        }
       }
     })
 
@@ -57,7 +61,7 @@ const Form = ({ title, closeModal, success }) => {
     if (plateNumber === '' || busCompany === '-') {
       setError(!error)
       setErrorMsg('Enter Bus Company or Plate Number.')
-    } else if (cardID === 'SCAN CARD') {
+    } else if (cardID === 'NO CARD DETECTED') {
       setError(!error)
       setErrorMsg('Scan RFID Card.')
     } else if (exist === true) {
@@ -76,12 +80,18 @@ const Form = ({ title, closeModal, success }) => {
         date,
       })
       setBusCompany('-')
-      setCardID('SCAN CARD')
+      setCardID('NO CARD DETECTED')
       setPlatenumber('')
       closeModal()
       success()
     }
   }
+
+  const getStyle = () => {
+    if (scanned) return styles.scanned
+    else return styles.cardID
+  }
+
   return (
     <>
       <form className={styles.formBox}>
@@ -99,7 +109,7 @@ const Form = ({ title, closeModal, success }) => {
           type="text"
           value={cardID}
           onChange={handleCardIDChange}
-          className={styles.cardID}
+          className={getStyle()}
         />
 
         <label htmlFor="company">Bus Company Name</label>

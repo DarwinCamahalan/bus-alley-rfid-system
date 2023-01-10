@@ -12,18 +12,33 @@
     }
 
     @keyframes notify {
-        from {background-color: rgb(150, 249, 153);  border-left: 3px solid green;}
-        to {background-color: rgb(255, 255, 255); border-left: 3px solid green;}
+        from {background-color: rgb(255, 213, 213);}
+        to {background-color: rgb(255, 255, 255);}
       }
-    
+
+    @keyframes scanned {
+        from {background-color: rgba(9, 255, 0, 0.327);  border-left: 2px solid green;  color: green;}
+        to {background-color: rgb(255, 255, 255);}
+      }
+      
     .cardID{
-        background-color: rgb(251, 181, 181);
         animation-name: notify;
         animation-duration: 2s;
         animation-iteration-count: infinite;
-        color: green;
+        color: red;
         padding-left: 0.5em;
         border: 0;
+        border-left: 2px solid red;
+        cursor: not-allowed;
+    }
+
+    .scanned{
+        animation-name: scanned;
+        animation-duration: 2s;
+        color: $blue;
+        padding-left: 0.5em;
+        border: 0;
+        border-left: 2px solid $blue;
     }
 
     label{
@@ -53,6 +68,7 @@
     }
 
     select{
+        cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
         width: 60%;
