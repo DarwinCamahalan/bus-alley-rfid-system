@@ -11,6 +11,7 @@ import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 
@@ -18,7 +19,10 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const [help, setHelp] = useState(false)
   const id = 'NO CARD DETECTED'
+  const router = useRouter()
+
   if (!openSideBar)
     return (
       <div className={styles.showSideBar} onClick={() => closeSideBar()}>
@@ -72,19 +76,19 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             ) : (
               <></>
             )}
-            <li>
+            <li onClick={() => router.push('/developing')}>
               <IoInformationOutline className={styles.icons} />
               View Information
             </li>
-            <li>
+            <li onClick={() => router.push('/developing')}>
               <BiListUl className={styles.icons} />
               Recorded Logs
             </li>
-            <li>
+            <li onClick={() => router.push('/developing')}>
               <TbMathFunction className={styles.icons} />
               Compute Revenue
             </li>
-            <li>
+            <li onClick={() => router.push('/developing')}>
               <AiOutlinePrinter className={styles.icons} />
               Print Report
             </li>
@@ -94,6 +98,7 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
 
       <div>
         <Modal
+          help={help}
           open={open}
           closeModal={() => {
             showModal(false)
@@ -109,6 +114,9 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               setTimeout(() => {
                 setSuccessMsg(false)
               }, 2500)
+            }}
+            help={() => {
+              setHelp(!help)
             }}
           />
         </Modal>

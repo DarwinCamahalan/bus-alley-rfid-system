@@ -2,8 +2,9 @@ import styles from './modal.module.scss'
 import gif from '../../public/images/rfid_scan.gif'
 import Image from 'next/image'
 import { IoCloseSharp } from 'react-icons/io5'
-import { RiQrScan2Line } from 'react-icons/ri'
-const Modal = ({ children, open, closeModal }) => {
+import { BiScan } from 'react-icons/bi'
+import { useState } from 'react'
+const Modal = ({ children, open, closeModal, help }) => {
   if (!open) return null
   return (
     <div className={styles.modalBg}>
@@ -11,16 +12,20 @@ const Modal = ({ children, open, closeModal }) => {
         <IoCloseSharp className={styles.exit} onClick={() => closeModal()} />
         {children}
       </div>
-      <div className={styles.gifBg}>
-        <div className={styles.text}>
-          <RiQrScan2Line />
-          <span></span>
-          PLACE CARD
+      {help ? (
+        <div className={styles.gifBg}>
+          <div className={styles.text}>
+            <BiScan />
+            <span></span>
+            SCAN CARD
+          </div>
+          <div className={styles.img}>
+            <Image src={gif} alt="my gif" />
+          </div>
         </div>
-        <div className={styles.img}>
-          <Image src={gif} alt="my gif" />
-        </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   )
 }

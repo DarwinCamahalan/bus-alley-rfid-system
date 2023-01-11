@@ -4,9 +4,10 @@ import { uid } from 'uid'
 import { db } from '../firebaseConfig'
 import { set, ref, onValue } from 'firebase/database'
 import { useState, useEffect } from 'react'
-
-const Form = ({ title, closeModal, success }) => {
+import { BsQuestionSquare } from 'react-icons/bs'
+const Form = ({ title, closeModal, success, help }) => {
   let exist = false
+
   const [scanned, setScanned] = useState(false)
   const [cardsData, setCardsData] = useState([])
   const [error, setError] = useState(false)
@@ -52,6 +53,7 @@ const Form = ({ title, closeModal, success }) => {
   }, [])
   const sendData = () => {
     // CARD VALIDATION
+
     // Object.values(cardsData).map((cardData) => {
     //   if (cardID === cardData.cardID) {
     //     exist = true
@@ -85,6 +87,9 @@ const Form = ({ title, closeModal, success }) => {
       closeModal()
       success()
     }
+    setTimeout(() => {
+      setError(false)
+    }, 2500)
   }
 
   const getStyle = () => {
@@ -104,6 +109,7 @@ const Form = ({ title, closeModal, success }) => {
           <div></div>
         )}
         <label htmlFor="cardID">Card ID</label>
+        <BsQuestionSquare className={styles.help} onClick={() => help()} />
         <input
           disabled
           type="text"

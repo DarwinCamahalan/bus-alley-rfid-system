@@ -1,0 +1,53 @@
+@import '../styles/variables.scss';
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+
+    .box{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: $shadow;
+        border-radius: 0.3em;
+        width: 25em;
+        height: 25em;
+        padding: 2em;
+        h1{
+            font-size: 1.5em;
+          }
+
+        .display{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 3.5em 3.5em 6em 3.5em;
+            img{
+                width: 100%;
+                height: auto;
+            }
+            span{
+                width: 100%;
+                margin-bottom: 1em;
+                text-align: center;
+                font-weight: bold;
+                background-color: $blue;
+                color: white;
+                padding: 0.8em 1em;
+                &:hover{
+                    cursor: pointer;
+                    background-color: $blue-blacker;
+                }
+            }
+        }
+       
+    }
+}

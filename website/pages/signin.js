@@ -1,15 +1,15 @@
 import { BiShieldQuarter } from 'react-icons/bi'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx'
 import { useState } from 'react'
-import { router } from 'next/router'
+import { useRouter } from 'next/router'
 import styles from '../styles/signin.module.scss'
-import Link from 'next/link'
 import Head from 'next/head'
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage'
 
 const Signin = () => {
   const [show, setShow] = useState(false)
   const [error, setError] = useState(false)
+  const router = useRouter()
 
   const submitHandler = async (event) => {
     event.preventDefault()
@@ -64,7 +64,10 @@ const Signin = () => {
             </div>
 
             <div className={styles.createAcc}>
-              No account?<Link href={'/'}> Create one!</Link>
+              No account?
+              <span onClick={() => router.push('/developing')}>
+                Create one!
+              </span>
             </div>
             <div className={styles.btnContainer}>
               <input type="submit" value="Sign in" className={styles.btn} />
