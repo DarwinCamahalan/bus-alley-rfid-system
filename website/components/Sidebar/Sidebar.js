@@ -3,10 +3,13 @@ import Modal from '../Modal/Modal'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
-import { AiOutlinePrinter, AiOutlineDelete } from 'react-icons/ai'
+import {
+  AiOutlinePrinter,
+  AiOutlineDelete,
+  AiOutlineEdit,
+} from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
 import { BiListUl } from 'react-icons/bi'
-import { RiEdit2Line } from 'react-icons/ri'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
@@ -15,6 +18,9 @@ import { useRouter } from 'next/router'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 
+import { useDispatch } from 'react-redux'
+import { SET_TOGGLE_DELETE, SET_TOGGLE_EDIT } from '../../redux/reducers/toggle'
+
 const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
@@ -22,6 +28,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [help, setHelp] = useState(false)
   const id = 'NO CARD DETECTED'
   const router = useRouter()
+
+  const dispatch = useDispatch()
 
   if (!openSideBar)
     return (
@@ -58,16 +66,28 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
                     onClick={() => {
                       sendData()
                       showModal(!open)
+                      dispatch(SET_TOGGLE_DELETE(false))
+                      dispatch(SET_TOGGLE_EDIT(false))
                     }}
                   >
                     <IoMdAdd className={styles.icons} />
                     Add Card
                   </li>
-                  <li>
-                    <RiEdit2Line className={styles.icons} />
+                  <li
+                    onClick={() => {
+                      dispatch(SET_TOGGLE_DELETE(false))
+                      dispatch(SET_TOGGLE_EDIT(true))
+                    }}
+                  >
+                    <AiOutlineEdit className={styles.icons} />
                     Edit Card
                   </li>
-                  <li>
+                  <li
+                    onClick={() => {
+                      dispatch(SET_TOGGLE_DELETE(true))
+                      dispatch(SET_TOGGLE_EDIT(false))
+                    }}
+                  >
                     <AiOutlineDelete className={styles.icons} />
                     Remove Card
                   </li>

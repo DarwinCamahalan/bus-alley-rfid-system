@@ -19,6 +19,7 @@
         height: auto;
         padding: 1.8em;
         border-radius: 0.3em;
+        z-index: 2;
         .exit{
             position: absolute;
             right: 1.5%;
@@ -45,7 +46,6 @@
         font-weight:700;
         box-shadow: $shadow;
         border-radius: 0.3em;
-
         .text{
             display: flex;
             align-items: center;

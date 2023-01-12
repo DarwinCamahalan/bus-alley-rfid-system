@@ -12,7 +12,7 @@
     }
 
     @keyframes notify {
-        from {background-color: rgb(255, 213, 213);}
+        from {background-color: $error-red;}
         to {background-color: rgb(255, 255, 255);}
       }
 
