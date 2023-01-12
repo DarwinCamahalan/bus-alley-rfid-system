@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <WiFi.h>
+#include <WiFiManager.h>
 
 #include <SPI.h>
 #include <MFRC522.h>
@@ -9,8 +9,6 @@
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 
-#define WIFI_SSID "Tedcams"
-#define WIFI_PASSWORD "Bartender@101_"
 
 #define DATABASE_URL "https://rfid-database-abd32-default-rtdb.asia-southeast1.firebasedatabase.app/"
 #define API_KEY "AIzaSyAqRt-Q3UQTtvnhi6wvTznXSbHF36sNWGo"
@@ -33,13 +31,19 @@ void setup(){
 
   Serial.begin(115200);
   
-  // CONNECT TO WIFI
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("Conntecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED){
-    Serial.print(".");
-    delay(200);
-  }
+    WiFiManager wm;
+    bool res;
+
+    res = wm.autoConnect("AutoConnectAP"); // anonymous ap
+
+    if(!res) {
+        Serial.println("FAILED TO CONNECT");
+
+    } 
+    else {  
+        Serial.println("CONNECTED");
+    }
+
 
   config.api_key = API_KEY;
   config.database_url = DATABASE_URL;
