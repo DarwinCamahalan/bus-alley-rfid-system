@@ -126,8 +126,8 @@ const Form = ({ title, closeModal, success, help }) => {
           onChange={handleBusCompanyChange}
         >
           <option value="-">-</option>
-          <option value="Rural">Rural</option>
-          <option value="Superfive">Superfive</option>
+          <option value="Rural Transit">Rural Transit</option>
+          <option value="Super five">Super five</option>
         </select>
 
         <label htmlFor="plateNumber">Plate Number</label>

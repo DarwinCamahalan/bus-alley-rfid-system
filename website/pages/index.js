@@ -4,8 +4,20 @@ import Sidebar from '../components/Sidebar/Sidebar'
 import AddedCards from '../components/AddedCards/AddedCards'
 import styles from '../styles/layout.module.scss'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 const MainPage = () => {
   const [openSideBar, showSideBar] = useState(true)
+
+  const { menuChoice } = useSelector((state) => state.menu)
+  let component = <AddedCards />
+  if (menuChoice === '1') {
+    component = <AddedCards />
+  } else if (menuChoice === '2') {
+    component = <h1>INFO</h1>
+  } else if (menuChoice === '3') {
+    component = <h1>LOGS</h1>
+  }
+
   return (
     <>
       <Head>
@@ -21,9 +33,7 @@ const MainPage = () => {
         />
         <div className={styles.content}>
           <Nav />
-          <div className={styles.tableBody}>
-            <AddedCards />
-          </div>
+          <div className={styles.tableBody}>{component}</div>
         </div>
       </div>
     </>

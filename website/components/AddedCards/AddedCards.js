@@ -1,21 +1,28 @@
 import styles from './addedCards.module.scss'
+import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import { db } from '../firebaseConfig'
-import { ref, onValue, remove } from 'firebase/database'
+import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
-
-import { useSelector, useDispatch } from 'react-redux'
-import { SET_TOGGLE_DELETE } from '../../redux/reducers/toggle'
+import { IoCloseSharp } from 'react-icons/io5'
+import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
+  const [uuid, setUuid] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const [error, setError] = useState(false)
+  const [edited, setEdited] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [toDelete, setToDelete] = useState([])
+  const [modalEdit, setModalEdit] = useState(false)
+  const [cardID, setCardID] = useState('')
+  const [plateNumber, setPlatenumber] = useState('')
+  const [busCompany, setBusCompany] = useState('-')
   const [cardsData, setCardsData] = useState([])
   const [prompt, setPrompt] = useState(false)
 
   const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
@@ -28,6 +35,45 @@ const AddedCards = () => {
       }
     })
   }, [])
+
+  const handlePlateNumberChange = (e) => {
+    setPlatenumber(e.target.value)
+  }
+
+  const handleBusCompanyChange = (e) => {
+    setBusCompany(e.target.value)
+  }
+
+  const handleEdit = (cardData) => {
+    setModalEdit(!modalEdit)
+    setUuid(cardData.uuid)
+    setCardID(cardData.cardID)
+    setPlatenumber(cardData.plateNumber)
+    setBusCompany(cardData.busCompany)
+  }
+
+  const sendUpdate = () => {
+    if (busCompany === '-' || plateNumber === '') {
+      setError(!error)
+      setErrorMsg('Enter Bus Company or Plate Number.')
+      setTimeout(() => {
+        setError(false)
+      }, 2500)
+    } else {
+      update(ref(db, `/addedCards/${uuid}`), {
+        plateNumber,
+        busCompany,
+      })
+      setCardID('')
+      setPlatenumber('')
+      setBusCompany('-')
+      setModalEdit(!modalEdit)
+      setEdited(true)
+      setTimeout(() => {
+        setEdited(false)
+      }, 2500)
+    }
+  }
 
   const handleDelete = (cardData) => {
     setPrompt(!prompt)
@@ -75,7 +121,9 @@ const AddedCards = () => {
                         onClick={() => handleDelete(cardData)}
                       >
                         {/* WARNING ON INVALID CHILD OF TD */}
-                        <AiOutlineDelete />
+                        <p>
+                          <AiOutlineDelete />
+                        </p>
                       </td>
                     ) : (
                       <div></div>
@@ -83,10 +131,12 @@ const AddedCards = () => {
                     {toggleEdit ? (
                       <td
                         className={styles.editBtn}
-                        onClick={() => console.log('EDIT MODE')}
+                        onClick={() => handleEdit(cardData)}
                       >
                         {/* WARNING ON INVALID CHILD OF TD */}
-                        <AiOutlineEdit />
+                        <p>
+                          <AiOutlineEdit />
+                        </p>
                       </td>
                     ) : (
                       <div></div>
@@ -114,7 +164,6 @@ const AddedCards = () => {
               <p
                 onClick={() => {
                   deleteCard(toDelete)
-                  dispatch(SET_TOGGLE_DELETE(false))
                   setPrompt(!prompt)
                 }}
               >
@@ -127,20 +176,73 @@ const AddedCards = () => {
         <div></div>
       )}
 
-      {deleted ? (
-        <SuccessMessage>Card Removed Successfully</SuccessMessage>
-      ) : (
-        <div></div>
-      )}
-
       {toggleDelete ? (
-        <SuccessMessage>Select Card to Remove</SuccessMessage>
+        <SuccessMessage>
+          {deleted ? 'Card Removed Successfully' : 'Select Card to Remove'}
+        </SuccessMessage>
       ) : (
         <div></div>
       )}
 
       {toggleEdit ? (
-        <SuccessMessage>Select Card to Edit</SuccessMessage>
+        <SuccessMessage>
+          {edited ? 'Card Updated Successfully' : 'Select Card to Edit'}
+        </SuccessMessage>
+      ) : (
+        <div></div>
+      )}
+
+      {modalEdit ? (
+        <div className={styles.editBg}>
+          <div className={styles.form}>
+            <IoCloseSharp
+              className={styles.exit}
+              onClick={() => setModalEdit(false)}
+            />
+            <form className={styles.formBox}>
+              <h1>Edit Card</h1>
+              {error ? (
+                <div className={styles.errorBox}>
+                  <ErrorMessage>{errorMsg}</ErrorMessage>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              <label htmlFor="cardID">Card ID</label>
+              <input
+                disabled
+                type="text"
+                className={styles.cardID}
+                value={cardID}
+              />
+
+              <label htmlFor="company">Bus Company Name</label>
+              <select
+                name="company"
+                id="company"
+                value={busCompany}
+                onChange={handleBusCompanyChange}
+              >
+                <option value="-">-</option>
+                <option value="Rural Transit">Rural Transit</option>
+                <option value="Super five">Super five</option>
+              </select>
+
+              <label htmlFor="plateNumber">Plate Number</label>
+              <input
+                type="text"
+                value={plateNumber}
+                onChange={handlePlateNumberChange}
+              />
+
+              <div className={styles.btnContainer}>
+                <div className={styles.btn} onClick={sendUpdate}>
+                  Update
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       ) : (
         <div></div>
       )}

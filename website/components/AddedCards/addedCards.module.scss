@@ -74,9 +74,15 @@
     padding: 0.7em;
     font-size: 1.2em;
     color: $blue;
+    p{
+        display: none;
+    }
     &:hover{
         cursor: pointer;
         background-color: $light-blue;
+        p{
+            display: block;
+        }
     }
 }
 
@@ -91,9 +97,15 @@
     padding: 0.7em;
     font-size: 1.2em;
     color: red;
+    p{
+        display: none;
+    }
     &:hover{
         cursor: pointer;
         background-color: $error-red;
+        p{
+            display: block;
+        }
     }
 }
 
@@ -143,6 +155,143 @@
                    
                 }
               
+            }
+        }
+    }
+}
+
+.editBg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.725);
+    z-index: 2;
+    .form{
+        position: relative;
+        background-color: white;
+        box-shadow: $shadow;
+        width: 30em;
+        height: auto;
+        padding: 1.8em;
+        border-radius: 0.3em;
+        z-index: 2;
+        .exit{
+            position: absolute;
+            right: 1.5%;
+            top: 2%;
+            font-weight: bolder !important;
+            font-size: 2em;
+            &:hover{
+                cursor: pointer;
+                background-color: red;
+                color: white;
+            }
+        }
+        .formBox{
+            width: 100%;
+            h1{
+                margin-bottom: 0.6em;
+                font-size: 1.8em;
+            }
+        
+            .errorBox{
+                margin-bottom: 1em !important;
+            }
+        
+              
+            .cardID{
+                color: $blue;
+                padding-left: 0.5em;
+                border: 0;
+                border-left: 2px solid $blue;
+            }
+        
+
+        
+            label{
+                display: block;
+            }
+        
+           
+            .help{
+                position: absolute;
+                right: 7.5%;
+                top: 30.1%;
+                font-size: 1.1em;
+                color: rgba(0, 0, 0, 0.3);
+                font-weight: lighter;
+                &:hover{
+                    cursor: pointer;
+                    color: black;
+                }
+            }
+        
+            input{
+                    text-transform: uppercase;
+                    width: 100%;
+                    border: 0;
+                    border-bottom: 1px solid black;
+                    outline: none;
+                    padding: 0.6em 0;
+                    margin: 1em 0;
+                    font-size: 0.85em;
+                    font-weight: bold;
+                    &::placeholder{
+                        font-size: 1.1em;
+                        font-weight: 400;
+                    }
+                    &:focus{
+                        background-color: #E8F0FE;
+                        border-bottom: 1px solid #115de0;
+                        &::placeholder{
+                            color: black;
+                        }
+                    }
+            }
+        
+            select{
+                cursor: pointer;
+                text-transform: uppercase;
+                font-weight: bold;
+                width: 60%;
+                font-size: 0.85em;
+                margin: 1em 0;
+                padding: 0.7em;
+                background-color: white;
+                option{
+                    font-weight: bold;
+                }
+            }
+        
+            .btnContainer{
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                width: auto;
+             
+                .btn{
+                    text-transform: initial;
+                    width: 6.5em !important;
+                    border: 0;
+                    background-color: $blue;
+                    color: white;
+                    width: auto;
+                    text-align: center;
+                    padding: 0.7em 0;
+                    font-size: 0.93em;
+                    font-weight: 500;
+                    margin: 0;
+                    margin-top: 1em;
+                    &:hover{
+                        cursor: pointer;
+                        background-color: $blue-blacker;
+                    }
+                }
             }
         }
     }

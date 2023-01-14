@@ -3,7 +3,6 @@ import gif from '../../public/images/rfid_scan.gif'
 import Image from 'next/image'
 import { IoCloseSharp } from 'react-icons/io5'
 import { BiScan } from 'react-icons/bi'
-import { useState } from 'react'
 const Modal = ({ children, open, closeModal, help }) => {
   if (!open) return null
   return (

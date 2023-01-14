@@ -18,6 +18,9 @@ const Signin = () => {
 
     if (username !== 'admin' || password !== '123') {
       setError(!error)
+      setTimeout(() => {
+        setError(false)
+      }, 2500)
     } else {
       router.push({
         pathname: '/',

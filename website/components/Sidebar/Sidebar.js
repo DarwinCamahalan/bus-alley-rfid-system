@@ -18,8 +18,9 @@ import { useRouter } from 'next/router'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { SET_TOGGLE_DELETE, SET_TOGGLE_EDIT } from '../../redux/reducers/toggle'
+import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
 
 const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
@@ -29,6 +30,7 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const id = 'NO CARD DETECTED'
   const router = useRouter()
 
+  const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
   const dispatch = useDispatch()
 
   if (!openSideBar)
@@ -55,7 +57,13 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
         </div>
         <div className={styles.menuContainer}>
           <ul>
-            <li onClick={() => setMenu(!menu)}>
+            <li
+              onClick={() => {
+                dispatch(SET_MENU_CHOICE('1'))
+
+                setMenu(!menu)
+              }}
+            >
               <IoMdArrowDropdown className={styles.icons} />
               RFID Card Settings
             </li>
@@ -76,31 +84,38 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
                   <li
                     onClick={() => {
                       dispatch(SET_TOGGLE_DELETE(false))
-                      dispatch(SET_TOGGLE_EDIT(true))
+                      dispatch(SET_TOGGLE_EDIT(!toggleEdit))
                     }}
+                    style={toggleEdit ? { backgroundColor: '#0067b8' } : {}}
                   >
                     <AiOutlineEdit className={styles.icons} />
-                    Edit Card
+                    {toggleEdit ? 'Edit Mode' : 'Edit Card'}
                   </li>
                   <li
                     onClick={() => {
-                      dispatch(SET_TOGGLE_DELETE(true))
+                      dispatch(SET_TOGGLE_DELETE(!toggleDelete))
                       dispatch(SET_TOGGLE_EDIT(false))
                     }}
+                    style={toggleDelete ? { backgroundColor: 'red' } : {}}
                   >
                     <AiOutlineDelete className={styles.icons} />
-                    Remove Card
+                    {toggleDelete ? 'Delete Mode' : 'Remove Card'}
                   </li>
                 </ul>
               </div>
             ) : (
               <></>
             )}
-            <li onClick={() => router.push('/developing')}>
+            <li
+              onClick={() => {
+                router.push('/developing')
+                // dispatch(SET_MENU_CHOICE('2'))
+              }}
+            >
               <IoInformationOutline className={styles.icons} />
               View Information
             </li>
-            <li onClick={() => router.push('/developing')}>
+            <li onClick={() => dispatch(SET_MENU_CHOICE('3'))}>
               <BiListUl className={styles.icons} />
               Recorded Logs
             </li>
