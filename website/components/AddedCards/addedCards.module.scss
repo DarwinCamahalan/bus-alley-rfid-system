@@ -19,7 +19,11 @@
        display: flex;
        flex-direction: column;
        text-transform: uppercase;
-
+       @media screen and (max-width: 835px) {
+        &{
+            font-size: 0.8em;
+        }
+      }
        tbody{
         .tableHead{
             margin: 0.7em 0 0.2em 0;

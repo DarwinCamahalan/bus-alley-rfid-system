@@ -15,7 +15,7 @@ const MainPage = () => {
   } else if (menuChoice === '2') {
     component = <h1>INFO</h1>
   } else if (menuChoice === '3') {
-    component = <h1>LOGS</h1>
+    component = <h1>CURRENTLY IN PROGRESS</h1>
   }
 
   return (

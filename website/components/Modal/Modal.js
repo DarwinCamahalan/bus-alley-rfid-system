@@ -10,21 +10,21 @@ const Modal = ({ children, open, closeModal, help }) => {
       <div className={styles.modal}>
         <IoCloseSharp className={styles.exit} onClick={() => closeModal()} />
         {children}
+        {help ? (
+          <div className={styles.gifBg}>
+            <div className={styles.text}>
+              <BiScan />
+              <span></span>
+              SCAN CARD
+            </div>
+            <div className={styles.img}>
+              <Image src={gif} alt="my gif" />
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
-      {help ? (
-        <div className={styles.gifBg}>
-          <div className={styles.text}>
-            <BiScan />
-            <span></span>
-            SCAN CARD
-          </div>
-          <div className={styles.img}>
-            <Image src={gif} alt="my gif" />
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
     </div>
   )
 }

@@ -10,14 +10,13 @@ import {
 } from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
 import { BiListUl } from 'react-icons/bi'
-import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
-
+import SmallSidebar from './SmallSideBar'
 import { useSelector, useDispatch } from 'react-redux'
 import { SET_TOGGLE_DELETE, SET_TOGGLE_EDIT } from '../../redux/reducers/toggle'
 import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
@@ -32,12 +31,17 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
 
   const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
   const dispatch = useDispatch()
-
   if (!openSideBar)
     return (
-      <div className={styles.showSideBar} onClick={() => closeSideBar()}>
-        <MdOutlineArrowForwardIos />
-      </div>
+      <SmallSidebar
+        showMenu={() => {
+          setMenu(true)
+          closeSideBar()
+        }}
+        close={() => {
+          closeSideBar()
+        }}
+      />
     )
 
   const sendData = () => {
@@ -60,7 +64,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             <li
               onClick={() => {
                 dispatch(SET_MENU_CHOICE('1'))
-
                 setMenu(!menu)
               }}
             >

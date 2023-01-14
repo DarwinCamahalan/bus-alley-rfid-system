@@ -1,36 +1,22 @@
-@import '../../styles/variables.scss';
-
-
-.sideBarContainer{
-    height: 100vh;
-    width: 20vw;
+.smallSidebarBg{
     background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: $shadow;
     color: white;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    @media screen and (max-width: 835px) {
-        &{
-            position: absolute;
-            width: 30vw;
-            z-index: 2;
-            background-color: rgba(0, 0, 0, 0.85);
-        }
-      }
     .menuIcon{ 
         margin-bottom: 1.5em;
-        .icons{
-            font-size: 1.5em;
-           margin-left: 0.5em;
-           margin-top: 0.8em;
-           &:hover{
-            cursor: pointer;
-           
-        }
-        }
+        font-size: 1.5em;
+       margin-left: 0.5em;
+       margin-top: 0.8em;
+       &:hover{
+        cursor: pointer;
+       }
     }
     .menuContainer{
+        
         li{
+            position: relative;
             padding:  0 2em;
             border-bottom: 1px solid #3d3d4a;
             font-size: 0.85em;
@@ -38,16 +24,28 @@
             padding: 1.3em 0;
             display: flex;
             align-items: center;
+            span{
+                display: none;
+            }
             &:hover{
                 cursor: pointer;
                 background-color: #00000075;
+                span{
+                    background-color: rgba(0, 0, 0, 0.8);
+                    width: 12em;
+                    display: block;
+                    position: absolute;
+                    right: -331%;
+                    padding: 1.5em 1em;
+                    z-index: 2;
+                }
             }
             .icons{
                 font-size: 1.8em !important;
                 margin: 0 0.5em;
             }
 
-            
+           
             
         }
         .choices{
