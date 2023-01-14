@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      {width < 650 ? <Restrict /> : <Component {...pageProps} />}
+      {width < 670 ? <Restrict /> : <Component {...pageProps} />}
     </Provider>
   )
 }
