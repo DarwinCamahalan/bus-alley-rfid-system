@@ -1,0 +1,66 @@
+@import '../../styles/variables.scss';
+
+.view{
+    display: none;
+    @media screen and (max-width: 600px) {
+        &{
+            display: block;
+        }
+      }
+}
+.container{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-image: url( '../../public/images/bg-main.svg');
+    background-color: white;
+    z-index: 99;
+    .box{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: $shadow;
+        border-radius: 0.3em;
+        width: 25em;
+        height: 25em;
+        padding: 2em;
+        h1{
+            font-size: 1.5em;
+            margin-bottom: 0.3em;
+          }
+
+        .display{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 3.5em 3.5em 6em 3.5em;
+            img{
+                width: 100%;
+                height: auto;
+            }
+            span{
+                width: 100%;
+                margin-bottom: 1em;
+                text-align: center;
+                font-weight: bold;
+                background-color: $blue;
+                color: white;
+                padding: 0.8em 1em;
+                &:hover{
+                    cursor: pointer;
+                    background-color: $blue-blacker;
+                }
+            }
+        }
+       
+    }
+  
+}

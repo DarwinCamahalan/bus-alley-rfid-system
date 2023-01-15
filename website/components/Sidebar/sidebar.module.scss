@@ -9,14 +9,7 @@
     color: white;
     display: flex;
     flex-direction: column;
-    @media screen and (max-width: 940px) {
-        &{
-            position: absolute;
-            width: 30vw;
-            z-index: 2;
-            background-color: rgba(0, 0, 0, 0.85);
-        }
-      }
+  
     .menuIcon{ 
         margin-bottom: 1.5em;
         .icons{
@@ -58,4 +51,12 @@
             }
         }
     }
+    @media screen and (max-width: 1000px) {
+        &{
+            position: absolute;
+            width: 15em;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+      }
 }

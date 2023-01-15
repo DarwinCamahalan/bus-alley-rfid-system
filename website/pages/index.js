@@ -3,6 +3,7 @@ import Nav from '../components/Nav/Nav'
 import Sidebar from '../components/Sidebar/Sidebar'
 import AddedCards from '../components/AddedCards/AddedCards'
 import styles from '../styles/layout.module.scss'
+import RestrictView from '../components/RestrictView/RestrictView'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 const MainPage = () => {
@@ -36,6 +37,7 @@ const MainPage = () => {
           <div className={styles.tableBody}>{component}</div>
         </div>
       </div>
+      <RestrictView />
     </>
   )
 }
