@@ -1,0 +1,53 @@
+@import '../../styles/variables.scss';
+
+.recordsBg{
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none;
+      }
+    background-color: white;
+    width: 100%;
+    height: 88.5vh;
+    box-shadow: $shadow;
+    border-radius: 0.3em;
+
+    table{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        padding: 0.5em;
+        tbody{
+            th{
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 0.5em 0;
+                text-transform: initial;
+                &:first-child{
+                    border-radius: 0.3em 0 0 0.3em;
+                }
+                &:last-child{
+                    border-radius:  0 0.3em 0.3em 0 ;
+                }
+                &:hover{
+                    cursor: pointer;
+                    background-color: black;
+                }
+            }
+            tr{
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                td, th{
+                    width: 100%;
+                    text-align: center;
+                   
+                }
+
+                td{
+                    margin-top: 1em;
+                }
+    
+            }
+        }
+    }
+}

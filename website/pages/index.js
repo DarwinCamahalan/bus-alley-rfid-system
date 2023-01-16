@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar/Sidebar'
 import AddedCards from '../components/AddedCards/AddedCards'
 import styles from '../styles/layout.module.scss'
 import RestrictView from '../components/RestrictView/RestrictView'
+import RecordedLogs from '../components/RecordedLogs/RecordedLogs'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 const MainPage = () => {
@@ -16,7 +17,7 @@ const MainPage = () => {
   } else if (menuChoice === '2') {
     component = <h1>INFO</h1>
   } else if (menuChoice === '3') {
-    component = <h1>CURRENTLY IN PROGRESS</h1>
+    component = <RecordedLogs />
   }
 
   return (

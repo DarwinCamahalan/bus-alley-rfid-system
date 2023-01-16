@@ -31,7 +31,11 @@ const SmallSideBar = ({ close, showMenu }) => {
             <IoInformationOutline className={styles.icons} />
             <span>View Information</span>
           </li>
-          <li onClick={() => dispatch(SET_MENU_CHOICE('3'))}>
+          <li
+            onClick={() => {
+              dispatch(SET_MENU_CHOICE('3'))
+            }}
+          >
             <BiListUl className={styles.icons} />
             <span>Recorded Logs</span>
           </li>

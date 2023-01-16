@@ -118,7 +118,12 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               <IoInformationOutline className={styles.icons} />
               View Information
             </li>
-            <li onClick={() => dispatch(SET_MENU_CHOICE('3'))}>
+            <li
+              onClick={() => {
+                setMenu(false)
+                dispatch(SET_MENU_CHOICE('3'))
+              }}
+            >
               <BiListUl className={styles.icons} />
               Recorded Logs
             </li>
