@@ -52,13 +52,11 @@ const Form = ({ title, closeModal, success, help }) => {
     })
   }, [])
   const sendData = () => {
-    // CARD VALIDATION
-
-    // Object.values(cardsData).map((cardData) => {
-    //   if (cardID === cardData.cardID) {
-    //     exist = true
-    //   }
-    // })
+    Object.values(cardsData).map((cardData) => {
+      if (cardID === cardData.cardID) {
+        exist = true
+      }
+    })
 
     if (plateNumber === '' || busCompany === '-') {
       setError(!error)
