@@ -1,6 +1,5 @@
 import styles from './form.module.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
-import { uid } from 'uid'
 import { db } from '../firebaseConfig'
 import { set, ref, onValue } from 'firebase/database'
 import { useState, useEffect } from 'react'
@@ -68,11 +67,9 @@ const Form = ({ title, closeModal, success, help }) => {
       setError(!error)
       setErrorMsg('Card ID Already exist.')
     } else {
-      const uuid = uid()
       const id = cardsData.length
-      set(ref(db, `/addedCards/${uuid}`), {
+      set(ref(db, `/addedCards/${cardID}`), {
         id,
-        uuid,
         cardID,
         plateNumber,
         busCompany,

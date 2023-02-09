@@ -9,7 +9,6 @@ import { IoCloseSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
-  const [uuid, setUuid] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [error, setError] = useState(false)
   const [edited, setEdited] = useState(false)
@@ -46,7 +45,6 @@ const AddedCards = () => {
 
   const handleEdit = (cardData) => {
     setModalEdit(!modalEdit)
-    setUuid(cardData.uuid)
     setCardID(cardData.cardID)
     setPlatenumber(cardData.plateNumber)
     setBusCompany(cardData.busCompany)
@@ -60,7 +58,7 @@ const AddedCards = () => {
         setError(false)
       }, 2500)
     } else {
-      update(ref(db, `/addedCards/${uuid}`), {
+      update(ref(db, `/addedCards/${cardID}`), {
         plateNumber,
         busCompany,
       })
@@ -81,7 +79,7 @@ const AddedCards = () => {
   }
 
   const deleteCard = (cardData) => {
-    remove(ref(db, `/addedCards/${cardData.uuid}`))
+    remove(ref(db, `/addedCards/${cardData.cardID}`))
     setDeleted(!deleted)
     setTimeout(() => {
       setDeleted(false)
