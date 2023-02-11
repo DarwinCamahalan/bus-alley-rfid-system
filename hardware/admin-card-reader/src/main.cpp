@@ -16,14 +16,12 @@
 #define RST_PIN 22
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-// Initialize Firebase data object
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
 bool signupOK = false;
 
-// --------------------------------------------------------------------
 void setup()
 {
 
@@ -32,7 +30,7 @@ void setup()
   WiFiManager wm;
   bool res;
 
-  res = wm.autoConnect("AutoConnectAP"); // anonymous ap
+  res = wm.autoConnect("AutoConnectAP");
 
   if (!res)
   {
@@ -40,16 +38,15 @@ void setup()
   }
   else
   {
-    Serial.println("CONNECTED");
+    Serial.println("CONNECTED TO NETWORK");
   }
 
   config.api_key = API_KEY;
   config.database_url = DATABASE_URL;
 
-  // SIGN UP
   if (Firebase.signUp(&config, &auth, "", ""))
   {
-    Serial.println("Successfully Signed Up");
+    Serial.println("CONNECTED TO FIREBASE");
     signupOK = true;
   }
   else
@@ -62,14 +59,12 @@ void setup()
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  // RFID READER INITIALIZE
-  SPI.begin();        // Initiate  SPI bus
-  mfrc522.PCD_Init(); // Initiate MFRC522
-  Serial.println("Place Card");
+  SPI.begin();
+  mfrc522.PCD_Init();
+  Serial.println("PLACE CARD");
   Serial.println();
 }
 
-// --------------------------------------------------------------------
 void loop()
 {
 
@@ -83,7 +78,6 @@ void loop()
     return;
   }
 
-  // Print UID
   Serial.print("UID: ");
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
@@ -92,7 +86,6 @@ void loop()
   }
   Serial.println();
 
-  // Send UID to Firebase
   String uidString = "";
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {

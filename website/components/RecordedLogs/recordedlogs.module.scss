@@ -15,8 +15,10 @@
         width: 100%;
         height: 100%;
         text-align: center;
+        text-transform: uppercase;
         padding: 0.5em;
         tbody{
+          
             th{
                 background-color: rgba(0, 0, 0, 0.8);
                 color: white;
@@ -33,7 +35,7 @@
                     background-color: black;
                 }
             }
-            tr{
+            tr{            
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;

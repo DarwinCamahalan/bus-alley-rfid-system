@@ -24,6 +24,17 @@ FirebaseConfig config;
 bool signupOK = false;
 String jsonData;
 
+void getData()
+{
+  if (Firebase.ready() && signupOK)
+  {
+    if (Firebase.RTDB.getJSON(&firebaseData, "/addedCards"))
+    {
+      jsonData = firebaseData.jsonString();
+    }
+  }
+}
+
 void setup()
 {
 
@@ -54,13 +65,6 @@ void setup()
   config.token_status_callback = tokenStatusCallback;
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
-  if (Firebase.ready() && signupOK)
-  {
-    if (Firebase.RTDB.getJSON(&firebaseData, "/addedCards"))
-    {
-      jsonData = firebaseData.jsonString();
-    }
-  }
 
   SPI.begin();
   mfrc522.PCD_Init();
@@ -86,6 +90,7 @@ void loop()
     uidString += String(mfrc522.uid.uidByte[i], HEX);
   }
 
+  getData();
   DynamicJsonDocument doc(4096);
   deserializeJson(doc, jsonData);
 
