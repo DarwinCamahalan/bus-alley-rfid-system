@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <WiFiManager.h>
 
+#include "time.h"
+
 #include <SPI.h>
 #include <MFRC522.h>
 
@@ -9,6 +11,10 @@
 #include "addons/RTDBHelper.h"
 
 #include <ArduinoJson.h>
+
+const char *ntpServer = "asia.pool.ntp.org";
+const long gmtOffset_sec = 28800;
+const int daylightOffset_sec = 0;
 
 MFRC522 mfrc522(5, 22);
 
@@ -22,6 +28,8 @@ void setup()
 {
 
   Serial.begin(115200);
+
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
   WiFiManager wm;
   bool res;
@@ -83,6 +91,19 @@ void loop()
 
   if (doc.containsKey(uidString))
   {
+
+    struct tm timeinfo;
+    if (!getLocalTime(&timeinfo))
+    {
+      return;
+    }
+
+    char time[10];
+    strftime(time, 10, "%I:%M %p", &timeinfo);
+
+    char date[10];
+    strftime(date, 10, "%D", &timeinfo);
+
     FirebaseJson json;
     const char *cardID = doc[uidString]["cardID"];
     const char *busCompany = doc[uidString]["busCompany"];
@@ -91,6 +112,9 @@ void loop()
     json.add("cardID", cardID);
     json.add("busCompany", busCompany);
     json.add("plateNumber", plateNumber);
+    json.add("fee", 50);
+    json.add("date", date);
+    json.add("time", time);
 
     if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
     {
