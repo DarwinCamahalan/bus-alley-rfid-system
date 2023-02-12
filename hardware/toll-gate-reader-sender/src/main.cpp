@@ -103,8 +103,8 @@ void loop()
       return;
     }
 
-    char time[10];
-    strftime(time, 10, "%I:%M %p", &timeinfo);
+    char time[15];
+    strftime(time, 15, "%I:%M:%S %p", &timeinfo);
 
     char date[10];
     strftime(date, 10, "%D", &timeinfo);
@@ -123,8 +123,8 @@ void loop()
 
     if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
     {
-      Serial.println("SENT TO FIREBASE");
-      delay(3000);
+      Serial.println("DATA SENT TO DATABASE");
+      delay(1500);
     }
   }
   else
