@@ -3,6 +3,11 @@
 
 #include "time.h"
 
+#include <Servo.h>
+#include <Wire.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include <SPI.h>
 #include <MFRC522.h>
 
@@ -23,6 +28,8 @@ const int daylightOffset_sec = 0;
 
 MFRC522 mfrc522(5, 22);
 
+Servo servo;
+
 BluetoothSerial SerialBT;
 Adafruit_Thermal printer(&SerialBT);
 uint8_t address[6] = {0x86, 0x67, 0x7A, 0x76, 0x6D, 0xAA};
@@ -35,6 +42,30 @@ FirebaseAuth auth;
 FirebaseConfig config;
 bool signupOK = false;
 String jsonData;
+
+void openTollGate(void *pvParameters)
+{
+  servo.attach(13);
+
+  for (int i = 0; i <= 90; i++)
+  {
+    servo.write(i);
+    vTaskDelay(150 / portTICK_PERIOD_MS);
+  }
+
+  vTaskDelete(NULL);
+}
+
+void closeTollGate()
+{
+  int pos;
+  for (pos = 90; pos >= 0; pos -= 1)
+  {
+    servo.write(pos);
+    delay(150);
+  }
+  servo.detach();
+}
 
 void setup()
 {
@@ -111,8 +142,8 @@ void loop()
     char time[15];
     strftime(time, 15, "%I:%M:%S %p", &timeinfo);
 
-    char date[10];
-    strftime(date, 10, "%D", &timeinfo);
+    char date[15];
+    strftime(date, 15, "%m/%d/%Y", &timeinfo);
 
     FirebaseJson json;
     const char *cardID = doc[uidString]["cardID"];
@@ -129,7 +160,10 @@ void loop()
     if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
     {
       Serial.println("DATA SENT TO DATABASE");
+      // OPEN TOLL GATE HERE
+      xTaskCreate(openTollGate, "Open Toll Gate", 2048, NULL, 2, NULL);
 
+      // PRINT RECEIPT
       WiFi.disconnect(true);
       btStart();
       SerialBT.begin("ESP32test", true);
@@ -137,7 +171,6 @@ void loop()
       SerialBT.setPin(pin);
       Serial.println("CONNECTING TO PRINTER");
 
-      // connected = SerialBT.connect(name);
       connected = SerialBT.connect(address);
 
       Serial.println(connected);
@@ -181,6 +214,9 @@ void loop()
         printer.setSize('S');
         printer.justify('C');
         printer.println("East and West Bound Terminals");
+        printer.boldOn();
+        printer.println("Cagayan de Oro City");
+        printer.boldOff();
         printer.println("");
 
         printer.setSize('S');
@@ -215,15 +251,19 @@ void loop()
 
         printer.justify('L');
         printer.println(F("PARKING FEE: P50.00"));
-        printer.println("");
+        printer.println(F(""));
+        printer.println(F(""));
 
         printer.justify('C');
-        printer.println("** DRIVER'S COPY **");
+        printer.boldOn();
+        printer.println(F("*** DRIVER'S COPY ***"));
+        printer.boldOff();
+        printer.printBarcode("      ", CODE39);
 
         printer.feed(2);
         printer.setDefault();
       }
-      // OPEN TOLL GATE HERE
+      closeTollGate();
       ESP.restart();
     }
   }
