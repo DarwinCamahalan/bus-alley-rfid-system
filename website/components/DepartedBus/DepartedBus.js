@@ -1,4 +1,4 @@
-import styles from './DepartedBus.module.scss'
+import styles from './departedbus.module.scss'
 import { FiSearch } from 'react-icons/fi'
 import { db } from '../firebaseConfig'
 import { ref, onValue } from 'firebase/database'
