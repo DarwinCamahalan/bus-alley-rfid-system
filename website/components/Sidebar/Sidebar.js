@@ -9,7 +9,7 @@ import {
   AiOutlineEdit,
 } from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
-import { BiListUl } from 'react-icons/bi'
+import { RiBusFill } from 'react-icons/ri'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
 import { useState } from 'react'
@@ -124,8 +124,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
                 dispatch(SET_MENU_CHOICE('3'))
               }}
             >
-              <BiListUl className={styles.icons} />
-              Recorded Logs
+              <RiBusFill className={styles.icons} />
+              Departed Bus
             </li>
             <li onClick={() => router.push('/developing')}>
               <TbMathFunction className={styles.icons} />

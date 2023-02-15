@@ -5,7 +5,7 @@ import { IoMdArrowDropright } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { IoInformationOutline } from 'react-icons/io5'
-import { BiListUl } from 'react-icons/bi'
+import { RiBusFill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
 import { useRouter } from 'next/router'
@@ -36,8 +36,8 @@ const SmallSideBar = ({ close, showMenu }) => {
               dispatch(SET_MENU_CHOICE('3'))
             }}
           >
-            <BiListUl className={styles.icons} />
-            <span>Recorded Logs</span>
+            <RiBusFill className={styles.icons} />
+            <span>Departed Bus</span>
           </li>
           <li onClick={() => router.push('/developing')}>
             <TbMathFunction className={styles.icons} />

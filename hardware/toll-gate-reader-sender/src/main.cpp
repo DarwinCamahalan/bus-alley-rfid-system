@@ -50,7 +50,7 @@ void openTollGate(void *pvParameters)
   for (int i = 0; i <= 90; i++)
   {
     servo.write(i);
-    vTaskDelay(150 / portTICK_PERIOD_MS);
+    vTaskDelay(70 / portTICK_PERIOD_MS);
   }
 
   vTaskDelete(NULL);
@@ -59,10 +59,16 @@ void openTollGate(void *pvParameters)
 void closeTollGate()
 {
   int pos;
+  int delayCounter = 150;
+
   for (pos = 90; pos >= 0; pos -= 1)
   {
+    if (pos == 35)
+    {
+      delayCounter = 50;
+    }
     servo.write(pos);
-    delay(150);
+    delay(delayCounter);
   }
   servo.detach();
 }
@@ -263,6 +269,7 @@ void loop()
         printer.feed(2);
         printer.setDefault();
       }
+      delay(2000);
       closeTollGate();
       ESP.restart();
     }

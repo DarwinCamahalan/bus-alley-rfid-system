@@ -1,5 +1,6 @@
 import styles from './addedCards.module.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import StickyHeader from '../StickyHeader/StickyHeader'
 import { db } from '../firebaseConfig'
 import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
@@ -22,6 +23,16 @@ const AddedCards = () => {
   const [prompt, setPrompt] = useState(false)
 
   const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
+
+  const renderHeader = () => (
+    <thead>
+      <tr>
+        {headers.map((item) => (
+          <th key={item}>{item}</th>
+        ))}
+      </tr>
+    </thead>
+  )
 
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
