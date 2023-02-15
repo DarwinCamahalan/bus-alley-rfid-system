@@ -73,6 +73,17 @@ void closeTollGate()
   servo.detach();
 }
 
+void getData()
+{
+  if (Firebase.ready() && signupOK)
+  {
+    if (Firebase.RTDB.getJSON(&firebaseData, "/addedCards"))
+    {
+      jsonData = firebaseData.jsonString();
+    }
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -102,14 +113,6 @@ void setup()
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  if (Firebase.ready() && signupOK)
-  {
-    if (Firebase.RTDB.getJSON(&firebaseData, "/addedCards"))
-    {
-      jsonData = firebaseData.jsonString();
-    }
-  }
-
   SPI.begin();
   mfrc522.PCD_Init();
   Serial.println("PLACE CARD");
@@ -117,7 +120,6 @@ void setup()
 
 void loop()
 {
-
   if (!mfrc522.PICC_IsNewCardPresent())
   {
     return;
@@ -133,6 +135,8 @@ void loop()
     uidString += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
     uidString += String(mfrc522.uid.uidByte[i], HEX);
   }
+
+  getData();
 
   DynamicJsonDocument doc(4096);
   deserializeJson(doc, jsonData);
@@ -276,6 +280,6 @@ void loop()
   }
   else
   {
-    Serial.println("AUTHENTICATION FAILED");
+    Serial.println("ACCESS DENIED");
   }
 }

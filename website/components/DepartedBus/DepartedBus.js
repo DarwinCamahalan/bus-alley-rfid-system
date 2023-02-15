@@ -1,8 +1,9 @@
-import styles from './recordedlogs.module.scss'
+import styles from './DepartedBus.module.scss'
+import { FiSearch } from 'react-icons/fi'
 import { db } from '../firebaseConfig'
 import { ref, onValue } from 'firebase/database'
 import { useState, useEffect } from 'react'
-const RecordedLogs = () => {
+const DepartedBus = () => {
   const [busDeparted, setBusDeparted] = useState([])
   useEffect(() => {
     onValue(ref(db, '/departed'), (snapshot) => {
@@ -18,6 +19,30 @@ const RecordedLogs = () => {
   let i = 0
   return (
     <div className={styles.recordsBg}>
+      <div className={styles.tableMenu}>
+        <p>Departed Bus</p>
+
+        <div className={styles.sortCompany}>
+          <label for="company">Sort by: </label>
+          <select name="company" id="company" value="-">
+            <option value="-">-</option>
+            <option value="Rural Transit">Rural Transit</option>
+            <option value="Super five">Super five</option>
+          </select>
+        </div>
+
+        <div className={styles.datePicker}>
+          <label for="date">Date: </label>
+          <input type="date" id="date" name="date"></input>
+          <span> to </span>
+          <input type="date" id="to" name="to"></input>
+        </div>
+
+        <div className={styles.search}>
+          <input type="text" id="search" name="search"></input>
+          <FiSearch />
+        </div>
+      </div>
       <table>
         <tbody>
           <tr>
@@ -51,4 +76,4 @@ const RecordedLogs = () => {
   )
 }
 
-export default RecordedLogs
+export default DepartedBus

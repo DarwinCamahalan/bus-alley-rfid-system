@@ -1,12 +1,12 @@
 import styles from './addedCards.module.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
-import StickyHeader from '../StickyHeader/StickyHeader'
 import { db } from '../firebaseConfig'
 import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 import { IoCloseSharp } from 'react-icons/io5'
+import { FiSearch } from 'react-icons/fi'
 import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
@@ -23,16 +23,6 @@ const AddedCards = () => {
   const [prompt, setPrompt] = useState(false)
 
   const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
-
-  const renderHeader = () => (
-    <thead>
-      <tr>
-        {headers.map((item) => (
-          <th key={item}>{item}</th>
-        ))}
-      </tr>
-    </thead>
-  )
 
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
@@ -100,6 +90,30 @@ const AddedCards = () => {
   return (
     <>
       <div className={styles.tableBg}>
+        <div className={styles.tableMenu}>
+          <p>Authenticated Cards</p>
+
+          <div className={styles.sortCompany}>
+            <label for="company">Sort by: </label>
+            <select name="company" id="company" value="-">
+              <option value="-">-</option>
+              <option value="Rural Transit">Rural Transit</option>
+              <option value="Super five">Super five</option>
+            </select>
+          </div>
+
+          <div className={styles.datePicker}>
+            <label for="date">Date: </label>
+            <input type="date" id="date" name="date"></input>
+            <span> to </span>
+            <input type="date" id="to" name="to"></input>
+          </div>
+
+          <div className={styles.search}>
+            <input type="text" id="search" name="search"></input>
+            <FiSearch />
+          </div>
+        </div>
         <table>
           <tbody>
             <tr className={styles.tableHead}>
