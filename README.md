@@ -13,6 +13,8 @@
 
 > CONFIGURATION:
 
+> MFRC522 RFID READER PINS TO ESP32
+
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
 | GND          | GND         |
@@ -22,6 +24,15 @@
 | 23           | MOSI (BLUE) |
 | 18           | SCK  (YELLOW)|
 | 5            | SDA  (BROWN)|
+
+> SERVO MOTOR PINS TO ESP32
+
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND         |
+| 5V           | VIN         |
+| 13           | GPIO 13  (ORANGE)|
+
 
 
 	
