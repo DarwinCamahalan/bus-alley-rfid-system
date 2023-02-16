@@ -8,93 +8,58 @@
     height: 88.5vh;
     box-shadow: $shadow;
     background-color: white;
-    overflow: auto;
+    overflow: hidden;
     padding: 0 1em;
     border-radius: 0.3em;
 
-
-    .tableMenu{
-        padding: 0.8em 0.5em 0.2em 0.5em;
+    ul{
+        margin: 0.7em 0 0.2em 0;
+        width: 100%;
+        position: relative;
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
-        font-weight: 600;
-        justify-content: space-between;
-
-        p{
-            font-size: 1.3em;
-           
-        }
-        select{
-            padding: 0.1em 0.3em;
-            background-color: white;
-            border-radius: 0.2em;
-            option{
-                font-weight: bold;
-            }
-        }
-        input{
-            text-transform: uppercase;
-            border: 1px solid rgba(0, 0, 0, 0.8)!important;
-            padding: 0.1em 0.3em;
-            border-radius: 0.2em;
-            &:focus{
-                background-color: #E8F0FE;
-                border-bottom: 1px solid #115de0;
-                &::placeholder{
-                    color: black;
-                }
-            }
-        }
-
-        .search{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            input{
-                margin-right: 0.6em;
-            }
-            &:last-child:hover{
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);   
+        border-radius: 0.3em;
+        li{
+            width: 100%;
+            
+            text-align: center;
+            border-radius: 0 0.3em 0.3em 0;
+            color: white;
+            padding: 0.5em 0;
+            text-transform: initial;
+            &:hover{
+                border-radius: 0.3em;
                 cursor: pointer;
+                background-color: black;
             }
         }
     }
+
     table{
        display: flex;
        flex-direction: column;
        text-transform: uppercase;
+       overflow: auto;
+       width: 100%;
+       height: 80vh;
+       padding-top: 0.3em;
        @media screen and (max-width: 835px) {
         &{
             font-size: 0.8em;
         }
       }
        tbody{
-        .tableHead{
-            margin: 0.7em 0 0.2em 0;
-        }
-
-        th{
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 0.5em 0;
-            text-transform: initial;
-            &:first-child{
-                border-radius: 0.3em 0 0 0.3em;
-            }
-            &:last-child{
-                border-radius:  0 0.3em 0.3em 0 ;
-            }
-        }
-
+        
         tr{
             position: relative;
-          
-
             display: flex;
             justify-content: space-evenly;
             align-items: center;
 
-            td, th{
+            td{
                 width: 100%;
                 text-align: center;
                

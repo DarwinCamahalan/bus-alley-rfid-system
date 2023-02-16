@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 import { IoCloseSharp } from 'react-icons/io5'
-import { FiSearch } from 'react-icons/fi'
 import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
@@ -86,87 +85,129 @@ const AddedCards = () => {
       setDeleted(false)
     }, 2500)
   }
+
   let i = 0
+  let j = cardsData.length + 1
+  const [sortField, setSortField] = useState('id')
+  const [sortDirection, setSortDirection] = useState(1)
+  const [numberClicked, setNumberClicked] = useState(false)
+
+  const sortedData = cardsData.slice().sort((a, b) => {
+    if (a[sortField] < b[sortField]) {
+      return -1 * sortDirection
+    }
+    if (a[sortField] > b[sortField]) {
+      return 1 * sortDirection
+    }
+    return 0
+  })
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection * -1)
+    } else {
+      setSortField(field)
+      setSortDirection(1)
+    }
+  }
+
   return (
     <>
       <div className={styles.tableBg}>
-        <div className={styles.tableMenu}>
-          <p>Authenticated Cards</p>
+        <ul>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('id')
+            }}
+          >
+            No.
+          </li>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('cardID')
+            }}
+          >
+            Card ID
+          </li>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('busCompany')
+            }}
+          >
+            Company Name
+          </li>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('plateNumber')
+            }}
+          >
+            Plate Number
+          </li>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('date')
+            }}
+          >
+            Date Created
+          </li>
+          <li
+            onClick={() => {
+              setNumberClicked(!numberClicked)
+              handleSort('time')
+            }}
+          >
+            Time Created
+          </li>
+        </ul>
 
-          <div className={styles.sortCompany}>
-            <label for="company">Sort by: </label>
-            <select name="company" id="company" value="-">
-              <option value="-">-</option>
-              <option value="Rural Transit">Rural Transit</option>
-              <option value="Super five">Super five</option>
-            </select>
-          </div>
-
-          <div className={styles.datePicker}>
-            <label for="date">Date: </label>
-            <input type="date" id="date" name="date"></input>
-            <span> to </span>
-            <input type="date" id="to" name="to"></input>
-          </div>
-
-          <div className={styles.search}>
-            <input type="text" id="search" name="search"></input>
-            <FiSearch />
-          </div>
-        </div>
         <table>
           <tbody>
-            <tr className={styles.tableHead}>
-              <th>No.</th>
-              <th>Card ID</th>
-              <th>Company Name</th>
-              <th>Plate Number</th>
-              <th>Date Created</th>
-              <th>Time Created</th>
-            </tr>
-            {cardsData
-              .sort((a, b) => a.id - b.id)
-              .map((cardData) => (
-                <>
-                  {/* WARNING ON KEY */}
-                  <tr className={styles.data} key={cardData.id}>
-                    <>
-                      <td> {(i = i + 1)}</td>
-                      <td>{cardData.cardID}</td>
-                      <td>{cardData.busCompany}</td>
-                      <td>{cardData.plateNumber}</td>
-                      <td>{cardData.date}</td>
-                      <td>{cardData.time}</td>
-                    </>
-                    {toggleDelete ? (
-                      <td
-                        className={styles.deleteBtn}
-                        onClick={() => handleDelete(cardData)}
-                      >
-                        {/* WARNING ON INVALID CHILD OF TD */}
-                        <p>
-                          <AiOutlineDelete />
-                        </p>
-                      </td>
-                    ) : (
-                      <div></div>
-                    )}
-                    {toggleEdit ? (
-                      <td
-                        className={styles.editBtn}
-                        onClick={() => handleEdit(cardData)}
-                      >
-                        {/* WARNING ON INVALID CHILD OF TD */}
-                        <p>
-                          <AiOutlineEdit />
-                        </p>
-                      </td>
-                    ) : (
-                      <div></div>
-                    )}
-                  </tr>
-                </>
-              ))}
+            {sortedData.map((cardData) => (
+              <>
+                {/* WARNING ON KEY */}
+                <tr className={styles.data} key={cardData.id}>
+                  <>
+                    <td>{numberClicked ? (j = j - 1) : (i = i + 1)}</td>
+                    <td>{cardData.cardID}</td>
+                    <td>{cardData.busCompany}</td>
+                    <td>{cardData.plateNumber}</td>
+                    <td>{cardData.date}</td>
+                    <td>{cardData.time}</td>
+                  </>
+                  {toggleDelete ? (
+                    <td
+                      className={styles.deleteBtn}
+                      onClick={() => handleDelete(cardData)}
+                    >
+                      {/* WARNING ON INVALID CHILD OF TD */}
+                      <p>
+                        <AiOutlineDelete />
+                      </p>
+                    </td>
+                  ) : (
+                    <div></div>
+                  )}
+                  {toggleEdit ? (
+                    <td
+                      className={styles.editBtn}
+                      onClick={() => handleEdit(cardData)}
+                    >
+                      {/* WARNING ON INVALID CHILD OF TD */}
+                      <p>
+                        <AiOutlineEdit />
+                      </p>
+                    </td>
+                  ) : (
+                    <div></div>
+                  )}
+                </tr>
+              </>
+            ))}
           </tbody>
         </table>
       </div>
