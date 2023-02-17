@@ -14,7 +14,13 @@ const Form = ({ title, closeModal, success, help }) => {
   const [cardID, setCardID] = useState('NO CARD DETECTED')
   const [plateNumber, setPlatenumber] = useState('')
   const [busCompany, setBusCompany] = useState('-')
-  const date = new Date().toLocaleDateString() + ''
+
+  const date =
+    new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }) + ''
   const time = new Date().toLocaleTimeString() + ''
 
   const handleCardIDChange = (e) => {

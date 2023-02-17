@@ -5,7 +5,7 @@ import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
-import { IoCloseSharp } from 'react-icons/io5'
+import { IoCloseSharp, IoSearchOutline } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
@@ -91,16 +91,40 @@ const AddedCards = () => {
   const [sortField, setSortField] = useState('id')
   const [sortDirection, setSortDirection] = useState(1)
   const [numberClicked, setNumberClicked] = useState(false)
+  const [selectedDate, setSelectedDate] = useState('')
+  const [sortedDate, setSortedDate] = useState('')
+  const [searchText, setSearchText] = useState('')
 
-  const sortedData = cardsData.slice().sort((a, b) => {
-    if (a[sortField] < b[sortField]) {
-      return -1 * sortDirection
-    }
-    if (a[sortField] > b[sortField]) {
-      return 1 * sortDirection
-    }
-    return 0
-  })
+  const sortedData = cardsData
+    .filter((item) => {
+      if (searchText === '') return true
+      return (
+        item.cardID.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.busCompany.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.plateNumber.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.date.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.time.toLowerCase().includes(searchText.toLowerCase())
+      )
+    })
+
+    .filter((item) => {
+      if (sortedDate === '') {
+        return true
+      }
+      return item.date === sortedDate
+    })
+
+    // .slice()
+
+    .sort((a, b) => {
+      if (a[sortField] < b[sortField]) {
+        return -1 * sortDirection
+      }
+      if (a[sortField] > b[sortField]) {
+        return 1 * sortDirection
+      }
+      return 0
+    })
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -111,9 +135,45 @@ const AddedCards = () => {
     }
   }
 
+  const handleDateChange = (event) => {
+    const date = new Date(event.target.value)
+    const year = date.getFullYear().toString()
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const day = date.getDate().toString().padStart(2, '0')
+    const formattedDate = `${month}/${day}/${year}`
+    setSortedDate(formattedDate)
+
+    const displayDate = `${year}-${month}-${day}`
+    setSelectedDate(displayDate)
+  }
+
+  const handleTextChange = (e) => {
+    setSearchText(e.target.value)
+  }
+
   return (
     <>
       <div className={styles.tableBg}>
+        <div className={styles.tableMenu}>
+          <p>Authenticated Cards</p>
+          <div className={styles.menuContainer}>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+
+            <div className={styles.search}>
+              <input
+                type="text"
+                id="text-input"
+                value={searchText}
+                onChange={handleTextChange}
+              />
+              <IoSearchOutline className={styles.searchIcon} />
+            </div>
+          </div>
+        </div>
         <ul>
           <li
             onClick={() => {
