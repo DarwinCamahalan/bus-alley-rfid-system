@@ -1,0 +1,128 @@
+@import '../../styles/variables.scss';
+
+.revenueBg{
+    width: 100%;
+    height: 88.5vh;
+    box-shadow: $shadow;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 0.3em;
+    padding-bottom: 3em;
+
+    .title{
+        background-color: $dark;
+        color: white;
+        padding: 0.8em 1.5em;
+        font-weight: 600;
+        font-size: 1em;
+        letter-spacing: 1px;
+    }
+    .container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 1em;
+
+        .menu{
+            width: 70%;
+            height: 100%;
+            margin: 0  1em;
+            
+            label{
+                display: block;
+                margin: 1em 0;
+                font-weight: 600;
+            }
+            input, select{
+                border: 1px solid black;
+                padding: 1em;
+                width: 100%;
+                font-size: 0.85em;
+                text-transform: uppercase;
+                font-weight: 500;
+            }
+            option{
+                font-size: 1em;
+                text-transform: uppercase;
+                font-weight: 500;
+            }
+            .chart{
+                width: 100%;
+                height: 100%;
+                position: relative;
+                .pie{
+                    position: absolute;
+                    top: 0;
+                    left: 2%;
+                    width: 100% !important;
+                    height: 25em!important;
+                    border: 0 !important;
+                    margin: 0 !important;
+                    font-weight: 600;
+                    font-size: 1em;
+                }
+            }
+        }
+        .result{
+            position: relative;
+            padding: 1em;
+            margin: 0 1em;
+            width: 100%;
+            height: 100%;
+            font-weight: 600;
+            .separator{
+                position: absolute;
+                width: 1px;
+                background-color: black;
+                height: 100%;
+                left: -1%;
+                bottom: 0;
+            }
+            p{
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 1em;
+            }
+            .total{
+                font-weight: 600;
+                font-size: 1.3em;
+                span{
+                    font-weight: 600;
+                    display: inline;
+                    color: rgb(0, 179, 0);
+                }
+            }
+            ul{
+                li{
+                    margin-top: 1em;
+                  
+                    span{
+                        font-weight: initial;
+                        text-transform: uppercase;
+                        display: block;
+                        margin-top: 0.3em;
+                        
+                    }
+                }
+             
+                hr{
+                    margin: 1em 0 0 0;
+                }
+
+                .formula{
+                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                    text-transform: capitalize;
+                    background-color: rgb(246, 246, 246);
+                    padding: 0.8em 1em;
+                    font-weight: 100;
+                    font-size: 1em;
+                    b{
+                        text-transform: lowercase;
+                    }
+                }
+            }
+           
+        }
+    }
+}

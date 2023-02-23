@@ -128,7 +128,7 @@ const Form = ({ title, closeModal, success, help }) => {
         >
           <option value="-">-</option>
           <option value="Rural Transit">Rural Transit</option>
-          <option value="Super five">Super five</option>
+          <option value="Super Five">Super Five</option>
         </select>
 
         <label htmlFor="plateNumber">Plate Number</label>

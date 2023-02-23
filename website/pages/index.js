@@ -7,6 +7,7 @@ import RestrictView from '../components/RestrictView/RestrictView'
 import DepartedBus from '../components/DepartedBus/DepartedBus'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import ComputeRevenue from '../components/ComputeRevenue/ComputeRevenue'
 const MainPage = () => {
   const [openSideBar, showSideBar] = useState(true)
 
@@ -18,6 +19,8 @@ const MainPage = () => {
     component = <h1>INFO</h1>
   } else if (menuChoice === '3') {
     component = <DepartedBus />
+  } else if (menuChoice === '4') {
+    component = <ComputeRevenue />
   }
 
   return (

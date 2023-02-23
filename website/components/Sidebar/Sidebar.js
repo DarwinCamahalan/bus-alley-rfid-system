@@ -7,8 +7,8 @@ import {
   AiOutlinePrinter,
   AiOutlineDelete,
   AiOutlineEdit,
+  AiOutlineLineChart,
 } from 'react-icons/ai'
-import { IoInformationOutline } from 'react-icons/io5'
 import { RiBusFill } from 'react-icons/ri'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
@@ -115,8 +115,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
                 // dispatch(SET_MENU_CHOICE('2'))
               }}
             >
-              <IoInformationOutline className={styles.icons} />
-              View Information
+              <AiOutlineLineChart className={styles.icons} />
+              Data Analytics
             </li>
             <li
               onClick={() => {
@@ -127,7 +127,12 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               <RiBusFill className={styles.icons} />
               Departed Bus
             </li>
-            <li onClick={() => router.push('/developing')}>
+            <li
+              onClick={() => {
+                setMenu(false)
+                dispatch(SET_MENU_CHOICE('4'))
+              }}
+            >
               <TbMathFunction className={styles.icons} />
               Compute Revenue
             </li>
