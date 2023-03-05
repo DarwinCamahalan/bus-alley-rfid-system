@@ -6,14 +6,14 @@
   * MFRC522 RFID READER
   * MIFARE 1KB CLASSIC RFID CARD
   * SERVO MOTOR
-  * 16X2 LCD SCREEN
+  * I2C 16X2 LCD SCREEN
   * THERMAL PRINTER
 
 ---
 
 ## HARDWARE CONFIGURATION:
 
-> MFRC522 RFID READER PINS TO ESP32
+> MFRC522 PINS TO ESP32
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
@@ -33,6 +33,30 @@
 | GND          | GND (BROWN) |
 | 5V           | VIN (RED)   |
 | 13           | GPIO 13 (ORANGE)|
+
+
+> SD CARD MODULE PINS TO ESP32
+
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND         |
+| 3V3          | VIN         |
+| 5            | CS	     |
+| 23           | MOSI        |
+| 18           | CLK	     |
+| 19           | MISO  	     |
+
+
+> I2C 16X2 LCD SCREEN PINS TO ESP32
+
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND         |
+| 5V           | VIN         |
+| 21           | SDA	     |
+| 22           | SCL         |
+
+
 
 
 
