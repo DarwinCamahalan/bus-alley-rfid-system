@@ -26,7 +26,12 @@ const SmallSideBar = ({ close, showMenu }) => {
             <IoMdArrowDropright className={styles.icons} />
             <span>RFID Card Settings</span>
           </li>
-          <li onClick={() => router.push('/developing')}>
+          <li
+            onClick={() => {
+              setMenu(false)
+              dispatch(SET_MENU_CHOICE('2'))
+            }}
+          >
             <AiOutlineLineChart className={styles.icons} />
             <span>Data Analytics</span>
           </li>

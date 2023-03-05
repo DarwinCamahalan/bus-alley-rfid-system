@@ -1,0 +1,12 @@
+@import '../../styles/variables.scss';
+
+
+.dataBg{
+    width: 100%;
+    height: 88.5vh;
+    box-shadow: $shadow;
+    background-color: white;
+    overflow: hidden;
+    padding: 0 1em;
+    border-radius: 0.3em;
+}

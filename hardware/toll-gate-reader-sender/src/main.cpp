@@ -50,7 +50,7 @@ void openTollGate(void *pvParameters)
   for (int i = 0; i <= 90; i++)
   {
     servo.write(i);
-    vTaskDelay(70 / portTICK_PERIOD_MS);
+    vTaskDelay(50 / portTICK_PERIOD_MS);
   }
 
   vTaskDelete(NULL);
@@ -270,7 +270,7 @@ void loop()
         printer.boldOff();
         printer.printBarcode("      ", CODE39);
 
-        printer.feed(2);
+        printer.feed(1);
         printer.setDefault();
       }
       delay(2000);

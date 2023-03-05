@@ -8,6 +8,7 @@ import DepartedBus from '../components/DepartedBus/DepartedBus'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ComputeRevenue from '../components/ComputeRevenue/ComputeRevenue'
+import DataAnalytics from '../components/DataAnalytics/DataAnalytics'
 const MainPage = () => {
   const [openSideBar, showSideBar] = useState(true)
 
@@ -16,7 +17,7 @@ const MainPage = () => {
   if (menuChoice === '1') {
     component = <AddedCards />
   } else if (menuChoice === '2') {
-    component = <h1>INFO</h1>
+    component = <DataAnalytics />
   } else if (menuChoice === '3') {
     component = <DepartedBus />
   } else if (menuChoice === '4') {

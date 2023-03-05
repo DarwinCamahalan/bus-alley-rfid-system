@@ -111,8 +111,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             )}
             <li
               onClick={() => {
-                router.push('/developing')
-                // dispatch(SET_MENU_CHOICE('2'))
+                setMenu(false)
+                dispatch(SET_MENU_CHOICE('2'))
               }}
             >
               <AiOutlineLineChart className={styles.icons} />
