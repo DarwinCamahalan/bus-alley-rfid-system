@@ -4,12 +4,12 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
 import {
-  AiOutlinePrinter,
   AiOutlineDelete,
   AiOutlineEdit,
   AiOutlineLineChart,
 } from 'react-icons/ai'
 import { RiBusFill } from 'react-icons/ri'
+import { CgDollar } from 'react-icons/cg'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
 import { useState } from 'react'
@@ -137,8 +137,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               Compute Revenue
             </li>
             <li onClick={() => router.push('/developing')}>
-              <AiOutlinePrinter className={styles.icons} />
-              Print Report
+              <CgDollar className={styles.icons} />
+              Billing Statement
             </li>
           </ul>
         </div>

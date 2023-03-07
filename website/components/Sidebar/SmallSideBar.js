@@ -3,8 +3,9 @@ import styles from './smallSidebar.module.scss'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropright } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
-import { AiOutlinePrinter, AiOutlineLineChart } from 'react-icons/ai'
+import { AiOutlineLineChart } from 'react-icons/ai'
 import { RiBusFill } from 'react-icons/ri'
+import { CgDollar } from 'react-icons/cg'
 import { useDispatch } from 'react-redux'
 import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
 import { useRouter } from 'next/router'
@@ -52,8 +53,8 @@ const SmallSideBar = ({ close, showMenu }) => {
             <span>Compute Revenue</span>
           </li>
           <li onClick={() => router.push('/developing')}>
-            <AiOutlinePrinter className={styles.icons} />
-            <span>Print Report</span>
+            <CgDollar className={styles.icons} />
+            <span>Billing Statement</span>
           </li>
         </ul>
       </div>
