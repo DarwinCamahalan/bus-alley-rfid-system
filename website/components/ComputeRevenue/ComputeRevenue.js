@@ -96,7 +96,7 @@ const ComputeRevenue = () => {
       day: '2-digit',
     }) + ''
   const time = new Date().toLocaleTimeString() + ''
-
+  let i = 0
   return (
     <>
       {' '}
@@ -170,7 +170,9 @@ const ComputeRevenue = () => {
                 Total: <span>₱{filteredBusData.length * 50}</span>
               </li>
             </ul>
-            {selectedCompany !== 'all' && selectedMonth !== '' ? (
+            {selectedCompany !== 'all' &&
+            selectedCompany !== '-' &&
+            selectedMonth !== '' ? (
               <div className={styles.btn} onClick={() => window.print()}>
                 <p>
                   <AiOutlinePrinter />
@@ -194,40 +196,103 @@ const ComputeRevenue = () => {
           </div>
           <div className={styles.mainContent}>
             <div className={styles.textBg}>Statement</div>
-            <h1>Billing Statement</h1>
-            <div className={styles.datetime}>
-              <p>
-                <span>Date: </span>
-                {date}
-              </p>
-              <p>
-                <span>Time: </span> {time}
-              </p>
+            <div className={styles.information}>
+              <div className={styles.address}>
+                <p>
+                  Address: <span>Zone 2 Bulua</span>
+                </p>
+                <p>
+                  City: <span>Cagayan de Oro City</span>
+                </p>
+                <p>
+                  Zip Code: <span>9000</span>
+                </p>
+              </div>
+              <div className={styles.contact}>
+                <p>
+                  Mobile/Tel No.: <span>+63123456789</span>
+                </p>
+
+                <p>
+                  Email: <span>westbound@gov.com</span>
+                </p>
+              </div>
             </div>
-            <h2>Information</h2>
-            <div className={styles.info}>
-              <ul>
-                <li>
-                  <p>Company</p>
-                  <span> {selectedCompany}</span>
-                </li>
-                <li>
-                  <p>Month</p>
+            <h2>Billing Statement</h2>
+
+            <div className={styles.companyInfo}>
+              <div className={styles.billTo}>
+                <p>Bill To:</p>
+                <span>
+                  <ul>
+                    <li>{selectedCompany}</li>
+                    <li>
+                      {selectedCompany === 'Rural Transit'
+                        ? 'Bulua, Cagayan de Oro City, Misamis Oriental'
+                        : '67V6+275, Iligan City, Lanao del Norte'}
+                    </li>
+                    <li>
+                      {selectedCompany === 'Rural Transit' ? '9000' : '9200'}
+                    </li>
+                    <li>251-8965-200</li>
+                  </ul>
+                </span>
+              </div>
+              <div className={styles.datetime}>
+                <p>
+                  Date:
+                  <span> {date} </span>
+                </p>
+                <p>
+                  Month of Billing:{' '}
                   {selectedMonth && (
                     <span>
                       {formatMonth()} {selectedMonth.substring(0, 4)}
                     </span>
                   )}
+                </p>
+              </div>
+            </div>
+            <h3>Summary</h3>
+            <div className={styles.table}>
+              <div className={styles.tableheader}>
+                <ul>
+                  <li>No.</li>
+                  <li>Date</li>
+                  <li>Company</li>
+                  <li>Plate Number</li>
+                  <li>Card ID</li>
+                  <li>Fee</li>
+                </ul>
+              </div>
+              {filteredBusData.map((busDeparted) => (
+                <ul>
+                  <li>{(i = i + 1)}</li>
+                  <li>{busDeparted.date}</li>
+                  <li>{busDeparted.busCompany}</li>
+                  <li>{busDeparted.plateNumber}</li>
+                  <li>{busDeparted.cardID}</li>
+                  <li>{`₱ ${busDeparted.fee}`}</li>
+                </ul>
+              ))}
+              <div className={styles.line}></div>
+              <div className={styles.total}>
+                <p>Total Payment: </p>₱ {filteredBusData.length * 50}
+              </div>
+              <div className={styles.line2}></div>
+            </div>
+            <div className={styles.contactInfo}>
+              <ul>
+                <li>Terms Balance Due in 30 days</li>
+                <li>Billing Questions?</li>
+                <li>
+                  Email at us <b>westbound@gov.com</b>
                 </li>
                 <li>
-                  <p>Fee</p> <span>50.00</span>
+                  Call us at <b>+63123456789</b>
                 </li>
                 <li>
-                  <p>Number of Bus</p> <span>{filteredBusData.length}</span>
-                </li>
-                <li>
-                  <p>Total</p>
-                  <span>₱ {filteredBusData.length * 50}</span>
+                  <b>Thank You!</b>
                 </li>
               </ul>
             </div>
