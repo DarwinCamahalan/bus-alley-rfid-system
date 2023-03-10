@@ -228,8 +228,13 @@ const ComputeRevenue = () => {
                     <li>{selectedCompany}</li>
                     <li>
                       {selectedCompany === 'Rural Transit'
-                        ? 'Bulua, Cagayan de Oro City, Misamis Oriental'
-                        : '67V6+275, Iligan City, Lanao del Norte'}
+                        ? 'Bulua, Cagayan de Oro City,'
+                        : '67V6+275, Iligan City,'}
+                    </li>
+                    <li>
+                      {selectedCompany === 'Rural Transit'
+                        ? 'Misamis Oriental'
+                        : 'Lanao del Norte'}
                     </li>
                     <li>
                       {selectedCompany === 'Rural Transit' ? '9000' : '9200'}

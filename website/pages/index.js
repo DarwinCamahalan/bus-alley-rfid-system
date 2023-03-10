@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ComputeRevenue from '../components/ComputeRevenue/ComputeRevenue'
 import DataAnalytics from '../components/DataAnalytics/DataAnalytics'
+import BillingStatement from '../components/BillingStatement/BillingStatement'
 const MainPage = () => {
   const [openSideBar, showSideBar] = useState(true)
 
@@ -22,6 +23,8 @@ const MainPage = () => {
     component = <DepartedBus />
   } else if (menuChoice === '4') {
     component = <ComputeRevenue />
+  } else if (menuChoice === '5') {
+    component = <BillingStatement />
   }
 
   return (

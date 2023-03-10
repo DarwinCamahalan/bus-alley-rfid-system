@@ -4,9 +4,43 @@
 .dataBg{
     width: 100%;
     height: 88.5vh;
-    box-shadow: $shadow;
-    background-color: white;
     overflow: hidden;
-    padding: 0 1em;
     border-radius: 0.3em;
+    display: flex;
+    flex-direction: column;
+    .top, .bottom{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 100%;
+    }
+    .top{
+        .bar1, .bar2{
+            width: 100%;
+            height: 96%;
+            border-radius: 0.3em;
+            padding: 0.5em;
+            box-shadow: $shadow;
+            background-color: white;
+        }
+
+    }
+    .bottom{
+
+        .bar3, .bar4{
+            width: 100%;
+            border-radius: 0.3em;
+            padding: 0.5em;
+            box-shadow: $shadow;
+            background-color: white;
+        }
+    }
+    .bar1, .bar3{
+        margin-right: 0.9em;
+    }
+    .bar1, .bar2, .bar3, .bar4{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

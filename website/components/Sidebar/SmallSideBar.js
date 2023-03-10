@@ -52,7 +52,12 @@ const SmallSideBar = ({ close, showMenu }) => {
             <TbMathFunction className={styles.icons} />
             <span>Compute Revenue</span>
           </li>
-          <li onClick={() => router.push('/developing')}>
+          <li
+            onClick={() => {
+              setMenu(false)
+              dispatch(SET_MENU_CHOICE('5'))
+            }}
+          >
             <CgDollar className={styles.icons} />
             <span>Billing Statement</span>
           </li>

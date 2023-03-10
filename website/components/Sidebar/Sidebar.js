@@ -136,7 +136,12 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               <TbMathFunction className={styles.icons} />
               Compute Revenue
             </li>
-            <li onClick={() => router.push('/developing')}>
+            <li
+              onClick={() => {
+                setMenu(false)
+                dispatch(SET_MENU_CHOICE('5'))
+              }}
+            >
               <CgDollar className={styles.icons} />
               Billing Statement
             </li>
