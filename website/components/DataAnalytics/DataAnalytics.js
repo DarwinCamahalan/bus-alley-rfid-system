@@ -69,12 +69,14 @@ const DataAnalytics = () => {
       {
         label: 'Super Five',
         data: getCompanyCountByMonth()['Super Five'],
-        backgroundColor: 'rgb(0,103,184)',
+        backgroundColor: 'rgb(0, 103, 184)',
       },
     ],
   }
-
   const options = {
+    responsive: true,
+  }
+  const options2 = {
     responsive: true,
     interaction: {
       mode: 'index',
@@ -97,13 +99,13 @@ const DataAnalytics = () => {
       {
         label: 'Rural Transit',
         data: getCompanyCountByMonth()['Rural Transit'],
-        backgroundColor: 'rgb(255, 0, 0)',
+        backgroundColor: 'rgb(102, 187, 106)',
         stack: 'Stack 0',
       },
       {
         label: 'Super Five',
         data: getCompanyCountByMonth()['Super Five'],
-        backgroundColor: 'rgb(0,103,184)',
+        backgroundColor: 'rgb(0, 172, 193)',
         stack: 'Stack 0',
       },
     ],
@@ -116,18 +118,14 @@ const DataAnalytics = () => {
         fill: true,
         label: 'Rural Transit',
         data: getCompanyCountByMonth()['Rural Transit'],
-        backgroundColor: 'rgba(255, 0, 0, 0.8)',
-        borderColor: 'rgb(255, 0, 0)',
-        borderWidth: 1,
+        backgroundColor: 'rgb(216, 27, 96)',
         stack: 'Stack 0',
       },
       {
         fill: true,
         label: 'Super Five',
         data: getCompanyCountByMonth()['Super Five'],
-        backgroundColor: 'rgba(0,103,184, 0.8)',
-        borderColor: 'rgb(0,103,184)',
-        borderWidth: 1,
+        backgroundColor: 'rgb(156, 39, 176)',
         stack: 'Stack 1',
       },
     ],
@@ -137,19 +135,19 @@ const DataAnalytics = () => {
     <div className={styles.dataBg}>
       <div className={styles.top}>
         <div className={styles.bar1}>
-          <Bar data={data} responsive={true} />
+          <Bar data={data} options={options} />
         </div>
         <div className={styles.bar2}>
-          <Line data={data} responsive={true} />
+          <Line options={options2} data={data3} />
         </div>
       </div>
 
       <div className={styles.bottom}>
         <div className={styles.bar3}>
-          <Line options={options} data={data3} />
+          <Bar data={data2} options={options2} />
         </div>
         <div className={styles.bar4}>
-          <Bar data={data2} options={options} />
+          <Line data={data} options={options} />
         </div>
       </div>
     </div>

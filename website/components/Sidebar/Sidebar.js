@@ -25,9 +25,8 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [menu, setMenu] = useState(false)
   const [open, showModal] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
-  const [help, setHelp] = useState(false)
+  const [help, setHelp] = useState(true)
   const id = 'NO CARD DETECTED'
-  const router = useRouter()
 
   const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
   const dispatch = useDispatch()

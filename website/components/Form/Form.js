@@ -5,8 +5,6 @@ import { set, ref, onValue } from 'firebase/database'
 import { useState, useEffect } from 'react'
 import { BsQuestionSquare } from 'react-icons/bs'
 const Form = ({ title, closeModal, success, help }) => {
-  let exist = false
-
   const [scanned, setScanned] = useState(false)
   const [cardsData, setCardsData] = useState([])
   const [error, setError] = useState(false)
@@ -56,10 +54,18 @@ const Form = ({ title, closeModal, success, help }) => {
       }
     })
   }, [])
+
+  let cardExist = false
+  let plateNumberExist = false
+
   const sendData = () => {
     Object.values(cardsData).map((cardData) => {
       if (cardID === cardData.cardID) {
-        exist = true
+        cardExist = true
+      }
+
+      if (plateNumber.toLowerCase() === cardData.plateNumber) {
+        plateNumberExist = true
       }
     })
 
@@ -69,9 +75,12 @@ const Form = ({ title, closeModal, success, help }) => {
     } else if (cardID === 'NO CARD DETECTED') {
       setError(!error)
       setErrorMsg('Scan RFID Card.')
-    } else if (exist === true) {
+    } else if (cardExist === true) {
       setError(!error)
       setErrorMsg('Card ID Already exist.')
+    } else if (plateNumberExist === true) {
+      setError(!error)
+      setErrorMsg('Plate Number Already exist.')
     } else {
       const id = cardsData.length
       set(ref(db, `/addedCards/${cardID}`), {

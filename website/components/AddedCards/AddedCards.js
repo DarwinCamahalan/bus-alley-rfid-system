@@ -50,10 +50,23 @@ const AddedCards = () => {
     setBusCompany(cardData.busCompany)
   }
 
-  const sendUpdate = () => {
+  let plateNumberExist = false
+
+  const sendUpdate = (cardData) => {
+    Object.values(cardsData).map((cardData) => {
+      if (plateNumber.toLowerCase() === cardData.plateNumber) {
+        plateNumberExist = true
+      }
+    })
     if (busCompany === '-' || plateNumber === '') {
       setError(!error)
       setErrorMsg('Enter Bus Company or Plate Number.')
+      setTimeout(() => {
+        setError(false)
+      }, 2500)
+    } else if (plateNumberExist === true) {
+      setError(!error)
+      setErrorMsg('Plate Number Already exist.')
       setTimeout(() => {
         setError(false)
       }, 2500)
@@ -151,6 +164,15 @@ const AddedCards = () => {
     setSearchText(e.target.value)
   }
 
+  const getStyle = () => {
+    if (toggleEdit) {
+      return styles.editMode
+    } else if (toggleDelete) {
+      return styles.deleteMode
+    } else {
+      return styles.normal
+    }
+  }
   return (
     <>
       <div className={styles.tableBg}>
@@ -174,7 +196,7 @@ const AddedCards = () => {
             </div>
           </div>
         </div>
-        <ul>
+        <ul className={getStyle()}>
           <li
             onClick={() => {
               setNumberClicked(!numberClicked)

@@ -61,7 +61,69 @@
          
         }
     }
-    ul{
+    .editMode{
+        background-color: $blue;
+        margin: 0.5em 0 0.2em 0;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center; 
+        border-radius: 0.3em;
+        @media screen and (max-width: 835px) {
+            &{
+                font-size: 0.8em;
+            }
+        }
+        li{
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: unset;  
+            text-align: center;
+            border-radius: 0 0.3em 0.3em 0;
+            color: white;
+            padding: 0.5em 0;
+            text-transform: initial;
+            &:hover{
+                border-radius: 0.3em;
+                cursor: pointer;
+                background-color: $blue-blacker;
+            }
+        }
+    }
+    .deleteMode{
+        background-color: red;
+        margin: 0.5em 0 0.2em 0;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center; 
+        border-radius: 0.3em;
+        @media screen and (max-width: 835px) {
+            &{
+                font-size: 0.8em;
+            }
+        }
+        li{
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: unset;  
+            text-align: center;
+            border-radius: 0 0.3em 0.3em 0;
+            color: white;
+            padding: 0.5em 0;
+            text-transform: initial;
+            &:hover{
+                border-radius: 0.3em;
+                cursor: pointer;
+                background-color: rgb(183, 0, 0);
+            }
+        }
+    }
+    .normal{
         margin: 0.5em 0 0.2em 0;
         width: 100%;
         position: relative;

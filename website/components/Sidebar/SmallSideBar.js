@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 
 const SmallSideBar = ({ close, showMenu }) => {
   const dispatch = useDispatch()
-  const router = useRouter()
+
   return (
     <div className={styles.smallSidebarBg}>
       <GiHamburgerMenu onClick={() => close()} className={styles.menuIcon} />
@@ -29,7 +29,6 @@ const SmallSideBar = ({ close, showMenu }) => {
           </li>
           <li
             onClick={() => {
-              setMenu(false)
               dispatch(SET_MENU_CHOICE('2'))
             }}
           >
@@ -54,7 +53,6 @@ const SmallSideBar = ({ close, showMenu }) => {
           </li>
           <li
             onClick={() => {
-              setMenu(false)
               dispatch(SET_MENU_CHOICE('5'))
             }}
           >

@@ -11,6 +11,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 24, 2);
+
 #include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
@@ -90,6 +93,10 @@ void setup()
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
+  // lcd.init();
+
+  // lcd.backlight();
+
   bool res;
   res = wm.autoConnect("AutoConnectAP");
 
@@ -115,7 +122,9 @@ void setup()
 
   SPI.begin();
   mfrc522.PCD_Init();
-  Serial.println("PLACE CARD");
+
+  // lcd.setCursor(0, 0);
+  // lcd.print("PLACE CARD");
 }
 
 void loop()

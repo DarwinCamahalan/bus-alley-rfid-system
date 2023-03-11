@@ -3,8 +3,7 @@ import styles from './success.module.scss'
 const SuccessMessage = ({ children }) => {
   return (
     <div className={styles.successBg}>
-      <span></span>
-      {children}
+      <span>{children}</span>
     </div>
   )
 }
