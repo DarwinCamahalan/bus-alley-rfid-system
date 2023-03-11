@@ -52,24 +52,18 @@ const AddedCards = () => {
 
   let plateNumberExist = false
 
-  const sendUpdate = (cardData) => {
-    Object.values(cardsData).map((cardData) => {
-      if (plateNumber.toLowerCase() === cardData.plateNumber) {
+  const sendUpdate = () => {
+    Object.values(cardsData).map((cardDatas) => {
+      if (plateNumber === cardDatas.plateNumber) {
         plateNumberExist = true
       }
     })
     if (busCompany === '-' || plateNumber === '') {
       setError(!error)
       setErrorMsg('Enter Bus Company or Plate Number.')
-      setTimeout(() => {
-        setError(false)
-      }, 2500)
     } else if (plateNumberExist === true) {
       setError(!error)
       setErrorMsg('Plate Number Already exist.')
-      setTimeout(() => {
-        setError(false)
-      }, 2500)
     } else {
       update(ref(db, `/addedCards/${cardID}`), {
         plateNumber,
@@ -84,6 +78,10 @@ const AddedCards = () => {
         setEdited(false)
       }, 2500)
     }
+    setTimeout(() => {
+      setError(false)
+    }, 2500)
+    console.log(plateNumberExist)
   }
 
   const handleDelete = (cardData) => {
