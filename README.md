@@ -19,7 +19,7 @@
 | -----------  | ----------- |
 | GND          | GND         |
 | 3V3          | VIN         |
-| 22           | RST  (RED)  |
+| 17           | RST  (RED)  |
 | 19           | MISO (GREEN)|
 | 23           | MOSI (BLUE) |
 | 18           | SCK  (YELLOW)|
