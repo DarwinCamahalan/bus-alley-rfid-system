@@ -29,7 +29,7 @@ const char *ntpServer = "asia.pool.ntp.org";
 const long gmtOffset_sec = 28800;
 const int daylightOffset_sec = 0;
 
-MFRC522 mfrc522(5, 22);
+MFRC522 mfrc522(5, 17);
 
 Servo servo;
 
@@ -63,7 +63,9 @@ void closeTollGate()
 {
   int pos;
   int delayCounter = 150;
-
+  lcd.clear();
+  lcd.setCursor(3, 1);
+  lcd.print("CLOSING GATE...");
   for (pos = 90; pos >= 0; pos -= 1)
   {
     if (pos == 35)
@@ -93,9 +95,12 @@ void setup()
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-  // lcd.init();
+  lcd.init();
+  lcd.backlight();
 
-  // lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(4, 1);
+  lcd.print("PLEASE WAIT...");
 
   bool res;
   res = wm.autoConnect("AutoConnectAP");
@@ -123,8 +128,9 @@ void setup()
   SPI.begin();
   mfrc522.PCD_Init();
 
-  // lcd.setCursor(0, 0);
-  // lcd.print("PLACE CARD");
+  lcd.clear();
+  lcd.setCursor(5, 1);
+  lcd.print("PLACE CARD");
 }
 
 void loop()
@@ -137,10 +143,19 @@ void loop()
   {
     return;
   }
-  String uidString = "";
 
+  lcd.clear();
+  lcd.setCursor(4, 1);
+  lcd.print("CARD SCANNED");
+
+  lcd.setCursor(1, 2);
+  lcd.print("CARD ID: ");
+  String uidString = "";
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
+    lcd.print(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
+    lcd.print(mfrc522.uid.uidByte[i], HEX);
+
     uidString += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
     uidString += String(mfrc522.uid.uidByte[i], HEX);
   }
@@ -152,6 +167,14 @@ void loop()
 
   if (doc.containsKey(uidString))
   {
+    lcd.clear();
+
+    lcd.setCursor(0, 0);
+    lcd.print("*CARD AUTHENTICATED*");
+
+    lcd.setCursor(6, 2);
+    lcd.print("SUCCESS!");
+
     struct tm timeinfo;
     if (!getLocalTime(&timeinfo))
     {
@@ -178,7 +201,6 @@ void loop()
 
     if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
     {
-      Serial.println("DATA SENT TO DATABASE");
       // OPEN TOLL GATE HERE
       xTaskCreate(openTollGate, "Open Toll Gate", 2048, NULL, 2, NULL);
 
@@ -222,12 +244,17 @@ void loop()
 
       if (connected)
       {
-        Serial.println("PRINTING...");
+        lcd.clear();
+        lcd.setCursor(1, 0);
+        lcd.print("PRINTING TICKET...");
+
+        lcd.setCursor(5, 2);
+        lcd.print("THANK YOU!");
+
         printer.begin();
 
-        Serial.println("Test inverse on & off");
         printer.inverseOn();
-        printer.println(F("Inverse ON"));
+        printer.println(F(" "));
         printer.inverseOff();
 
         printer.setSize('S');
@@ -289,6 +316,10 @@ void loop()
   }
   else
   {
-    Serial.println("ACCESS DENIED");
+    lcd.clear();
+    lcd.setCursor(3, 1);
+    lcd.print("ACCESS DENIED!");
+    lcd.setCursor(2, 2);
+    lcd.print("PLACE CARD AGAIN");
   }
 }
