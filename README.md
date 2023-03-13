@@ -60,7 +60,7 @@
 | 19           | MISO  	     |
 
 
-> I2C 16X2 LCD SCREEN PINS TO ESP32
+> I2C 20X4 LCD SCREEN PINS TO ESP32
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
