@@ -12,7 +12,7 @@
 #include <MFRC522.h>
 
 #include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27, 24, 2);
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 #include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
@@ -99,11 +99,11 @@ void setup()
   lcd.backlight();
 
   lcd.clear();
-  lcd.setCursor(4, 1);
+  lcd.setCursor(3, 1);
   lcd.print("PLEASE WAIT...");
 
   bool res;
-  res = wm.autoConnect("AutoConnectAP");
+  res = wm.autoConnect("TOLL GATE - ESP32");
 
   if (!res)
   {
@@ -129,8 +129,8 @@ void setup()
   mfrc522.PCD_Init();
 
   lcd.clear();
-  lcd.setCursor(5, 1);
-  lcd.print("PLACE CARD");
+  lcd.setCursor(2, 1);
+  lcd.print("PLACE RFID CARD");
 }
 
 void loop()
@@ -169,7 +169,7 @@ void loop()
   {
     lcd.clear();
 
-    lcd.setCursor(0, 0);
+    lcd.setCursor(0, 1);
     lcd.print("*CARD AUTHENTICATED*");
 
     lcd.setCursor(6, 2);
@@ -248,8 +248,11 @@ void loop()
         lcd.setCursor(1, 0);
         lcd.print("PRINTING TICKET...");
 
-        lcd.setCursor(5, 2);
+        lcd.setCursor(5, 1);
         lcd.print("THANK YOU!");
+
+        lcd.setCursor(5, 3);
+        lcd.print("FEE: 50.00");
 
         printer.begin();
 

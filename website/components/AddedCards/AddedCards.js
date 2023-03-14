@@ -1,18 +1,16 @@
 import styles from './addedCards.module.scss'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import SuccessMessage from '../SuccessMessage/SuccessMessage'
 import { db } from '../firebaseConfig'
 import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import SuccessMessage from '../SuccessMessage/SuccessMessage'
 import { IoCloseSharp, IoSearchOutline } from 'react-icons/io5'
-import { useSelector } from 'react-redux'
 
 const AddedCards = () => {
   const [errorMsg, setErrorMsg] = useState('')
   const [error, setError] = useState(false)
-  const [edited, setEdited] = useState(false)
   const [deleted, setDeleted] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [toDelete, setToDelete] = useState([])
   const [modalEdit, setModalEdit] = useState(false)
   const [cardID, setCardID] = useState('')
@@ -20,8 +18,6 @@ const AddedCards = () => {
   const [busCompany, setBusCompany] = useState('-')
   const [cardsData, setCardsData] = useState([])
   const [prompt, setPrompt] = useState(false)
-
-  const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
 
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
@@ -73,35 +69,29 @@ const AddedCards = () => {
       setPlatenumber('')
       setBusCompany('-')
       setModalEdit(!modalEdit)
-      setEdited(true)
-      setTimeout(() => {
-        setEdited(false)
-      }, 2500)
+      setUpdated(true)
     }
     setTimeout(() => {
       setError(false)
-    }, 2500)
-    console.log(plateNumberExist)
+      setUpdated(false)
+    }, 2000)
   }
 
-  const handleDelete = (cardData) => {
+  const handleDelete = (cardID) => {
     setPrompt(!prompt)
-    setToDelete(cardData)
+    setToDelete(cardID)
   }
 
-  const deleteCard = (cardData) => {
-    remove(ref(db, `/addedCards/${cardData.cardID}`))
-    setDeleted(!deleted)
+  const deleteCard = (toDelete) => {
+    remove(ref(db, `/addedCards/${toDelete}`))
+    setDeleted(true)
     setTimeout(() => {
       setDeleted(false)
-    }, 2500)
+    }, 2000)
   }
 
-  let i = 0
-  let j = cardsData.length + 1
   const [sortField, setSortField] = useState('id')
   const [sortDirection, setSortDirection] = useState(1)
-  const [numberClicked, setNumberClicked] = useState(false)
   const [selectedDate, setSelectedDate] = useState('')
   const [sortedDate, setSortedDate] = useState('')
   const [searchText, setSearchText] = useState('')
@@ -125,8 +115,6 @@ const AddedCards = () => {
       return item.date === sortedDate
     })
 
-    // .slice()
-
     .sort((a, b) => {
       if (a[sortField] < b[sortField]) {
         return -1 * sortDirection
@@ -136,15 +124,6 @@ const AddedCards = () => {
       }
       return 0
     })
-
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection * -1)
-    } else {
-      setSortField(field)
-      setSortDirection(1)
-    }
-  }
 
   const handleDateChange = (event) => {
     const date = new Date(event.target.value)
@@ -162,19 +141,11 @@ const AddedCards = () => {
     setSearchText(e.target.value)
   }
 
-  const getStyle = () => {
-    if (toggleEdit) {
-      return styles.editMode
-    } else if (toggleDelete) {
-      return styles.deleteMode
-    } else {
-      return styles.normal
-    }
-  }
+  let i = 0
   return (
     <>
-      <div className={styles.tableBg}>
-        <div className={styles.tableMenu}>
+      <div className={styles.cardContainerBg}>
+        <div className={styles.cardMenu}>
           <p>Authenticated Cards</p>
           <div className={styles.menuContainer}>
             <input
@@ -194,102 +165,37 @@ const AddedCards = () => {
             </div>
           </div>
         </div>
-        <ul className={getStyle()}>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('id')
-            }}
-          >
-            No.
-          </li>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('cardID')
-            }}
-          >
-            Card ID
-          </li>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('busCompany')
-            }}
-          >
-            Company Name
-          </li>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('plateNumber')
-            }}
-          >
-            Plate Number
-          </li>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('date')
-            }}
-          >
-            Date Created
-          </li>
-          <li
-            onClick={() => {
-              setNumberClicked(!numberClicked)
-              handleSort('time')
-            }}
-          >
-            Time Created
-          </li>
-        </ul>
 
-        <table>
-          <tbody>
-            {sortedData.map((cardData) => (
+        <div className={styles.cardBg}>
+          {sortedData.map((cardData) => (
+            <div
+              className={`${styles.card} ${
+                cardData.busCompany === 'Rural Transit'
+                  ? styles.rtmi
+                  : styles.superfive
+              }`}
+              onClick={() => handleEdit(cardData)}
+            >
               <>
-                {/* WARNING ON KEY */}
-                <tr className={styles.data} key={cardData.id}>
-                  <>
-                    <td>{numberClicked ? (j = j - 1) : (i = i + 1)}</td>
-                    <td>{cardData.cardID}</td>
-                    <td>{cardData.busCompany}</td>
-                    <td>{cardData.plateNumber}</td>
-                    <td>{cardData.date}</td>
-                    <td>{cardData.time}</td>
-                  </>
-                  {toggleDelete ? (
-                    <td
-                      className={styles.deleteBtn}
-                      onClick={() => handleDelete(cardData)}
-                    >
-                      {/* WARNING ON INVALID CHILD OF TD */}
-                      <p>
-                        <AiOutlineDelete />
-                      </p>
-                    </td>
-                  ) : (
-                    <div></div>
-                  )}
-                  {toggleEdit ? (
-                    <td
-                      className={styles.editBtn}
-                      onClick={() => handleEdit(cardData)}
-                    >
-                      {/* WARNING ON INVALID CHILD OF TD */}
-                      <p>
-                        <AiOutlineEdit />
-                      </p>
-                    </td>
-                  ) : (
-                    <div></div>
-                  )}
-                </tr>
+                <span className={styles.number}>{(i = i + 1)}</span>
+                <span className={styles.company}>{cardData.busCompany}</span>
+
+                <span className={styles.cardID}>
+                  ID: <p>{cardData.cardID}</p>
+                </span>
+                <span className={styles.plateNumber}>
+                  Plate No.: <p>{cardData.plateNumber}</p>
+                </span>
+                <span>
+                  Date: <p>{cardData.date}</p>
+                </span>
+                <span>
+                  Time: <p>{cardData.time}</p>
+                </span>
               </>
-            ))}
-          </tbody>
-        </table>
+            </div>
+          ))}
+        </div>
       </div>
 
       {prompt ? (
@@ -309,6 +215,7 @@ const AddedCards = () => {
                 onClick={() => {
                   deleteCard(toDelete)
                   setPrompt(!prompt)
+                  setModalEdit(false)
                 }}
               >
                 Yes
@@ -316,22 +223,6 @@ const AddedCards = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <div></div>
-      )}
-
-      {toggleDelete ? (
-        <SuccessMessage>
-          {deleted ? 'Card Removed Successfully' : 'Select Card to Remove'}
-        </SuccessMessage>
-      ) : (
-        <div></div>
-      )}
-
-      {toggleEdit ? (
-        <SuccessMessage>
-          {edited ? 'Card Updated Successfully' : 'Select Card to Edit'}
-        </SuccessMessage>
       ) : (
         <div></div>
       )}
@@ -344,7 +235,7 @@ const AddedCards = () => {
               onClick={() => setModalEdit(false)}
             />
             <form className={styles.formBox}>
-              <h1>Edit Card</h1>
+              <h1>Manage Card</h1>
               {error ? (
                 <div className={styles.errorBox}>
                   <ErrorMessage>{errorMsg}</ErrorMessage>
@@ -380,13 +271,33 @@ const AddedCards = () => {
               />
 
               <div className={styles.btnContainer}>
-                <div className={styles.btn} onClick={sendUpdate}>
+                <div
+                  className={styles.remove}
+                  onClick={() => {
+                    handleDelete(cardID)
+                  }}
+                >
+                  Remove
+                </div>
+                <div className={styles.update} onClick={sendUpdate}>
                   Update
                 </div>
               </div>
             </form>
           </div>
         </div>
+      ) : (
+        <div></div>
+      )}
+
+      {updated ? (
+        <SuccessMessage>Updated Successfully</SuccessMessage>
+      ) : (
+        <div></div>
+      )}
+
+      {deleted ? (
+        <SuccessMessage>Removed Successfully</SuccessMessage>
       ) : (
         <div></div>
       )}

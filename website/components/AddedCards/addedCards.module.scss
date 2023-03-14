@@ -3,42 +3,49 @@
 .hide{
     display: none !important;
 }
-.tableBg{
+
+.cardContainerBg{
     width: 100%;
     height: 88.5vh;
     box-shadow: $shadow;
-    background-color: white;
+    background-color: #ffffff;
     overflow: hidden;
-    padding: 0 1em;
-    border-radius: 0.3em;
 
-    .tableMenu{
-        margin-top: 1em;
+
+    .cardMenu{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background-color: $dark;
+        padding: 0.8em 1em; 
+
         @media screen and (max-width: 835px) {
             &{
                 font-size: 0.8em;
             }
           }
+
         p{
-            letter-spacing: initial;
             font-weight: 600;
-            font-size: 1.3em;
-            padding: 0 0.2em;
+            font-size: 1em;
+            letter-spacing: 1px;
+            margin-left: 0.7em;
+            color: white;
         }
+
         .menuContainer{
             display: flex;
             align-items: center;
             
             input{
                 border: 1px solid black;
-                border-radius: 0.3em;
-                padding: 0.2em 0.5em;
+                padding: 0.3em 0.5em;
                 margin: 0 0.3em;
                 font-weight: 600;
                 text-transform: uppercase;
+                &:focus{
+                    outline: none;
+                }
             }
            
             .search{
@@ -61,183 +68,79 @@
          
         }
     }
-    .editMode{
-        background-color: $blue;
-        margin: 0.5em 0 0.2em 0;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        text-align: center; 
-        border-radius: 0.3em;
-        @media screen and (max-width: 835px) {
-            &{
-                font-size: 0.8em;
-            }
-        }
-        li{
-            width: 100%;
-            font-weight: 700;
-            letter-spacing: unset;  
-            text-align: center;
-            border-radius: 0 0.3em 0.3em 0;
-            color: white;
-            padding: 0.5em 0;
-            text-transform: initial;
-            &:hover{
-                border-radius: 0.3em;
-                cursor: pointer;
-                background-color: $blue-blacker;
-            }
-        }
-    }
-    .deleteMode{
-        background-color: red;
-        margin: 0.5em 0 0.2em 0;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        text-align: center; 
-        border-radius: 0.3em;
-        @media screen and (max-width: 835px) {
-            &{
-                font-size: 0.8em;
-            }
-        }
-        li{
-            width: 100%;
-            font-weight: 700;
-            letter-spacing: unset;  
-            text-align: center;
-            border-radius: 0 0.3em 0.3em 0;
-            color: white;
-            padding: 0.5em 0;
-            text-transform: initial;
-            &:hover{
-                border-radius: 0.3em;
-                cursor: pointer;
-                background-color: rgb(183, 0, 0);
-            }
-        }
-    }
-    .normal{
-        margin: 0.5em 0 0.2em 0;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.8);   
-        border-radius: 0.3em;
-        @media screen and (max-width: 835px) {
-            &{
-                font-size: 0.8em;
-            }
-        }
-        li{
-            width: 100%;
-            font-weight: 700;
-            letter-spacing: unset;  
-            text-align: center;
-            border-radius: 0 0.3em 0.3em 0;
-            color: white;
-            padding: 0.5em 0;
-            text-transform: initial;
-            &:hover{
-                border-radius: 0.3em;
-                cursor: pointer;
-                background-color: black;
-            }
-        }
-    }
 
-    table{
-       display: flex;
-       flex-direction: column;
-       text-transform: uppercase;
-       overflow: auto;
-       width: 100%;
-       height: 74vh;
-       padding-top: 0.3em;  
-       @media screen and (max-width: 835px) {
-        &{
-            font-size: 0.8em;
+    .cardBg{
+        width: 100%;
+        height: 80vh;
+        padding: 1em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: auto;
+
+        .rtmi{
+            background-color: rgb(238, 0, 0);
+            background-image: url('../../public/images/rural-transit-bg.png');
+            color: white;
         }
-       }
-       tbody{
-        
-        tr{
-            position: relative;
+        .superfive{
+            background-color: white;
+            background-image: url('../../public/images/superfive-bg.png');
+            color: black;
+        }
+
+        .card{
             display: flex;
-            justify-content: space-evenly;
-            align-items: center;
+            flex-direction: column;
+            margin: 0.3em;  
+            width: 192px;
+            height: 280px;
+            box-shadow: $shadow;
+            border-radius: 0.9em;
+            transition: transform .2s;
+            transform-style: preserve-3d;
+            padding: 1em;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 40%);
+            font-size: 0.8em;
 
-            td{
-                width: 100%;
-                text-align: center;
-               
+            &:hover{
+                transform: scale(1.1);
+                z-index: 2;
+                cursor: pointer;
+            }   
+
+            .number{
+                font-size: 1em;
+                font-weight: 600    ;
+            }
+            .company{
+                    font-weight: 600;
+                    font-size: 1.3em;
+                    margin-top: 0.7em;
+                    margin-bottom: 2em;
+                    text-transform: initial;
+                    text-align: center;
             }
 
-            td{
-                margin: 0.5em 0;
+            p{
+                    display: inline;
+                    font-weight: initial;
+                    text-transform: uppercase;
             }
-
-           }
-           
-       }
+            
+            span{
+                    
+                    font-weight: 600;
+                    margin-bottom: 0.3em;
+                    font-size: 0.95em;
+            }
+            
+        }
     }
    
 }
 
-.editBtn{
-    width: 100%;
-    height: 2.1em;
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: flex-start;
-    align-items: center;
-    padding: 0.7em;
-    font-size: 1.2em;
-    color: $blue;
-    p{
-        display: none;
-    }
-    &:hover{
-        cursor: pointer;
-        background-color: $light-blue;
-        p{
-            display: block;
-        }
-    }
-}
 
-.deleteBtn{
-    width: 100%;
-    height: 2.1em;
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: flex-start;
-    align-items: center;
-    padding: 0.7em;
-    font-size: 1.2em;
-    color: red;
-    p{
-        display: none;
-    }
-    &:hover{
-        cursor: pointer;
-        background-color: $error-red;
-        p{
-            display: block;
-        }
-    }
-}
 
 .promptBg{
     width: 100%;
@@ -255,7 +158,7 @@
         box-shadow: $shadow;
         padding: 1em;
         font-weight: 600;
-        border-radius: 0.3em;
+    
         h1{
             font-size: 1.15em;
            margin-right: 0.6em;
@@ -308,7 +211,7 @@
         width: 30em;
         height: auto;
         padding: 1.8em;
-        border-radius: 0.3em;
+    
         z-index: 2;
         .exit{
             position: absolute;
@@ -404,7 +307,7 @@
                 justify-content: flex-end;
                 width: auto;
              
-                .btn{
+                .update{
                     text-transform: initial;
                     width: 6.5em !important;
                     border: 0;
@@ -415,12 +318,30 @@
                     padding: 0.7em 0;
                     font-size: 0.93em;
                     font-weight: 500;
-                    margin: 0;
-                    margin-top: 1em;
+                    margin: 1em 0 0 1em;
+
                     &:hover{
                         cursor: pointer;
                         background-color: $blue-blacker;
                     }
+                }
+                .remove{
+                        text-transform: initial;
+                        width: 6.5em !important;
+                        border: 0;
+                        background-color: red;
+                        color: white;
+                        width: auto;
+                        text-align: center;
+                        padding: 0.7em 0;
+                        font-size: 0.93em;
+                        font-weight: 500;
+                        margin: 0;
+                        margin-top: 1em;
+                        &:hover{
+                            cursor: pointer;
+                            background-color: rgb(184, 0, 0);
+                        }
                 }
             }
         }

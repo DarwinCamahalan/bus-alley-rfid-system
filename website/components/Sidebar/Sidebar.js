@@ -83,26 +83,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
                     <IoMdAdd className={styles.icons} />
                     Add Card
                   </li>
-                  <li
-                    onClick={() => {
-                      dispatch(SET_TOGGLE_DELETE(false))
-                      dispatch(SET_TOGGLE_EDIT(!toggleEdit))
-                    }}
-                    style={toggleEdit ? { backgroundColor: '#0067b8' } : {}}
-                  >
-                    <AiOutlineEdit className={styles.icons} />
-                    {toggleEdit ? 'Edit Mode' : 'Edit Card'}
-                  </li>
-                  <li
-                    onClick={() => {
-                      dispatch(SET_TOGGLE_DELETE(!toggleDelete))
-                      dispatch(SET_TOGGLE_EDIT(false))
-                    }}
-                    style={toggleDelete ? { backgroundColor: 'red' } : {}}
-                  >
-                    <AiOutlineDelete className={styles.icons} />
-                    {toggleDelete ? 'Delete Mode' : 'Remove Card'}
-                  </li>
                 </ul>
               </div>
             ) : (

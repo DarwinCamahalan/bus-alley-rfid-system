@@ -20,25 +20,18 @@ h1, p, li{
 }
 
 body{
-  background-image: url( '../public/images/bg-main.svg');
+  // background-image: url( '../public/images/bg-main.svg');
+  background-color: rgb(243, 253, 255);
   
-    /* width */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 0.3em;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

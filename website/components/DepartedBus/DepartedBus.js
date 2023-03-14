@@ -85,7 +85,7 @@ const DepartedBus = () => {
   return (
     <div className={styles.recordsBg}>
       <div className={styles.tableMenu}>
-        <p>Departed Bus Record</p>
+        <p>Departed Buses</p>
         <div className={styles.menuContainer}>
           <input type="date" value={selectedDate} onChange={handleDateChange} />
 
@@ -109,38 +109,7 @@ const DepartedBus = () => {
         >
           No.
         </li>
-        <li
-          onClick={() => {
-            setNumberClicked(!numberClicked)
-            handleSort('cardID')
-          }}
-        >
-          Card ID
-        </li>
-        <li
-          onClick={() => {
-            setNumberClicked(!numberClicked)
-            handleSort('busCompany')
-          }}
-        >
-          Company Name
-        </li>
-        <li
-          onClick={() => {
-            setNumberClicked(!numberClicked)
-            handleSort('plateNumber')
-          }}
-        >
-          Plate Number
-        </li>
-        <li
-          onClick={() => {
-            setNumberClicked(!numberClicked)
-            handleSort('fee')
-          }}
-        >
-          Fee
-        </li>
+
         <li
           onClick={() => {
             setNumberClicked(!numberClicked)
@@ -157,21 +126,59 @@ const DepartedBus = () => {
         >
           Depature Time
         </li>
+
+        <li
+          onClick={() => {
+            setNumberClicked(!numberClicked)
+            handleSort('busCompany')
+          }}
+        >
+          Company Name
+        </li>
+        <li
+          onClick={() => {
+            setNumberClicked(!numberClicked)
+            handleSort('plateNumber')
+          }}
+        >
+          Plate Number
+        </li>
+
+        <li
+          onClick={() => {
+            setNumberClicked(!numberClicked)
+            handleSort('cardID')
+          }}
+        >
+          Card ID
+        </li>
+
+        <li
+          onClick={() => {
+            setNumberClicked(!numberClicked)
+            handleSort('fee')
+          }}
+        >
+          Fee
+        </li>
       </ul>
 
       <table>
         <tbody>
           {sortedData.map((busDeparted) => (
             <>
-              <tr className={styles.data}>
+              <tr
+                className={`${styles.data} ${i % 2 === 0 ? null : styles.grey}`}
+              >
                 <>
                   <td>{numberClicked ? (j = j - 1) : (i = i + 1)}</td>
-                  <td>{busDeparted.cardID}</td>
-                  <td>{busDeparted.busCompany}</td>
-                  <td>{busDeparted.plateNumber}</td>
-                  <td>{`₱ ${busDeparted.fee}`}</td>
                   <td>{busDeparted.date}</td>
                   <td>{busDeparted.time}</td>
+                  <td>{busDeparted.busCompany}</td>
+                  <td>{busDeparted.plateNumber}</td>
+                  <td>{busDeparted.cardID}</td>
+
+                  <td>{`₱ ${busDeparted.fee}`}</td>
                 </>
               </tr>
             </>

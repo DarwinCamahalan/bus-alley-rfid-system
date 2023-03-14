@@ -30,7 +30,7 @@ void setup()
   WiFiManager wm;
   bool res;
 
-  res = wm.autoConnect("AutoConnectAP");
+  res = wm.autoConnect("ADMIN - ESP32");
 
   if (!res)
   {

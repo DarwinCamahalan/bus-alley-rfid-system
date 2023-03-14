@@ -5,15 +5,64 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom:15%;
-    left: 45%;
+    bottom: 0;
+    left: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    width: auto;
-    font-weight: bold;
-    font-size: 1.15em;
-    padding: 1em;
-    box-shadow: $shadow;
-    color: white;
+    width: 100%;
+    height: 100%;
     z-index: 2;
-    border-radius: 0.3em;
+    span{
+        position: relative;
+        width: auto;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: $shadow;
+        padding: 1em;
+        font-size: 1.2em;
+        font-weight: 600;
+
+        p{
+            display: inline;
+            margin-left: 0.6em;
+            margin-bottom: 1em;
+            font-weight: 600;
+            letter-spacing: initial;
+        }
+
+        .logo{
+            position: absolute;
+            color: green;
+            font-size: 4em;
+            font-weight: bolder;
+            opacity: 100%;
+        }
+
+        img{
+            width: 7em;
+            height: 7em;
+            opacity: 20%;
+        }
+
+        @keyframes countdown {
+            0% {
+              width: 100%;
+            }
+            100% {
+              width: 0%;
+            }
+          }
+
+        .loadingBar{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 7px;
+            background-color: green;
+            animation: countdown 2s linear;
+        }
+    }
 }

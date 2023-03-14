@@ -8,7 +8,6 @@ import { RiBusFill } from 'react-icons/ri'
 import { CgDollar } from 'react-icons/cg'
 import { useDispatch } from 'react-redux'
 import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
-import { useRouter } from 'next/router'
 
 const SmallSideBar = ({ close, showMenu }) => {
   const dispatch = useDispatch()
