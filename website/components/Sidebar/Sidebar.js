@@ -3,21 +3,16 @@ import Modal from '../Modal/Modal'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
 import { TbMathFunction } from 'react-icons/tb'
-import {
-  AiOutlineDelete,
-  AiOutlineEdit,
-  AiOutlineLineChart,
-} from 'react-icons/ai'
+import { AiOutlineLineChart } from 'react-icons/ai'
 import { RiBusFill } from 'react-icons/ri'
 import { CgDollar } from 'react-icons/cg'
 import { db } from '../firebaseConfig'
 import { set, ref } from 'firebase/database'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import Form from '../Form/Form'
 import SuccessMessage from '../SuccessMessage/SuccessMessage'
 import SmallSidebar from './SmallSideBar'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { SET_TOGGLE_DELETE, SET_TOGGLE_EDIT } from '../../redux/reducers/toggle'
 import { SET_MENU_CHOICE } from '../../redux/reducers/menu'
 
@@ -28,7 +23,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
   const [help, setHelp] = useState(true)
   const id = 'NO CARD DETECTED'
 
-  const { toggleDelete, toggleEdit } = useSelector((state) => state.toggle)
   const dispatch = useDispatch()
   if (!openSideBar)
     return (
@@ -90,7 +84,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             )}
             <li
               onClick={() => {
-                setMenu(false)
                 dispatch(SET_MENU_CHOICE('2'))
               }}
             >
@@ -99,7 +92,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             </li>
             <li
               onClick={() => {
-                setMenu(false)
                 dispatch(SET_MENU_CHOICE('3'))
               }}
             >
@@ -108,7 +100,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             </li>
             <li
               onClick={() => {
-                setMenu(false)
                 dispatch(SET_MENU_CHOICE('4'))
               }}
             >
@@ -117,7 +108,6 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
             </li>
             <li
               onClick={() => {
-                setMenu(false)
                 dispatch(SET_MENU_CHOICE('5'))
               }}
             >

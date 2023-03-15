@@ -50,7 +50,7 @@ const AddedCards = () => {
 
   const sendUpdate = () => {
     Object.values(cardsData).map((cardDatas) => {
-      if (plateNumber === cardDatas.plateNumber) {
+      if (plateNumber.toLocaleLowerCase() === cardDatas.plateNumber) {
         plateNumberExist = true
       }
     })

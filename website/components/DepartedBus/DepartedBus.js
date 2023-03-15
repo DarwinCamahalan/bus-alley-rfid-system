@@ -168,7 +168,9 @@ const DepartedBus = () => {
           {sortedData.map((busDeparted) => (
             <>
               <tr
-                className={`${styles.data} ${i % 2 === 0 ? null : styles.grey}`}
+                className={`${styles.data} ${
+                  i % 2 === 0 && j % 2 === 0 ? null : styles.grey
+                }`}
               >
                 <>
                   <td>{numberClicked ? (j = j - 1) : (i = i + 1)}</td>
