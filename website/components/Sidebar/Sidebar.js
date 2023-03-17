@@ -112,7 +112,7 @@ const Sidebar = ({ openSideBar, closeSideBar }) => {
               }}
             >
               <CgDollar className={styles.icons} />
-              Billing Statement
+              Billing Statements
             </li>
           </ul>
         </div>

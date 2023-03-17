@@ -56,7 +56,7 @@ const SmallSideBar = ({ close, showMenu }) => {
             }}
           >
             <CgDollar className={styles.icons} />
-            <span>Billing Statement</span>
+            <span>Billing Statements</span>
           </li>
         </ul>
       </div>

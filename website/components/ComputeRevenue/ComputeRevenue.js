@@ -1,7 +1,7 @@
 import styles from './computerevenue.module.scss'
 import Image from 'next/image'
 import cdologo from '../../public/cdo-logo.png'
-
+import Head from 'next/head'
 import { Chart } from 'react-google-charts'
 import { AiOutlinePrinter } from 'react-icons/ai'
 import { db } from '../firebaseConfig'
@@ -99,7 +99,9 @@ const ComputeRevenue = () => {
   let i = 0
   return (
     <>
-      {' '}
+      <Head>
+        <title>Billing Statement</title>
+      </Head>
       <div className={styles.revenueBg}>
         <div className={styles.title}>Compute Revenue</div>
         <div className={styles.container}>
