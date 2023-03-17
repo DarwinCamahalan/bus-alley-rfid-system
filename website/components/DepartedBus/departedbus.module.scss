@@ -71,7 +71,7 @@
         align-items: center;
         text-align: center;
         background-color: rgba(0, 0, 0, 0.8);   
-    
+        
         li{
             width: 100%;
             font-weight: 700;
@@ -80,6 +80,11 @@
             color: white;
             padding: 0.5em 0;
             text-transform: initial;
+            @media screen and (max-width: 835px) {
+                &{
+                    font-size: 0.7em;
+                }
+              }
             &:hover{
             
                 cursor: pointer;
