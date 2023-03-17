@@ -5,7 +5,79 @@
     height: 88.5vh;
     box-shadow: $shadow;
     background-color: white;
-    overflow: hidden;
 
-    padding-bottom: 3em;
+    .filesHeader{
+        background-color: $dark;
+        padding: 1em;
+        p{
+            font-weight: 600;
+            font-size: 1em;
+            letter-spacing: 1px;
+            margin-left: 0.7em;
+            color: white;
+        }
+    }
+    .billingMenu{
+        width: 100%;
+        margin: 1em 0;
+        padding: 0 1em;
+        display: flex;
+        justify-content: flex-end;
+
+            input{
+                padding: 0.3em 0.7em;
+               }
+
+            .search{
+                position: relative;
+                margin-left: 1em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                input{
+                   padding-right: 2em;
+                }
+
+                .searchIcon{
+                   position: absolute;
+                   right: 3%;
+                   &:hover{
+                    cursor: pointer;
+                   }
+                }
+
+            }
+        
+    }
+    .content{
+        display: flex;
+        flex-wrap: wrap;   
+        justify-content: flex-start;
+        padding: 0 1em;
+        overflow-y: auto;
+        height: 72vh;
+        a{
+            display: flex;
+            flex-direction: column;
+            width: 10em;
+            // height: 1em;
+            margin: 0.5em 1em;
+            color: black;
+            transition: transform .2s;
+            text-align: center;
+            &:hover{
+                cursor: pointer;
+                transform: scale(1.1);
+            }
+            .logo{
+                color: red;
+                font-size: 3.5em;
+            }
+            p{
+                font-size: 0.7em;
+            }
+        }
+    }
+
 }
