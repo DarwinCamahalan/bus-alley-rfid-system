@@ -18,10 +18,8 @@ const DepartedBus = () => {
   }, [])
 
   let i = 0
-  let j = busDeparted.length + 1
   const [sortField, setSortField] = useState('id')
   const [sortDirection, setSortDirection] = useState(1)
-  const [numberClicked, setNumberClicked] = useState(false)
   const [selectedDate, setSelectedDate] = useState('')
   const [sortedDate, setSortedDate] = useState('')
   const [searchText, setSearchText] = useState('')
@@ -103,7 +101,6 @@ const DepartedBus = () => {
       <ul>
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('id')
           }}
         >
@@ -112,7 +109,6 @@ const DepartedBus = () => {
 
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('date')
           }}
         >
@@ -120,7 +116,6 @@ const DepartedBus = () => {
         </li>
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('time')
           }}
         >
@@ -129,7 +124,6 @@ const DepartedBus = () => {
 
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('busCompany')
           }}
         >
@@ -137,7 +131,6 @@ const DepartedBus = () => {
         </li>
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('plateNumber')
           }}
         >
@@ -146,7 +139,6 @@ const DepartedBus = () => {
 
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('cardID')
           }}
         >
@@ -155,7 +147,6 @@ const DepartedBus = () => {
 
         <li
           onClick={() => {
-            setNumberClicked(!numberClicked)
             handleSort('fee')
           }}
         >
@@ -168,18 +159,15 @@ const DepartedBus = () => {
           {sortedData.map((busDeparted) => (
             <>
               <tr
-                className={`${styles.data} ${
-                  i % 2 === 0 && j % 2 === 0 ? null : styles.grey
-                }`}
+                className={`${styles.data} ${i % 2 === 0 ? null : styles.grey}`}
               >
                 <>
-                  <td>{numberClicked ? (j = j - 1) : (i = i + 1)}</td>
+                  <td>{(i = i + 1)} </td>
                   <td>{busDeparted.date}</td>
                   <td>{busDeparted.time}</td>
                   <td>{busDeparted.busCompany}</td>
                   <td>{busDeparted.plateNumber}</td>
                   <td>{busDeparted.cardID}</td>
-
                   <td>{`₱ ${busDeparted.fee}`}</td>
                 </>
               </tr>

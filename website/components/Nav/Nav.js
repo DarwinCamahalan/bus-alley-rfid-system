@@ -2,7 +2,7 @@ import styles from './nav.module.scss'
 import { useRouter } from 'next/router'
 import { BiShieldQuarter, BiExit } from 'react-icons/bi'
 import { TiArrowSortedDown } from 'react-icons/ti'
-import { BsFillPersonFill } from 'react-icons/bs'
+import { IoSettingsSharp } from 'react-icons/io5'
 import { useState } from 'react'
 
 const Nav = () => {
@@ -38,9 +38,9 @@ const Nav = () => {
         >
           <ul>
             <li onClick={() => router.push('/developing')}>
-              <BsFillPersonFill />
+              <IoSettingsSharp />
 
-              <h5>Account</h5>
+              <h5>Settings</h5>
             </li>
 
             <li onClick={() => setConfirm(true)}>
