@@ -30,7 +30,7 @@
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
-| GND          | GND  (BLACK)|
+| GND (19~21)  | GND  (BLACK)|
 | 3V3          | VIN  (WHITE)|
 | 17           | RST  (YELLOW)|
 | 19           | MISO (BROWN)|
