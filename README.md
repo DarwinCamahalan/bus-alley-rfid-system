@@ -36,7 +36,7 @@
 | 19           | MISO (BROWN)|
 | 23           | MOSI (RED)  |
 | 18           | SCK  (ORANGE)|
-| 2            | SDA  (GREEN)|
+| 16            | SDA  (GREEN)|
 
 
 > SD CARD MODULE PINS TO ESP32
@@ -56,7 +56,7 @@
 | -----------  | ----------- |
 | GND          | GND (BROWN) |
 | 5V           | VIN (RED)   |
-| 13           | GPIO 13 (ORANGE)|
+| 15           | GPIO 13 (ORANGE)|
 
 
 
