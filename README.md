@@ -19,11 +19,11 @@
 | -----------  | ----------- |
 | GND          | GND         |
 | 3V3          | VIN         |
-| 17           | RST  (RED)  |
+| 17 | 21 (new)| RST  (RED)  |
 | 19           | MISO (GREEN)|
 | 23           | MOSI (BLUE) |
 | 18           | SCK  (YELLOW)|
-| 5            | SDA  (BROWN)|
+| 5 | 2 (new)  | SDA  (BROWN)|
 
 
 > MFRC522 PINS TO ESP32 (ADMIN)
@@ -53,7 +53,7 @@
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
 | GND          | GND         |
-| 3V3          | VIN         |
+| 5V           | VIN         |
 | 5            | CS	     |
 | 23           | MOSI        |
 | 18           | CLK	     |
