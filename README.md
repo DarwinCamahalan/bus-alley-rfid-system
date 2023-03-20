@@ -26,13 +26,13 @@
 | 5            | SDA  (VIOLET)|
 
 
-> MFRC522 PINS TO ESP32 (TOLL GATE)
+> MFRC522 PINS TO ESP32 (TOLL GATE RFID READER)
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
 | GND          | GND  (BLACK)|
 | 3V3          | VIN  (WHITE)|
-| 21           | RST  (YELLOW)|
+| 17           | RST  (YELLOW)|
 | 19           | MISO (BROWN)|
 | 23           | MOSI (RED)  |
 | 18           | SCK  (ORANGE)|
