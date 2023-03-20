@@ -13,33 +13,44 @@
 
 ## HARDWARE CONFIGURATION:
 
+> MFRC522 PINS TO ESP32 (ADMIN RFID READER)
+
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND  (GRAY) |
+| 3V3          | VIN  (RED)  |
+| 22           | RST  (YELLOW)|
+| 19           | MISO (ORANGE)|
+| 23           | MOSI (BROWN) |
+| 18           | SCK  (BLUE)|
+| 5            | SDA  (VIOLET)|
+
+
 > MFRC522 PINS TO ESP32 (TOLL GATE)
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
-| GND          | GND         |
-| 3V3          | VIN         |
-| 17 | 21 (new)| RST  (RED)  |
-| 19           | MISO (GREEN)|
-| 23           | MOSI (BLUE) |
-| 18           | SCK  (YELLOW)|
-| 5 | 2 (new)  | SDA  (BROWN)|
+| GND          | GND  (BLACK)|
+| 3V3          | VIN  (WHITE)|
+| 21           | RST  (YELLOW)|
+| 19           | MISO (BROWN)|
+| 23           | MOSI (RED)  |
+| 18           | SCK  (ORANGE)|
+| 2            | SDA  (GREEN)|
 
 
-> MFRC522 PINS TO ESP32 (ADMIN)
+> SD CARD MODULE PINS TO ESP32
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
-| GND          | GND         |
-| 3V3          | VIN         |
-| 22           | RST  (RED)  |
-| 19           | MISO (GREEN)|
-| 23           | MOSI (BLUE) |
-| 18           | SCK  (YELLOW)|
-| 5            | SDA  (BROWN)|
+| GND          | GND  (BLACK)|
+| 5V           | VIN  (WHITE)|
+| 5            | CS   (GREEN)|
+| 23           | MOSI (RED)  |
+| 18           | SCK  (ORANGE)|
+| 19           | MISO (BROWN) |
 
-
-> SERVO MOTOR PINS TO ESP32
+> SERVO MOTOR PINS TO ESP32 | MAGNETIC CONTACTOR
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
@@ -47,17 +58,6 @@
 | 5V           | VIN (RED)   |
 | 13           | GPIO 13 (ORANGE)|
 
-
-> SD CARD MODULE PINS TO ESP32
-
-| PIN NO.      | LABEL       |
-| -----------  | ----------- |
-| GND          | GND         |
-| 5V           | VIN         |
-| 5            | CS	     |
-| 23           | MOSI        |
-| 18           | CLK	     |
-| 19           | MISO  	     |
 
 
 > I2C 20X4 LCD SCREEN PINS TO ESP32
