@@ -39,7 +39,6 @@ FirebaseData firebaseData;
 FirebaseAuth auth;
 FirebaseJson json;
 FirebaseConfig config;
-DynamicJsonDocument doc(4096);
 File file;
 
 void openTollGate(void *pvParameters)
@@ -87,10 +86,10 @@ void setup()
   lcd.setCursor(3, 1);
   lcd.print("PLEASE WAIT...");
 
-  bool res;
-  res = wm.autoConnect("TOLL GATE - ESP32");
+  wm.setConfigPortalTimeout(20);
+  wm.setConnectTimeout(20);
 
-  if (!res)
+  if (!wm.autoConnect("TOLL GATE - ESP32"))
   {
     Serial.println("NETWORK FAILED");
     lcd.clear();
@@ -174,14 +173,19 @@ void loop()
           return;
         }
 
-        deserializeJson(doc, jsonData);
+        DynamicJsonDocument cardID(4096);
+        deserializeJson(cardID, jsonData);
 
-        JsonObject root = doc.as<JsonObject>();
+        JsonObject root = cardID.as<JsonObject>();
         for (JsonPair pair : root)
         {
           String cardID = pair.key().c_str();
           file.println(cardID);
         }
+        file.close();
+
+        file = SD.open("/data.json", FILE_WRITE);
+        file.println(jsonData);
         file.close();
       }
     }
@@ -228,17 +232,36 @@ void loop()
     char date[15];
     strftime(date, 15, "%m/%d/%Y", &timeinfo);
 
-    const char *cardID = doc[uidString]["cardID"];
-    const char *busCompany = doc[uidString]["busCompany"];
-    const char *plateNumber = doc[uidString]["plateNumber"];
-
-    File csvFile = SD.open("/departed_bus_record.csv", FILE_APPEND);
-    if (!csvFile)
+    file = SD.open("/data.json");
+    String data = "";
+    while (file.available())
     {
-      Serial.println("FAILED TO WRITE DATA TO CSV");
-      return;
+      data += (char)file.read();
     }
 
+    file.close();
+
+    DynamicJsonDocument cardData(4096);
+    deserializeJson(cardData, data);
+
+    const char *cardID = cardData[uidString]["cardID"].as<const char *>();
+    const char *busCompany = cardData[uidString]["busCompany"].as<const char *>();
+    const char *plateNumber = cardData[uidString]["plateNumber"].as<const char *>();
+
+    File csvFile;
+
+    bool fileExists = SD.exists("/departed_bus_record.csv");
+    if (!fileExists)
+    {
+      csvFile = SD.open("/departed_bus_record.csv", FILE_WRITE);
+      if (csvFile)
+      {
+        csvFile.print("Date,Time,Bus Company,Plate Number,Card ID,Fee\n");
+        csvFile.close();
+      }
+    }
+
+    csvFile = SD.open("/departed_bus_record.csv", FILE_APPEND);
     csvFile.print(date);
     csvFile.print(",");
     csvFile.print(time);
