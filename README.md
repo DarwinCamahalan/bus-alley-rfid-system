@@ -48,7 +48,7 @@
 | 5            | CS   (GREEN)|
 | 23           | MOSI (RED)  |
 | 18           | SCK  (ORANGE)|
-| 19           | MISO (BROWN) |
+| 19 (220k R)  | MISO (BROWN) |
 
 > SERVO MOTOR PINS TO ESP32 | MAGNETIC CONTACTOR
 
@@ -56,7 +56,15 @@
 | -----------  | ----------- |
 | GND          | GND (BROWN) |
 | 5V           | VIN (RED)   |
-| 15           | GPIO 13 (ORANGE)|
+| 15           | GPIO 15 (ORANGE)|
+
+> SERVO MOTOR PINS TO ESP32 | MAGNETIC CONTACTOR
+
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND (BROWN) |
+| 5V           | VIN (RED)   |
+| 13           | GPIO 13 (ORANGE)|
 
 
 
