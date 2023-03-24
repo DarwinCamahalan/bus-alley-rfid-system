@@ -30,7 +30,7 @@ void setup()
   WiFiManager wm;
   bool res;
 
-  res = wm.autoConnect("ADMIN - ESP32");
+  res = wm.autoConnect("ADMIN CARD READER - RFID DEVICE");
 
   if (!res)
   {

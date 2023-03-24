@@ -16,6 +16,7 @@
 #include "BluetoothSerial.h"
 #include "Adafruit_Thermal.h"
 #include <ArduinoJson.h>
+#include <ESP32Time.h>
 
 const char *ntpServer = "asia.pool.ntp.org";
 const long gmtOffset_sec = 28800;
@@ -26,6 +27,7 @@ bool authenticated = false;
 bool online = true;
 String jsonData;
 
+ESP32Time rtc(gmtOffset_sec);
 WiFiManager wm;
 MFRC522 mfrc522(16, 17);
 LiquidCrystal_I2C lcd(0x27, 20, 4);
@@ -40,6 +42,9 @@ FirebaseAuth auth;
 FirebaseJson json;
 FirebaseConfig config;
 File file;
+File csvFile;
+
+TaskHandle_t countTaskHandle;
 
 void openTollGate(void *pvParameters)
 {
@@ -73,33 +78,140 @@ void closeTollGate()
   servo.detach();
 }
 
+const unsigned long interval = 1000;
+const int numCounts = 20;
+
+void countTask(void *pvParameters)
+{
+  int count = numCounts;
+  int state = 0;
+
+  while (state < numCounts)
+  {
+    lcd.clear();
+    lcd.setCursor(6, 0);
+    lcd.print("OFFLINE");
+    lcd.setCursor(1, 2);
+    lcd.print("RECONNECTING IN " + String(count));
+    count--;
+    state++;
+    vTaskDelay(pdMS_TO_TICKS(interval));
+  }
+  vTaskDelete(NULL);
+}
+
+void writeConnectionStatus(String data)
+{
+  File file = SD.open("/online_offline_indicator.txt", FILE_WRITE);
+  if (file)
+  {
+    file.println(data);
+    file.close();
+  }
+  else
+  {
+    Serial.println("SD CARD FAILED");
+  }
+}
+
+String readConnectionStatus()
+{
+  String data = "";
+  File file = SD.open("/online_offline_indicator.txt", FILE_READ);
+  if (file)
+  {
+    while (file.available())
+    {
+      data += (char)file.read();
+    }
+    file.close();
+  }
+  else
+  {
+    Serial.println("Error opening file.");
+  }
+  return data;
+}
+
 void setup()
 {
   Serial.begin(115200);
 
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  pinMode(13, OUTPUT);
 
   lcd.init();
   lcd.backlight();
 
-  lcd.clear();
-  lcd.setCursor(3, 1);
-  lcd.print("PLEASE WAIT...");
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  SD.begin(5);
+
+  String connectionStatus = readConnectionStatus();
+  connectionStatus.trim();
+
+  if (connectionStatus == "offline")
+  {
+    xTaskCreate(countTask, "countTask", 2048, NULL, 1, NULL);
+  }
+  else
+  {
+    lcd.clear();
+    lcd.setCursor(3, 1);
+    lcd.print("PLEASE WAIT...");
+  }
 
   wm.setConfigPortalTimeout(20);
   wm.setConnectTimeout(20);
 
-  if (!wm.autoConnect("TOLL GATE - ESP32"))
+  if (!wm.autoConnect("TOLL GATE - RFID DEVICE"))
   {
     Serial.println("NETWORK FAILED");
-    lcd.clear();
-    lcd.setCursor(4, 1);
-    lcd.print("OFFLINE MODE");
+
+    csvFile = SD.open("/departed_bus_record.csv", FILE_READ);
+
+    String lastRow = "";
+    while (csvFile.available())
+    {
+      String row = csvFile.readStringUntil('\n');
+      if (row != "")
+      {
+        lastRow = row;
+      }
+    }
+    csvFile.close();
+
+    int firstComma = lastRow.indexOf(',');
+    String date = lastRow.substring(0, firstComma);
+    String time = lastRow.substring(firstComma + 1, lastRow.indexOf(',', firstComma + 1));
+
+    int year = date.substring(6).toInt();
+    int month = date.substring(0, 2).toInt();
+    int day = date.substring(3, 5).toInt();
+    int hour = time.substring(0, 2).toInt();
+    int minute = time.substring(3, 5).toInt();
+    int second = time.substring(6, 8).toInt();
+    bool isPM = (time.substring(9, 11) == "PM");
+
+    if (isPM && hour < 12)
+    {
+      hour += 12;
+    }
+    else if (!isPM && hour == 12)
+    {
+      hour = 0;
+    }
+
+    rtc.setTime(hour, minute, second, day, month, year);
+
+    writeConnectionStatus("offline");
     online = false;
   }
   else
   {
     Serial.println("CONNECTED TO NETWORK");
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    writeConnectionStatus("online");
     online = true;
   }
 
@@ -119,14 +231,19 @@ void setup()
     Firebase.reconnectWiFi(true);
   }
 
-  SPI.begin();
-  mfrc522.PCD_Init();
-
-  SD.begin(5);
-
   lcd.clear();
-  lcd.setCursor(2, 1);
-  lcd.print("PLACE RFID CARD");
+  if (online == true)
+  {
+    lcd.setCursor(2, 1);
+    lcd.print("PLACE RFID CARD");
+  }
+  else
+  {
+    lcd.setCursor(4, 0);
+    lcd.print("OFFLINE MODE");
+    lcd.setCursor(2, 2);
+    lcd.print("PLACE RFID CARD");
+  }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -220,17 +337,34 @@ void loop()
     lcd.setCursor(6, 2);
     lcd.print("SUCCESS!");
 
-    struct tm timeinfo;
-    if (!getLocalTime(&timeinfo))
-    {
-      return;
-    }
-
     char time[15];
-    strftime(time, 15, "%I:%M:%S %p", &timeinfo);
-
     char date[15];
-    strftime(date, 15, "%m/%d/%Y", &timeinfo);
+    if (online == true)
+    {
+      struct tm timeinfo;
+      if (!getLocalTime(&timeinfo))
+      {
+        Serial.println("FAILED TO OBTAIN TIME/DATE ONLINE");
+        return;
+      }
+
+      strftime(time, 15, "%I:%M:%S %p", &timeinfo);
+      strftime(date, 15, "%m/%d/%Y", &timeinfo);
+    }
+    else
+    {
+      int hour = rtc.getHour();
+      int minute = rtc.getMinute();
+      int second = rtc.getSecond();
+      int day = rtc.getDay();
+      int month = rtc.getMonth();
+      int year = rtc.getYear();
+      String period = rtc.getAmPm(true);
+      period.toUpperCase();
+
+      sprintf(date, "%02d/%02d/%04d", month, day, year);
+      sprintf(time, "%02d:%02d:%02d %s", hour, minute, second, period);
+    }
 
     file = SD.open("/data.json");
     String data = "";
@@ -247,8 +381,6 @@ void loop()
     const char *cardID = cardData[uidString]["cardID"].as<const char *>();
     const char *busCompany = cardData[uidString]["busCompany"].as<const char *>();
     const char *plateNumber = cardData[uidString]["plateNumber"].as<const char *>();
-
-    File csvFile;
 
     bool fileExists = SD.exists("/departed_bus_record.csv");
     if (!fileExists)
@@ -288,7 +420,7 @@ void loop()
 
     // OPEN TOLL GATE HERE
     xTaskCreate(openTollGate, "Open Toll Gate", 2048, NULL, 2, NULL);
-
+    digitalWrite(13, HIGH);
     // PRINT RECEIPT
     SD.end();
     WiFi.disconnect(true);
@@ -399,6 +531,7 @@ void loop()
       printer.setDefault();
     }
     delay(2000);
+    digitalWrite(13, LOW);
     closeTollGate();
     ESP.restart();
   }
