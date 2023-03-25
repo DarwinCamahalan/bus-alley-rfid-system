@@ -1,15 +1,15 @@
 
 @font-face {
-    font-family: "Segoe UI";
+    font-family: "Segoe UI - Apple";
     font-style: normal;
-    font-weight: 900;
-    src: url('/fonts/segoeuii.ttf') format("ttf");
+    font-weight: normal;
+    src: url('../fonts/segoeui.ttf');
  }
 
 *{
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI";
+  font-family: "Segoe UI", Segoe UI - Apple , Arial, Helvetica, sans-serif;
   box-sizing: border-box;
   text-decoration: none;
   list-style-type: none;
