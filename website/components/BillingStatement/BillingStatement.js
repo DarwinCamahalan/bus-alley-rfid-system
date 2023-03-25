@@ -61,6 +61,7 @@ const BillingStatement = () => {
         <div className={styles.sortMenu}>
           <input
             type="month"
+            placeholder="yyyy-mm-dd"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
           />

@@ -120,6 +120,7 @@ const ComputeRevenue = () => {
             <label htmlFor="month">Select Month</label>
             <input
               type="month"
+              placeholder="yyyy-mm-dd"
               id="month"
               value={selectedMonth}
               onChange={handleMonthChange}
@@ -192,7 +193,7 @@ const ComputeRevenue = () => {
           <div className={styles.header}>
             <Image src={cdologo} alt="CDO Logo" placeholder="blur" />
             <span>
-              <p>East and West Bound Terminals</p>
+              <p>Farmers Market and Transportation Terminal</p>
               <p>Cagayan de Oro City</p>
             </span>
           </div>

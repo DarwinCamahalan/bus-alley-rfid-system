@@ -480,7 +480,7 @@ void loop()
 
       printer.setSize('S');
       printer.justify('C');
-      printer.println("East and West Bound Terminals");
+      printer.println("Farmers Market and Transportation Terminal");
       printer.boldOn();
       printer.println("Cagayan de Oro City");
       printer.boldOff();
