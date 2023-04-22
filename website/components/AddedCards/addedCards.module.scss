@@ -4,21 +4,24 @@
     display: none !important;
 }
 
-.cardContainerBg{
+.contentBg{
     width: 100%;
     height: 88.5vh;
     box-shadow: $shadow;
     background-color: #ffffff;
     overflow: hidden;
 
+    .darkBg{
+        background-color: $dark;
+        color: white;
+    }
 
     .cardMenu{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: $dark;
         padding: 0.8em 1em; 
-
+        
         @media screen and (max-width: 835px) {
             &{
                 font-size: 0.8em;
@@ -30,13 +33,24 @@
             font-size: 1em;
             letter-spacing: 1px;
             margin-left: 0.7em;
-            color: white;
         }
 
         .menuContainer{
             display: flex;
             align-items: center;
-            
+            .viewContainer{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 0.5em;
+                font-size: 1.5em;
+                &:hover{
+                    cursor: pointer;
+                }
+                .cardView{
+                    transform: rotate(90deg);
+                }
+            }
             input{
                 border: 1px solid black;
                 padding: 0.3em 0.5em;
@@ -137,8 +151,86 @@
             
         }
     }
+
+    .TableView{
+    padding: 0 1em;
+    ul{
+        margin: 0.7em 0 0.2em 0;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);   
+        
+        li{
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: unset;  
+            text-align: center;
+            color: white;
+            padding: 0.5em 0;
+            text-transform: initial;
+            @media screen and (max-width: 835px) {
+                &{
+                    font-size: 0.7em;
+                }
+              }
+            &:hover{
+                cursor: pointer;
+                background-color: black;
+            }
+        }
+    }
+
+
+
+    table{
+       display: flex;
+       flex-direction: column;
+       text-transform: uppercase;
+       overflow: auto;
+       width: 100%;
+       height: 74vh;
+       padding-top: 0.3em;
+       @media screen and (max-width: 835px) {
+        &{
+            font-size: 0.8em;
+        }
+      }
+       tbody{
+        .grey{
+            background-color: rgb(240, 240, 240);
+        }
+        tr{
+            position: relative;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            &:hover{
+                font-weight: 500;
+                background-color: rgb(242, 248, 255);
+                cursor: pointer;
+            }
+            td{
+                width: 100%;
+                text-align: center;
+            }
+
+            td{
+                margin: 0.5em 0;
+            }
+        }
+
+        
+       }
+    }
+    }
    
 }
+
+
 
 
 

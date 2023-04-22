@@ -5,6 +5,8 @@ import { db } from '../firebaseConfig'
 import { ref, onValue, remove, update } from 'firebase/database'
 import { useState, useEffect } from 'react'
 import { IoCloseSharp, IoSearchOutline } from 'react-icons/io5'
+import { AiOutlineUnorderedList } from 'react-icons/ai'
+import { RxCardStack } from 'react-icons/rx'
 
 const AddedCards = () => {
   const [errorMsg, setErrorMsg] = useState('')
@@ -18,6 +20,7 @@ const AddedCards = () => {
   const [busCompany, setBusCompany] = useState('-')
   const [cardsData, setCardsData] = useState([])
   const [prompt, setPrompt] = useState(false)
+  const [viewType, setViewType] = useState(true)
 
   useEffect(() => {
     onValue(ref(db, '/addedCards'), (snapshot) => {
@@ -125,6 +128,15 @@ const AddedCards = () => {
       return 0
     })
 
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection * -1)
+    } else {
+      setSortField(field)
+      setSortDirection(1)
+    }
+  }
+
   const handleDateChange = (event) => {
     const date = new Date(event.target.value)
     const year = date.getFullYear().toString()
@@ -144,10 +156,22 @@ const AddedCards = () => {
   let i = 0
   return (
     <>
-      <div className={styles.cardContainerBg}>
-        <div className={styles.cardMenu}>
+      <div className={styles.contentBg}>
+        <div
+          className={`${styles.cardMenu} ${viewType ? styles.darkBg : null}`}
+        >
           <p>Authenticated Cards</p>
           <div className={styles.menuContainer}>
+            <div
+              className={styles.viewContainer}
+              onClick={() => setViewType(!viewType)}
+            >
+              {viewType ? (
+                <AiOutlineUnorderedList className={styles.list} />
+              ) : (
+                <RxCardStack className={styles.cardView} />
+              )}
+            </div>
             <input
               type="date"
               value={selectedDate}
@@ -166,36 +190,111 @@ const AddedCards = () => {
           </div>
         </div>
 
-        <div className={styles.cardBg}>
-          {sortedData.map((cardData) => (
-            <div
-              className={`${styles.card} ${
-                cardData.busCompany === 'Rural Transit'
-                  ? styles.rtmi
-                  : styles.superfive
-              }`}
-              onClick={() => handleEdit(cardData)}
-            >
-              <>
-                <span className={styles.number}>{(i = i + 1)}</span>
-                <span className={styles.company}>{cardData.busCompany}</span>
+        {viewType ? (
+          <div className={styles.cardBg}>
+            {sortedData.map((cardData) => (
+              <div
+                className={`${styles.card} ${
+                  cardData.busCompany === 'Rural Transit'
+                    ? styles.rtmi
+                    : styles.superfive
+                }`}
+                onClick={() => handleEdit(cardData)}
+              >
+                <>
+                  <span className={styles.number}>{(i = i + 1)}</span>
+                  <span className={styles.company}>{cardData.busCompany}</span>
 
-                <span className={styles.cardID}>
-                  ID: <p>{cardData.cardID}</p>
-                </span>
-                <span className={styles.plateNumber}>
-                  Plate No.: <p>{cardData.plateNumber}</p>
-                </span>
-                <span>
-                  Date: <p>{cardData.date}</p>
-                </span>
-                <span>
-                  Time: <p>{cardData.time}</p>
-                </span>
-              </>
-            </div>
-          ))}
-        </div>
+                  <span className={styles.cardID}>
+                    ID: <p>{cardData.cardID}</p>
+                  </span>
+                  <span className={styles.plateNumber}>
+                    Plate No.: <p>{cardData.plateNumber}</p>
+                  </span>
+                  <span>
+                    Date: <p>{cardData.date}</p>
+                  </span>
+                  <span>
+                    Time: <p>{cardData.time}</p>
+                  </span>
+                </>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.TableView}>
+            <ul>
+              <li
+                onClick={() => {
+                  handleSort('id')
+                }}
+              >
+                No.
+              </li>
+
+              <li
+                onClick={() => {
+                  handleSort('date')
+                }}
+              >
+                Date Created
+              </li>
+              <li
+                onClick={() => {
+                  handleSort('time')
+                }}
+              >
+                Time Created
+              </li>
+
+              <li
+                onClick={() => {
+                  handleSort('busCompany')
+                }}
+              >
+                Company Name
+              </li>
+              <li
+                onClick={() => {
+                  handleSort('plateNumber')
+                }}
+              >
+                Plate Number
+              </li>
+
+              <li
+                onClick={() => {
+                  handleSort('cardID')
+                }}
+              >
+                Card ID
+              </li>
+            </ul>
+            <table>
+              <tbody>
+                {sortedData.map((cardData) => (
+                  <>
+                    <tr
+                      className={`${styles.data} ${
+                        i % 2 === 0 ? null : styles.grey
+                      }`}
+                      onClick={() => handleEdit(cardData)}
+                    >
+                      <>
+                        <td>{(i = i + 1)} </td>
+                        <td>{cardData.date}</td>
+                        <td>{cardData.time}</td>
+                        <td>{cardData.busCompany}</td>
+                        <td>{cardData.plateNumber}</td>
+                        <td>{cardData.cardID}</td>
+                      </>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {prompt ? (
