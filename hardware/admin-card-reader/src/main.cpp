@@ -1,21 +1,22 @@
+// IMPORTING PACKAGES USING PLATFORMIO EXTENSION IN VS CODE
 #include <Arduino.h>
 #include <WiFiManager.h>
-
 #include <SPI.h>
 #include <MFRC522.h>
-
 #include <Firebase_ESP_Client.h>
-
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 
+// DEFINING SECRET KEY AND URL TO THE REALTIME DATABASE OF FIREBASE
 #define DATABASE_URL "https://rfid-database-abd32-default-rtdb.asia-southeast1.firebasedatabase.app/"
 #define API_KEY "AIzaSyAqRt-Q3UQTtvnhi6wvTznXSbHF36sNWGo"
 
+// PINS FOR THE MFRC522 RFID SCANNER
 #define SS_PIN 5
 #define RST_PIN 22
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
+// DEFINING FIREBASE DATA OBJECT, AUTHENTICATION AND CONFIGURATION
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
@@ -24,12 +25,14 @@ bool signupOK = false;
 
 void setup()
 {
-
+  // IDEAL BAUDRATE FOR RFID COMMUNICATION
   Serial.begin(115200);
 
+  // INITIALIZING ACCESS POINT USING WIFI MANAGE LIBRARY
   WiFiManager wm;
   bool res;
 
+  // ACCESS POINT NAME OF ESP32 DEVICE
   res = wm.autoConnect("ADMIN CARD READER - RFID DEVICE");
 
   if (!res)
@@ -56,9 +59,11 @@ void setup()
 
   config.token_status_callback = tokenStatusCallback;
 
+  // IF OFFLINE, IT AUTOMATICALLY RECONNECT TO DATABASE WHEN INTERNET CONNECTION IS STABLE
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
+  // SCANNING FOR AN RFID CARD (MIFARE CLASSIC 1KB)
   SPI.begin();
   mfrc522.PCD_Init();
   Serial.println("PLACE CARD");
@@ -78,6 +83,7 @@ void loop()
     return;
   }
 
+  // PRINTING UNIQUE ID OF THE RFID CARDS
   Serial.print("UID: ");
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
@@ -93,6 +99,7 @@ void loop()
     uidString += String(mfrc522.uid.uidByte[i], HEX);
   }
 
+  // SENDING UID TO THE FIREBASE REALTIME DATA BASE IN "CARD/ID" NODE
   if (Firebase.ready() && signupOK)
   {
     Firebase.RTDB.setString(&fbdo, "card/id", uidString);

@@ -1,3 +1,4 @@
+// IMPORTING LIBRARIES USING PLATFORMIO EXTENSION IN VS CODE
 #include <Arduino.h>
 #include <WiFiManager.h>
 #include "time.h"
@@ -18,69 +19,115 @@
 #include <ArduinoJson.h>
 #include <ESP32Time.h>
 
+// VARIABLES FOR ULTRASONIC SENSOR, PIN NUMBERS AND CONSTANT VALUE OF SPEED OF SOUND
+const int trigPin = 5;
+const int echoPin = 18;
+#define SOUND_SPEED 0.034
+long duration;
+float distanceCm;
+
+// VARIABLES FOR USING NTP TIME SERVER IF ESP32 HAS INTERNET CONNECTIVITY (PHILIPPINE STANDARD TIME +8 GMT)
 const char *ntpServer = "asia.pool.ntp.org";
 const long gmtOffset_sec = 28800;
 const int daylightOffset_sec = 0;
+
+// VARIABLES FOR BOOLEAN INDICATORS IF ONLINE OF OFFLINE
 bool connected;
 bool signupOK = false;
 bool authenticated = false;
 bool online = true;
 String jsonData;
 
+// VARIABLES FOR COUNTERS FOR RECONNECTING TO WIFI WHEN OFFLINE
+const unsigned long interval = 1000;
+const int numCounts = 20;
+
+// INITIALIZING OBJECT FOR ESP32TIME LIBRARY AN OFFLINE TIME COUNTER
 ESP32Time rtc(gmtOffset_sec);
+
+// INITIALIZING WIFI MANAGER LIBRARY FOR WIFI ACCESS POINT
 WiFiManager wm;
+
+// PINS FOR MFRC522 RFID SCANNER SDA AND RST
 MFRC522 mfrc522(16, 17);
+
+// INITIALIZING OBJECT FOR I2C LCD SCREEN 20X4 SIZE
 LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+// INITIALIZING OBJECT FOR SERVO MOTOR 9 GRAMS
 Servo servo;
+
+// INITIALIZING OBJECT FOR BLUETOOTH AND FOR BLUETOOTH PRINTER
 BluetoothSerial SerialBT;
 Adafruit_Thermal printer(&SerialBT);
+// MAC ADDRESS OF THE BLUETOOTH THERMAL PRINTER AND ITS BLUETOOTH NAME AND DEFAULT PASSWORD
 uint8_t address[6] = {0x86, 0x67, 0x7A, 0x76, 0x6D, 0xAA};
 String name = "MTP-II_6DAA";
 const char *pin = "0000";
+
+// INITIALIZING FIREBASE OBJECTS FOR AUTHENTICATION, JSON, ETC...
 FirebaseData firebaseData;
 FirebaseAuth auth;
 FirebaseJson json;
 FirebaseConfig config;
+
+// INITIALIZING OBJECT FOR CRUD OPERATION FOR SD CARD MODULE FILES (.TXT/.CSV) FILES
 File file;
 File csvFile;
 
+// REALTIME OPERATING SYSTEM (RTOS) OBJECT FOR COUNTER TO RECONNECT TO WIFI WHEN OFFLINE
 TaskHandle_t countTaskHandle;
 
+// FUNCTION FOR SYNCRONOUS OPENING TOLL GATE AND ROTATING SERVO MOTOR 0 TO 90 DEGREE
 void openTollGate(void *pvParameters)
 {
-  servo.attach(15);
+  // SUPPLYING VOLTAGE TO PIN 13 TO ACTIVATE RELAY AND TRIGGER THE THREE PHASE MAGNETIC CONTACTOR
+  digitalWrite(13, HIGH);
 
+  servo.attach(25);
   for (int i = 0; i <= 90; i++)
   {
     servo.write(i);
+    // SERVO ROTATING DELAY OF 50 MILLISECONDS
     vTaskDelay(50 / portTICK_PERIOD_MS);
-  }
 
+    if (i == 90)
+    {
+      // TURNING OFF RELAY AND TO TURN OFF MAGNETIC CONTACTOR ASWELL
+      digitalWrite(13, LOW);
+    }
+  }
+  // DELETING TASK IN THE BACKGROUND
   vTaskDelete(NULL);
 }
 
+// FUNCTION FOR CLOSING TOLL GATE, BLOCKING FUNCTION
 void closeTollGate()
 {
   int pos;
-  int delayCounter = 150;
+
+  // DISPLAYING TEXT TO 20X4 I2C LCD SCREEN
   lcd.clear();
   lcd.setCursor(3, 1);
   lcd.print("CLOSING GATE...");
+
+  // TURNING ON RELAY IN PIN 13 AND TRIGGERING MAGNETIC CONTACTOR TO TURN ON
+  digitalWrite(13, HIGH);
+
   for (pos = 90; pos >= 0; pos -= 1)
   {
-    if (pos == 35)
-    {
-      delayCounter = 50;
-    }
     servo.write(pos);
-    delay(delayCounter);
+    // ROTATING SERVO WITH DELAY OF 50 MILLISECONDS
+    delay(50);
   }
+
+  // TURNING OFF RELAY IN PIN 13 AND TRIGGERING MAGNETIC CONTACTOR TO TURN OFF
+  digitalWrite(13, LOW);
+
   servo.detach();
 }
 
-const unsigned long interval = 1000;
-const int numCounts = 20;
-
+// FUNCTION FOR COUNTER FROM 20 TO 0 RECONNECTING TO WIFI, SYNCRONOUS FUNCTION
 void countTask(void *pvParameters)
 {
   int count = numCounts;
@@ -100,8 +147,10 @@ void countTask(void *pvParameters)
   vTaskDelete(NULL);
 }
 
+// FUNCTION FOR THE INDICATOR IF ESP32 INTERNET CONNECTION IS OFFLINE OR ONLINE
 void writeConnectionStatus(String data)
 {
+  // WRITING "OFFLINE" OR "ONLINE" TO SD CARD MODULE
   File file = SD.open("/online_offline_indicator.txt", FILE_WRITE);
   if (file)
   {
@@ -114,6 +163,7 @@ void writeConnectionStatus(String data)
   }
 }
 
+// FUNCTION FOR READING CONNECTION STATUS AND RETURNING OFFLINE OR ONLINE IN "DATA" VARIABLE
 String readConnectionStatus()
 {
   String data = "";
@@ -135,23 +185,34 @@ String readConnectionStatus()
 
 void setup()
 {
+  // IDEAL BAUDRATE FOR MFRC522 RFID SCANNER AND OTHER COMPONENTS
   Serial.begin(115200);
 
+  // SETTING PIN 13 AS OUTPUT VOLTAGE FOR RELAY MODULE
   pinMode(13, OUTPUT);
 
+  // SETTING PINS AS OUTPUT VOLTAGE FOR ULTRASONIC SENSOR
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  // TURNING OF LCD DISPLAY
   lcd.init();
   lcd.backlight();
 
+  // INITIALIZING MFRC522 RFID SCANNER
   SPI.begin();
   mfrc522.PCD_Init();
 
+  // INITIALIZING PIN 5 FOR SDA TO SD CARD MODULE
   SD.begin(5);
 
+  // READING CONNECTION INDICATOR FROM SD CARD MODULE
   String connectionStatus = readConnectionStatus();
   connectionStatus.trim();
 
   if (connectionStatus == "offline")
   {
+    // IF OFFLINE, LCD SCREEN WILL HAVE A RECONNECTION COUNTER 20 TO 0 TO CONNTECT TO WIIFI
     xTaskCreate(countTask, "countTask", 2048, NULL, 1, NULL);
   }
   else
@@ -161,6 +222,7 @@ void setup()
     lcd.print("PLEASE WAIT...");
   }
 
+  // RECONNECTION AND ACCESS TO ACCESS POINT OF ESP32 SET TO 20 SECONDS
   wm.setConfigPortalTimeout(20);
   wm.setConnectTimeout(20);
 
@@ -168,6 +230,7 @@ void setup()
   {
     Serial.println("NETWORK FAILED");
 
+    // READING CSV FILE FOR THE LAST ROW OF THE DATA AND GETTING DATE AND TIME
     csvFile = SD.open("/departed_bus_record.csv", FILE_READ);
 
     String lastRow = "";
@@ -181,10 +244,10 @@ void setup()
     }
     csvFile.close();
 
+    // GETTING DATE AND AND TIME IN THE LAST ROW OF DATA AND SETTING THE ESP32TIME THE CLOCK COUNTER
     int firstComma = lastRow.indexOf(',');
     String date = lastRow.substring(0, firstComma);
     String time = lastRow.substring(firstComma + 1, lastRow.indexOf(',', firstComma + 1));
-
     int year = date.substring(6).toInt();
     int month = date.substring(0, 2).toInt();
     int day = date.substring(3, 5).toInt();
@@ -193,6 +256,7 @@ void setup()
     int second = time.substring(6, 8).toInt();
     bool isPM = (time.substring(9, 11) == "PM");
 
+    // CONVERTING 12 HOURS TIME TO 24 HOURS TIME (MILITARY TIME)
     if (isPM && hour < 12)
     {
       hour += 12;
@@ -202,13 +266,16 @@ void setup()
       hour = 0;
     }
 
+    // SETTING THE DEFAULT TIME FOR THE OFFLINE TIMER USING ESP32TIME LIBRARY EXAMPLE: 15:30:24 01 JANUARY 2023
     rtc.setTime(hour, minute, second, day, month, year);
 
+    // WRITING THE INDICATOR AS "OFFLINE" IF THIS HAPPENS
     writeConnectionStatus("offline");
     online = false;
   }
   else
   {
+    // IF CONNECTED TO THE INTERNET, WIRING INIDICATOR AS "ONLINE"
     Serial.println("CONNECTED TO NETWORK");
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
     writeConnectionStatus("online");
@@ -420,7 +487,7 @@ void loop()
 
     // OPEN TOLL GATE HERE
     xTaskCreate(openTollGate, "Open Toll Gate", 2048, NULL, 2, NULL);
-    digitalWrite(13, HIGH);
+
     // PRINT RECEIPT
     SD.end();
     WiFi.disconnect(true);
@@ -530,9 +597,29 @@ void loop()
       printer.feed(1);
       printer.setDefault();
     }
-    delay(2000);
-    digitalWrite(13, LOW);
-    closeTollGate();
+    delay(30000);
+
+    while (1)
+    {
+      digitalWrite(trigPin, LOW);
+      delayMicroseconds(2);
+
+      digitalWrite(trigPin, HIGH);
+      delayMicroseconds(10);
+      digitalWrite(trigPin, LOW);
+
+      duration = pulseIn(echoPin, HIGH);
+      distanceCm = duration * SOUND_SPEED / 2;
+
+      Serial.println(distanceCm);
+
+      if (distanceCm == 5.0)
+      {
+        closeTollGate();
+        break;
+      }
+    }
+
     ESP.restart();
   }
   else
