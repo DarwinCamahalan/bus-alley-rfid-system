@@ -20,8 +20,8 @@
 #include <ESP32Time.h>
 
 // VARIABLES FOR ULTRASONIC SENSOR, PIN NUMBERS AND CONSTANT VALUE OF SPEED OF SOUND
-const int trigPin = 5;
-const int echoPin = 18;
+const int trigPin = 26;
+const int echoPin = 27;
 #define SOUND_SPEED 0.034
 long duration;
 float distanceCm;
@@ -43,7 +43,7 @@ const unsigned long interval = 1000;
 const int numCounts = 20;
 
 // INITIALIZING OBJECT FOR ESP32TIME LIBRARY AN OFFLINE TIME COUNTER
-ESP32Time rtc(gmtOffset_sec);
+ESP32Time rtc;
 
 // INITIALIZING WIFI MANAGER LIBRARY FOR WIFI ACCESS POINT
 WiFiManager wm;
@@ -125,6 +125,7 @@ void closeTollGate()
   digitalWrite(13, LOW);
 
   servo.detach();
+  // delay(1000);
 }
 
 // FUNCTION FOR COUNTER FROM 20 TO 0 RECONNECTING TO WIFI, SYNCRONOUS FUNCTION
@@ -145,6 +146,23 @@ void countTask(void *pvParameters)
     vTaskDelay(pdMS_TO_TICKS(interval));
   }
   vTaskDelete(NULL);
+}
+
+void closeGateCounter()
+{
+  int count = 30;
+  int state = 0;
+  while (state < 30)
+  {
+    lcd.clear();
+    lcd.setCursor(2, 0);
+    lcd.print("*** WARNING ***");
+    lcd.setCursor(3, 2);
+    lcd.print("CLOSING IN " + String(count));
+    count--;
+    state++;
+    delay(1000);
+  }
 }
 
 // FUNCTION FOR THE INDICATOR IF ESP32 INTERNET CONNECTION IS OFFLINE OR ONLINE
@@ -230,7 +248,7 @@ void setup()
   {
     Serial.println("NETWORK FAILED");
 
-    // READING CSV FILE FOR THE LAST ROW OF THE DATA AND GETTING DATE AND TIME
+    // // READING CSV FILE FOR THE LAST ROW OF THE DATA AND GETTING DATE AND TIME
     csvFile = SD.open("/departed_bus_record.csv", FILE_READ);
 
     String lastRow = "";
@@ -267,7 +285,7 @@ void setup()
     }
 
     // SETTING THE DEFAULT TIME FOR THE OFFLINE TIMER USING ESP32TIME LIBRARY EXAMPLE: 15:30:24 01 JANUARY 2023
-    rtc.setTime(hour, minute, second, day, month, year);
+    rtc.setTime(second, minute, hour, day, month, year);
 
     // WRITING THE INDICATOR AS "OFFLINE" IF THIS HAPPENS
     writeConnectionStatus("offline");
@@ -296,6 +314,59 @@ void setup()
     config.token_status_callback = tokenStatusCallback;
     Firebase.begin(&config, &auth);
     Firebase.reconnectWiFi(true);
+
+    File root = SD.open("/");
+    while (File file = root.openNextFile())
+    {
+      Serial.println(file.name());
+      file.close();
+    }
+
+    // SYNC TO DATABASE
+    if (SD.exists("/departed_bus_record_to_sync_database.csv"))
+    {
+      csvFile = SD.open("/departed_bus_record_to_sync_database.csv", FILE_READ);
+
+      // Skip header row
+      csvFile.readStringUntil('\n');
+
+      while (csvFile.available())
+      {
+        String line = csvFile.readStringUntil('\n');
+        // Remove any extra whitespace characters
+        line.trim();
+
+        // Split the CSV line by comma delimiter
+        int valuesIndex = 0;
+        String values[6];
+        int lastIndex = -1;
+        for (int i = 0; i < line.length(); i++)
+        {
+          if (line.charAt(i) == ',')
+          {
+            values[valuesIndex++] = line.substring(lastIndex + 1, i);
+            lastIndex = i;
+          }
+        }
+        values[valuesIndex++] = line.substring(lastIndex + 1);
+
+        // Create JSON object from the CSV values
+        DynamicJsonDocument jsonDoc(4096);
+        jsonDoc["cardID"] = values[4];
+        jsonDoc["busCompany"] = values[2];
+        jsonDoc["plateNumber"] = values[3];
+        jsonDoc["fee"] = values[5].toInt();
+        jsonDoc["date"] = values[0];
+        jsonDoc["time"] = values[1];
+
+        // Serialize JSON object to string and push to Firebase
+        String jsonString;
+        serializeJson(jsonDoc, jsonString);
+        Firebase.RTDB.pushString(&firebaseData, "departed", jsonString);
+      }
+      csvFile.close();
+      SD.remove("/departed_bus_record_to_sync_database.csv");
+    }
   }
 
   lcd.clear();
@@ -425,9 +496,9 @@ void loop()
       int second = rtc.getSecond();
       int day = rtc.getDay();
       int month = rtc.getMonth();
+      month = month + 1;
       int year = rtc.getYear();
-      String period = rtc.getAmPm(true);
-      period.toUpperCase();
+      String period = rtc.getAmPm(false);
 
       sprintf(date, "%02d/%02d/%04d", month, day, year);
       sprintf(time, "%02d:%02d:%02d %s", hour, minute, second, period);
@@ -473,6 +544,34 @@ void loop()
     csvFile.print(",");
     csvFile.println("50");
     csvFile.close();
+
+    if (online == false)
+    {
+      bool fileExists = SD.exists("/departed_bus_record_to_sync_database.csv");
+      if (!fileExists)
+      {
+        csvFile = SD.open("/departed_bus_record_to_sync_database.csv", FILE_WRITE);
+        if (csvFile)
+        {
+          csvFile.print("Date,Time,Bus Company,Plate Number,Card ID,Fee\n");
+          csvFile.close();
+        }
+      }
+
+      csvFile = SD.open("/departed_bus_record_to_sync_database.csv", FILE_APPEND);
+      csvFile.print(date);
+      csvFile.print(",");
+      csvFile.print(time);
+      csvFile.print(",");
+      csvFile.print(busCompany);
+      csvFile.print(",");
+      csvFile.print(plateNumber);
+      csvFile.print(",");
+      csvFile.print(cardID);
+      csvFile.print(",");
+      csvFile.println("50");
+      csvFile.close();
+    }
 
     if (online == true)
     {
@@ -547,7 +646,9 @@ void loop()
 
       printer.setSize('S');
       printer.justify('C');
-      printer.println("Farmers Market and Transportation Terminal");
+      printer.println("Farmers Market and");
+      printer.println("Transportation Terminal");
+      printer.println("");
       printer.boldOn();
       printer.println("Cagayan de Oro City");
       printer.boldOff();
@@ -562,7 +663,7 @@ void loop()
 
       printer.setSize('S');
       printer.justify('R');
-      printer.println("DATE: " + String(date));
+      printer.println("DATE: " + String(date) + " ");
 
       printer.justify('R');
       printer.println("TIME: " + String(time));
@@ -594,11 +695,12 @@ void loop()
       printer.boldOff();
       printer.printBarcode("      ", CODE39);
 
-      printer.feed(1);
+      printer.feed(4);
       printer.setDefault();
     }
-    delay(30000);
 
+    closeGateCounter();
+    lcd.clear();
     while (1)
     {
       digitalWrite(trigPin, LOW);
@@ -613,10 +715,18 @@ void loop()
 
       Serial.println(distanceCm);
 
-      if (distanceCm == 5.0)
+      if (distanceCm > 15.0)
       {
         closeTollGate();
         break;
+      }
+      else if (distanceCm < 15.0)
+      {
+
+        lcd.setCursor(4, 0);
+        lcd.print("GATE BLOCKED");
+        lcd.setCursor(1, 2);
+        lcd.print("CLOSING GATE STOP");
       }
     }
 
