@@ -315,13 +315,6 @@ void setup()
     Firebase.begin(&config, &auth);
     Firebase.reconnectWiFi(true);
 
-    File root = SD.open("/");
-    while (File file = root.openNextFile())
-    {
-      Serial.println(file.name());
-      file.close();
-    }
-
     // SYNC TO DATABASE
     if (SD.exists("/departed_bus_record_to_sync_database.csv"))
     {
@@ -359,13 +352,26 @@ void setup()
         jsonDoc["date"] = values[0];
         jsonDoc["time"] = values[1];
 
-        // Serialize JSON object to string and push to Firebase
-        String jsonString;
-        serializeJson(jsonDoc, jsonString);
-        Firebase.RTDB.pushString(&firebaseData, "departed", jsonString);
+        // Add JSON object to Firebase
+        FirebaseJson json;
+        json.add("cardID", values[4]);
+        json.add("busCompany", values[2]);
+        json.add("plateNumber", values[3]);
+        json.add("fee", values[5].toInt());
+        json.add("date", values[0]);
+        json.add("time", values[1]);
+        if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
+        {
+          Serial.println("Data sent to Firebase!");
+          SD.remove("/departed_bus_record_to_sync_database.csv");
+          csvFile.close();
+        }
+        else
+        {
+          Serial.println("Failed to send data to Firebase.");
+          csvFile.close();
+        }
       }
-      csvFile.close();
-      SD.remove("/departed_bus_record_to_sync_database.csv");
     }
   }
 
