@@ -56,9 +56,9 @@
 | -----------  | ----------- |
 | GND          | GND (BROWN) |
 | 5V           | VIN (RED)   |
-| 15           | GPIO 15 (ORANGE)|
+| 25           | GPIO 15 (ORANGE)|
 
-> SERVO MOTOR PINS TO ESP32 | MAGNETIC CONTACTOR
+> RELAY PINS TO ESP32 | MAGNETIC CONTACTOR
 
 | PIN NO.      | LABEL       |
 | -----------  | ----------- |
@@ -66,7 +66,14 @@
 | 5V           | VIN (RED)   |
 | 13           | GPIO 13 (ORANGE)|
 
+> ULTRASONIC SENSOR PINS TO ESP32
 
+| PIN NO.      | LABEL       |
+| -----------  | ----------- |
+| GND          | GND         |
+| 5V           | VIN         |
+| 26           | TRIGGER (BLUE)  |
+| 27           | ECHO (VIOLET)|
 
 > I2C 20X4 LCD SCREEN PINS TO ESP32
 
