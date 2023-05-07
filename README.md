@@ -56,7 +56,7 @@
 | -----------  | ----------- |
 | GND          | GND (BROWN) |
 | 5V           | VIN (RED)   |
-| 25           | GPIO 15 (ORANGE)|
+| 25           | GPIO 25 (ORANGE)|
 
 > RELAY PINS TO ESP32 | MAGNETIC CONTACTOR
 
