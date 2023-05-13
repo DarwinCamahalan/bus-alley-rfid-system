@@ -36,6 +36,7 @@ bool connected;
 bool signupOK = false;
 bool authenticated = false;
 bool online = true;
+bool continueCounting = true;
 String jsonData;
 
 // VARIABLES FOR COUNTERS FOR RECONNECTING TO WIFI WHEN OFFLINE
@@ -128,43 +129,6 @@ void closeTollGate()
   // delay(1000);
 }
 
-// FUNCTION FOR COUNTER FROM 20 TO 0 RECONNECTING TO WIFI, SYNCRONOUS FUNCTION
-void countTask(void *pvParameters)
-{
-  int count = numCounts;
-  int state = 0;
-
-  while (state < numCounts)
-  {
-    lcd.clear();
-    lcd.setCursor(6, 0);
-    lcd.print("OFFLINE");
-    lcd.setCursor(1, 2);
-    lcd.print("RECONNECTING IN " + String(count));
-    count--;
-    state++;
-    vTaskDelay(pdMS_TO_TICKS(interval));
-  }
-  vTaskDelete(NULL);
-}
-
-void closeGateCounter()
-{
-  int count = 30;
-  int state = 0;
-  while (state < 30)
-  {
-    lcd.clear();
-    lcd.setCursor(2, 0);
-    lcd.print("*** WARNING ***");
-    lcd.setCursor(3, 2);
-    lcd.print("CLOSING IN " + String(count));
-    count--;
-    state++;
-    delay(1000);
-  }
-}
-
 // FUNCTION FOR THE INDICATOR IF ESP32 INTERNET CONNECTION IS OFFLINE OR ONLINE
 void writeConnectionStatus(String data)
 {
@@ -199,6 +163,44 @@ String readConnectionStatus()
     Serial.println("Error opening file.");
   }
   return data;
+}
+
+
+// FUNCTION FOR COUNTER FROM 20 TO 0 RECONNECTING TO WIFI, SYNCRONOUS FUNCTION
+void countTask(void *pvParameters)
+{
+  int count = numCounts;
+  int state = 0;
+
+  while (state < numCounts && continueCounting)
+  {
+    lcd.clear();
+    lcd.setCursor(6, 0);
+    lcd.print("OFFLINE");
+    lcd.setCursor(1, 2);
+    lcd.print("RECONNECTING IN " + String(count));
+    count--;
+    state++;
+    vTaskDelay(pdMS_TO_TICKS(interval));
+  }
+  vTaskDelete(NULL);
+}
+
+void closeGateCounter()
+{
+  int count = 30;
+  int state = 0;
+  while (state < 30)
+  {
+    lcd.clear();
+    lcd.setCursor(2, 0);
+    lcd.print("*** WARNING ***");
+    lcd.setCursor(3, 2);
+    lcd.print("CLOSING IN " + String(count));
+    count--;
+    state++;
+    delay(1000);
+  }
 }
 
 void setup()
@@ -241,13 +243,12 @@ void setup()
   }
 
   // RECONNECTION AND ACCESS TO ACCESS POINT OF ESP32 SET TO 20 SECONDS
-  wm.setConfigPortalTimeout(20);
-  wm.setConnectTimeout(20);
+  wm.setConfigPortalTimeout(15);
+  wm.setConnectTimeout(5);
 
   if (!wm.autoConnect("TOLL GATE - RFID DEVICE"))
   {
     Serial.println("NETWORK FAILED");
-
     // // READING CSV FILE FOR THE LAST ROW OF THE DATA AND GETTING DATE AND TIME
     csvFile = SD.open("/departed_bus_record.csv", FILE_READ);
 
@@ -325,6 +326,7 @@ void setup()
 
       while (csvFile.available())
       {
+        // Read the next row of data
         String line = csvFile.readStringUntil('\n');
         // Remove any extra whitespace characters
         line.trim();
@@ -363,26 +365,30 @@ void setup()
         if (Firebase.RTDB.pushJSON(&firebaseData, "departed", &json))
         {
           Serial.println("Data sent to Firebase!");
-          SD.remove("/departed_bus_record_to_sync_database.csv");
-          csvFile.close();
         }
         else
         {
           Serial.println("Failed to send data to Firebase.");
-          csvFile.close();
         }
       }
+      // Remove file after all data has been processed
+      SD.remove("/departed_bus_record_to_sync_database.csv");
+      csvFile.close();
     }
+
   }
 
   lcd.clear();
   if (online == true)
   {
+    continueCounting = false;
+    lcd.clear();
     lcd.setCursor(2, 1);
     lcd.print("PLACE RFID CARD");
   }
   else
   {
+    lcd.clear();
     lcd.setCursor(4, 0);
     lcd.print("OFFLINE MODE");
     lcd.setCursor(2, 2);
