@@ -85,6 +85,32 @@
 | 22           | SCL (VIOLET)|
 
 
+--
+
+## Login Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/a490823a-cf3f-4d8c-8ea3-0d39c0fa0640)
+
+
+## Authenticated RFID Cards Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/8c21512e-8e29-4fd1-9b68-9ce0f577e9b9)
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/524467f1-0c86-4d02-9feb-12352ffc54ce)
+
+
+## Data Analytics Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/22043c63-461f-4b0f-8c02-1bc4167c8522)
+
+
+## Bus Departed Records Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/505fcab7-7309-453d-8376-e00d31a160c3)
+
+
+## Compute Revenue Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/0e5d2454-c5c3-49f2-bbe5-b5acf704d4c1)
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/c4f8c218-2197-46a0-9754-95ab89ef5873)
+
+
+## Saved Billing Statements Files Page
+![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/0f99ac2e-aacb-401d-ab7d-e65f4b5cca92)
 
 
 
