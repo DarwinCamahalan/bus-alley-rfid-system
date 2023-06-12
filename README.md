@@ -109,7 +109,7 @@
 
 
 ## Saved Billing Statements Files Page
-![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/0f99ac2e-aacb-401d-ab7d-e65f4b5cca92)
+![ScreenShot](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/0f99ac2e-aacb-401d-ab7d-e65f4b5cca92)
 
 
 
