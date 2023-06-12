@@ -84,8 +84,7 @@
 | 21           | SDA (BLUE)  |
 | 22           | SCL (VIOLET)|
 
-
---
+---
 
 ## Login Page
 ![image](https://github.com/DarwinCamahalan/bus-alley-rfid-system/assets/120079195/a490823a-cf3f-4d8c-8ea3-0d39c0fa0640)
