@@ -32,6 +32,7 @@ const MainPage = () => {
       <Head>
         <title>RFID Management System</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
+        <meta name="google-site-verification" content="N1Xhbyf8uwVmJG-zCFHvdL3NbOxTJP97f-Jhk6yPWAc" />
       </Head>
       <div className={styles.layoutBody}>
         <Sidebar
